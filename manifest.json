@@ -1,6 +1,6 @@
 [
   {
-    "name": "twitch Spotifi",
+    "name": "Twitch Spotifi",
     "description": "Song Requests from Twitch chat to the track queue.",
     "preview": "screenshot.png",
     "main": "dist/twitch-spotifi.js",
