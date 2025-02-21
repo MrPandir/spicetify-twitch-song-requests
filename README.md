@@ -13,6 +13,7 @@ A Spicetify extension that allows Twitch chat users to request songs through cha
 8. Users can request songs using the command:
    ```
    !sr <song name>
+   !sr <spotify or youtube url> [spotify or youtube url...]
    ```
 
 # Installation
