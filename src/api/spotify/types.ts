@@ -1,6 +1,6 @@
 export type SpotifyResponse = SpotifySearchResponse | SpotifyErrorResponse;
 
-export interface SpotifyErrorResponse {
+export interface SpotifyErrorResponse extends Error {
   code: number;
   error: string;
   message: string;

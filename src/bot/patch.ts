@@ -1,5 +1,5 @@
-import { Client } from "tmi.js";
-import { PatchedClient, InternalClient } from "./types";
+import type { Client } from "tmi.js";
+import type { PatchedClient, InternalClient } from "./types";
 
 export function patchClient(client: Client): PatchedClient {
   (client as PatchedClient).replay = async function (

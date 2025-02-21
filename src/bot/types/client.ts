@@ -1,8 +1,6 @@
-import { Client } from "tmi.js";
+import type { Client } from "tmi.js";
 
 export interface PatchedClient extends Client {
-  // say(message: string): Promise<[string]>;
-  // say(channel: string, message: string): Promise<[string]>;
   replay(parentMessageId: string, message: string): Promise<void>;
 }
 

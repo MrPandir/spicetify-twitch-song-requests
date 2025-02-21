@@ -1,5 +1,4 @@
-import { Client } from "tmi.js";
-import { PatchedClient } from "../types";
+import type { PatchedClient } from "./client";
 
 export interface User {
   id: string;

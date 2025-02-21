@@ -1,9 +1,9 @@
-import { new_bot_client } from "./bot";
-import { addSettings } from "./settings";
+import { initNewBot } from "./bot";
+import { addSettings } from "./config";
 
 async function main() {
   await addSettings();
-  await new_bot_client();
+  await initNewBot();
 }
 
 export default main;

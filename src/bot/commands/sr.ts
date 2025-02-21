@@ -1,6 +1,7 @@
-import { Command } from "./types";
-import { search } from "../../spotify/search";
-import { SpotifySearchResponse } from "../../spotify/types";
+import { Command } from "../types";
+import { search } from "../../api/spotify/search";
+
+// TODO: Add a check if the track is already in the queue (optional)
 
 export const sr: Command = {
   permission: "USER",

@@ -1,5 +1,5 @@
-import { sr } from "./sr";
-import { CommandExecute } from "./types";
+import sr from "./sr";
+import type { CommandExecute } from "../types";
 
 export const commands: Record<string, CommandExecute> = {
   sr: sr.execute,

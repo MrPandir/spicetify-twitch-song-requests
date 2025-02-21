@@ -1,12 +1,12 @@
-import tmi from "tmi.js";
-import { CommandExecute, CommandContext, User } from "./commands/types";
+import type { ChatUserstate } from "tmi.js";
+import type { CommandExecute, CommandContext, User } from "./types";
 import { PREFIX } from "../config";
-import { client } from ".";
+import { client } from "./client";
 import { commands } from "./commands";
 
 export function handlerMessage(
   channel: string,
-  tags: tmi.ChatUserstate,
+  tags: ChatUserstate,
   message: string,
   self: boolean,
 ) {
