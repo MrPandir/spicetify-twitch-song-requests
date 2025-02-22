@@ -50,6 +50,7 @@ export const sr: Command = {
     const track = await searchTrack(searchQuery);
 
     if (!track) {
+      console.log(`Track not found with query: "${searchQuery}"`);
       client.replay(tags["id"], "No track found");
       return;
     }
