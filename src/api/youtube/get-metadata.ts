@@ -8,13 +8,9 @@ export async function getYouTubeVideoMetadata(
       `https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`,
     );
 
-    if (!response.ok) {
-      console.log(`HTTP error! status: ${response.status}`);
-      return null;
-    }
+    if (!response.ok) return null;
 
-    const data: YouTubeVideoMetadata = await response.json();
-    return data;
+    return response.json() as Promise<YouTubeVideoMetadata>;
   } catch (error) {
     console.log(`Failed to fetch YouTube metadata: ${error}`);
     return null;
