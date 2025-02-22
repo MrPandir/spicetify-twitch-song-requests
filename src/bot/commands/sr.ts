@@ -1,6 +1,6 @@
 import { Command } from "../types";
 import { urlProcessor } from "../../services/url-handlers";
-import { getTrack } from "../../api/spotify/search";
+import { searchTrack, getTrack } from "../../api/spotify";
 
 // TODO: Add a check if the track is already in the queue (optional)
 
@@ -28,11 +28,13 @@ export const sr: Command = {
       Spicetify.addToQueue(uris);
 
       if (uris.length === 1) {
-        // TODO: get track name
+        const trackId = Spicetify.URI.from(uris[0].uri)!.id!;
+        const track = await getTrack(trackId);
+
         Spicetify.showNotification(
-          `${author.displayName} added ${uris.length} track to the queue`,
+          `${author.displayName} added "${track.name}" to the queue`,
         );
-        client.replay(tags["id"], `${uris.length} track added to queue`);
+        client.replay(tags["id"], `Added "${track.name}" to the queue`);
       } else {
         Spicetify.showNotification(
           `${author.displayName} added ${uris.length} tracks to the queue`,
@@ -45,7 +47,7 @@ export const sr: Command = {
     // Search and add by track name
 
     const searchQuery = args.join(" ");
-    const track = await getTrack(searchQuery);
+    const track = await searchTrack(searchQuery);
 
     if (!track) {
       client.replay(tags["id"], "No track found");

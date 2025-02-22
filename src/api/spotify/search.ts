@@ -1,15 +1,19 @@
-import type { SpotifyResponse, Track } from "./types";
+import type {
+  SpotifySearchResponse,
+  SpotifyErrorResponse,
+  Track,
+} from "./types";
 
 export async function search(
   query: string,
   limit: number = 1,
-): Promise<SpotifyResponse> {
+): Promise<SpotifySearchResponse | SpotifyErrorResponse> {
   return Spicetify.CosmosAsync.get(
     `https://api.spotify.com/v1/search?q=${query}&type=track&limit=${limit}`,
   );
 }
 
-export async function getTrack(query: string): Promise<Track | null> {
+export async function searchTrack(query: string): Promise<Track | null> {
   const result = await search(query);
 
   if (!("tracks" in result)) {
