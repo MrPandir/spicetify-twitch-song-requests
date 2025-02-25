@@ -10,7 +10,7 @@ export async function getYouTubeVideoMetadata(
 
     if (!response.ok) return null;
 
-    return response.json() as Promise<YouTubeVideoMetadata>;
+    return await response.json();
   } catch (error) {
     console.log(`Failed to fetch YouTube metadata: ${error}`);
     return null;

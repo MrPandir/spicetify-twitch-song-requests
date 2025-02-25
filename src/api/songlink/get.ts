@@ -11,5 +11,5 @@ export async function getSongLink(url: string): Promise<Response | null> {
 
   if (!response.ok) return null;
 
-  return response.json() as Promise<Response>;
+  return await response.json();
 }
