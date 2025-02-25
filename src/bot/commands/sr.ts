@@ -14,6 +14,8 @@ export const sr: Command = {
 
     // Link processing and adding
 
+    // TODO: Move the uris retrieval code to url-handlers service
+
     const firstUri = await urlProcessor.processURL(args[0]);
 
     if (firstUri) {
@@ -31,16 +33,24 @@ export const sr: Command = {
         const trackId = Spicetify.URI.from(uris[0].uri)!.id!;
         const track = await getTrack(trackId);
 
+        if (!track) {
+          console.error(`Track with ID ${trackId} not found`, track);
+          Spicetify.showNotification(`One track added to queue`);
+          client.replay(tags["id"], `Track added to queue`);
+          return;
+        }
+
         Spicetify.showNotification(
           `${author.displayName} added "${track.name}" to the queue`,
         );
         client.replay(tags["id"], `Added "${track.name}" to the queue`);
-      } else {
-        Spicetify.showNotification(
-          `${author.displayName} added ${uris.length} tracks to the queue`,
-        );
-        client.replay(tags["id"], `${uris.length} tracks added to queue`);
+        return;
       }
+
+      Spicetify.showNotification(
+        `${author.displayName} added ${uris.length} tracks to the queue`,
+      );
+      client.replay(tags["id"], `${uris.length} tracks added to queue`);
       return;
     }
 
