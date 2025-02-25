@@ -2,12 +2,10 @@ import tmi from "tmi.js";
 import type { PatchedClient } from "./types";
 import { handlerMessage } from "./message-processor";
 import { patchClient } from "./patch";
-import { settings } from "../config";
 
 export let client: PatchedClient;
 
-export async function initNewBot() {
-  console.info("Relogin bot");
+export async function initNewBot(token: string, channel: string) {
   if (client && client.readyState() === "OPEN") {
     console.info("Disconnecting bot and removing listeners");
     await client.disconnect();
@@ -18,10 +16,10 @@ export async function initNewBot() {
     options: {
       skipUpdatingEmotesets: true,
     },
-    channels: [settings.getFieldValue("channel")],
+    channels: [channel],
     identity: {
       username: "Bot",
-      password: "oauth:" + settings.getFieldValue("bot-token"),
+      password: "oauth:" + token,
     },
   }) as PatchedClient;
 
@@ -42,4 +40,21 @@ export async function initNewBot() {
   client.addListener("message", handlerMessage);
 
   patchClient(client);
+}
+
+export function reconnect() {
+  client.disconnect().then(() => {
+    client
+      .connect()
+      .then(() => {
+        console.info("Bot reconnected");
+        Spicetify.showNotification("Bot reconnected");
+      })
+      .catch((error: unknown) => {
+        console.error("Error reconnecting bot:", error);
+        if (typeof error === "string") {
+          Spicetify.showNotification(`Error reconnecting bot: ${error}`, true);
+        }
+      });
+  });
 }

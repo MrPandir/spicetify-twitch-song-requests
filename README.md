@@ -5,12 +5,13 @@ A Spicetify extension that allows Twitch chat users to request songs through cha
 
 1. Start Spotify
 2. Add expansion from the marketplace extensions
-3. Get access token on the site https://twitchtokengenerator.com Select: Bot Chat Token
-4. Open spotify settings (account icon -> settings).
-5. Find Twitch Spotifi section.
-6. Enter the nickname of the channel where the commands will be.
-7. Enter the token acquired in step 3.
-8. Users can request songs using the command:
+3. Click button on the top right near the notifications to authenticate the bot
+4. Authenticate the bot account on the twitch site
+5. Open spotify settings (account icon -> settings)
+6. Find Twitch Spotifi section
+7. Enter the nickname of the channel where the commands will be
+8. Reconnect bot
+9. Users can request songs using the command:
    ```
    !sr <song name>
    !sr <spotify or youtube url> [spotify or youtube url...]
