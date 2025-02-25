@@ -1,0 +1,13 @@
+diff --git a/settingsSection.tsx b/settingsSection.tsx
+index 8cad912be88c51dca4901f094c3939b7e354a98b..ac09864ac3bf803157a2ccc26d7ffdf246c7b150 100644
+--- a/settingsSection.tsx
++++ b/settingsSection.tsx
+@@ -245,7 +245,7 @@ class SettingsSection {
+             <span>
+               <button
+                 id={id}
+-                className="Button-sc-y0gtbx-0 Button-small-buttonSecondary-useBrowserDefaultFocusStyle x-settings-button"
++                className="Button-sc-y0gtbx-0 Button-buttonSecondary-small-useBrowserDefaultFocusStyle encore-text-body-small-bold x-settings-button"
+                 {...props.field.events}
+                 onClick={(e) => {
+                   setValue();
