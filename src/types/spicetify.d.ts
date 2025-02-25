@@ -1913,6 +1913,7 @@ declare namespace Spicetify {
         icon: Icon | string,
         onClick: (self: Button) => void,
         disabled?: boolean,
+        isRight?: boolean,
       );
       label: string;
       icon: string;
