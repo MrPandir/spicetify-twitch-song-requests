@@ -1,8 +1,6 @@
-import { initNewBot } from "./bot";
-import { addSettings } from "./config";
-import { getAccessToken } from "./bot/auth";
+import { initNewBot, getAccessToken } from "./bot";
+import { addSettings, getChannel } from "./config";
 import { addAuthButton, authPromise } from "./ui";
-import { settings } from "./config";
 
 async function main() {
   await addSettings();
@@ -19,7 +17,7 @@ async function main() {
     console.error("Failed to get access token");
     Spicetify.showNotification("Failed to get access token", true);
   } else {
-    await initNewBot(accessToken, settings.getFieldValue("channel"));
+    await initNewBot(accessToken, getChannel());
   }
 }
 

@@ -6,9 +6,11 @@ import { formatChannel } from "../utils";
 export let client: Client;
 
 export async function initNewBot(token: string, channel: string) {
-  if (client && client.readyState() === "OPEN") {
+  if (client && client.isConnected()) {
     console.info("Disconnecting bot and removing listeners");
-    await client.disconnect();
+    try {
+      await client.disconnect();
+    } catch {}
     client.removeAllListeners();
   }
 
@@ -32,7 +34,7 @@ export async function initNewBot(token: string, channel: string) {
     }
   }
 
-  if (client.readyState() === "OPEN") {
+  if (client.isConnected()) {
     console.info("Bot connected");
     Spicetify.showNotification("Bot connected");
   }
