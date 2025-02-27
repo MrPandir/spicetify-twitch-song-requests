@@ -1,5 +1,5 @@
 diff --git a/index.d.ts b/index.d.ts
-index 549a2852da41aa369c746564622ce3bfbd2a3339..2341f88ca5222b63670ce5eedfc618607d13df2f 100644
+index 549a2852da41aa369c746564622ce3bfbd2a3339..11b2388ade0872b16bade05a5fd1cb574c5ce231 100644
 --- a/index.d.ts
 +++ b/index.d.ts
 @@ -26,6 +26,12 @@ export interface Actions {
@@ -15,3 +15,12 @@ index 549a2852da41aa369c746564622ce3bfbd2a3339..2341f88ca5222b63670ce5eedfc61860
      slow(channel: string, length?: number): Promise<[string]>;
      slowoff(channel: string): Promise<[string]>;
      subscribers(channel: string): Promise<[string]>;
+@@ -139,6 +145,8 @@ export interface Events {
+ }
+ 
+ export interface ClientBase {
++    channels: string[];
++    opts: Options;
+     getChannels(): string[];
+     getOptions(): Options;
+     getUsername(): string;

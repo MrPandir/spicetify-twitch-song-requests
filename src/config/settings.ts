@@ -13,3 +13,7 @@ export async function addSettings() {
   );
   await settings.pushSettings();
 }
+
+export function getChannel(): string {
+  return settings.getFieldValue("channel");
+}

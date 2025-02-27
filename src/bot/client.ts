@@ -1,5 +1,7 @@
 import { Client } from "tmi.js";
 import { handlerMessage } from "./message-processor";
+import { getChannel } from "../config";
+import { formatChannel } from "../utils";
 
 export let client: Client;
 
@@ -38,19 +40,24 @@ export async function initNewBot(token: string, channel: string) {
   client.addListener("message", handlerMessage);
 }
 
-export function reconnect() {
-  client.disconnect().then(() => {
-    client
-      .connect()
-      .then(() => {
-        console.info("Bot reconnected");
-        Spicetify.showNotification("Bot reconnected");
-      })
-      .catch((error: unknown) => {
-        console.error("Error reconnecting bot:", error);
-        if (typeof error === "string") {
-          Spicetify.showNotification(`Error reconnecting bot: ${error}`, true);
-        }
-      });
-  });
+export async function reconnect() {
+  try {
+    await client.disconnect();
+  } catch {}
+
+  client.opts.channels = [formatChannel(getChannel())];
+  client.channels = [];
+
+  await client
+    .connect()
+    .then(() => {
+      console.info("Bot reconnected");
+      Spicetify.showNotification("Bot reconnected");
+    })
+    .catch((error: unknown) => {
+      console.error("Error reconnecting bot:", error);
+      if (typeof error === "string") {
+        Spicetify.showNotification(`Error reconnecting bot: ${error}`, true);
+      }
+    });
 }
