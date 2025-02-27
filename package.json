@@ -20,7 +20,9 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "spcr-settings": "patches/spcr-settings.patch"
+      "spcr-settings": "patches/spcr-settings.patch",
+      "tmi.js": "patches/tmi.js.patch",
+      "@types/tmi.js": "patches/@types__tmi.js.patch"
     }
   }
 }

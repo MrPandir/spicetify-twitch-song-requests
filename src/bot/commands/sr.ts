@@ -8,7 +8,7 @@ export const sr: Command = {
   permission: "USER",
   async execute({ client, author, args, tags }) {
     if (!args.length) {
-      client.replay(tags["id"], "Please provide a track name or URL");
+      client.reply(tags["id"], "Please provide a track name or URL");
       return;
     }
 
@@ -36,21 +36,21 @@ export const sr: Command = {
         if (!track) {
           console.error(`Track with ID ${trackId} not found`, track);
           Spicetify.showNotification(`One track added to queue`);
-          client.replay(tags["id"], `Track added to queue`);
+          client.reply(tags["id"], `Track added to queue`);
           return;
         }
 
         Spicetify.showNotification(
           `${author.displayName} added "${track.name}" to the queue`,
         );
-        client.replay(tags["id"], `Added "${track.name}" to the queue`);
+        client.reply(tags["id"], `Added "${track.name}" to the queue`);
         return;
       }
 
       Spicetify.showNotification(
         `${author.displayName} added ${uris.length} tracks to the queue`,
       );
-      client.replay(tags["id"], `${uris.length} tracks added to queue`);
+      client.reply(tags["id"], `${uris.length} tracks added to queue`);
       return;
     }
 
@@ -61,7 +61,7 @@ export const sr: Command = {
 
     if (!track) {
       console.log(`Track not found with query: "${searchQuery}"`);
-      client.replay(tags["id"], "No track found");
+      client.reply(tags["id"], "No track found");
       return;
     }
 
@@ -76,7 +76,7 @@ export const sr: Command = {
     Spicetify.showNotification(
       `${author.displayName} added "${track.name}" to the queue`,
     );
-    client.replay(tags["id"], `Added "${track.name}" to the queue`);
+    client.reply(tags["id"], `Added "${track.name}" to the queue`);
   },
 };
 

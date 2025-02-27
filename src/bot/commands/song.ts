@@ -14,9 +14,9 @@ export const song: Command = {
     }
 
     if (songArtist) {
-      client.replay(tags["id"], `"${songName}" by ${songArtist}`);
+      client.reply(tags["id"], `"${songName}" by ${songArtist}`);
     } else {
-      client.replay(tags["id"], `${songName}`);
+      client.reply(tags["id"], `${songName}`);
     }
   },
 };

@@ -1,9 +1,7 @@
-import tmi from "tmi.js";
-import type { PatchedClient } from "./types";
+import { Client } from "tmi.js";
 import { handlerMessage } from "./message-processor";
-import { patchClient } from "./patch";
 
-export let client: PatchedClient;
+export let client: Client;
 
 export async function initNewBot(token: string, channel: string) {
   if (client && client.readyState() === "OPEN") {
@@ -12,7 +10,7 @@ export async function initNewBot(token: string, channel: string) {
     client.removeAllListeners();
   }
 
-  client = new tmi.Client({
+  client = new Client({
     options: {
       skipUpdatingEmotesets: true,
     },
@@ -21,7 +19,7 @@ export async function initNewBot(token: string, channel: string) {
       username: "Bot",
       password: "oauth:" + token,
     },
-  }) as PatchedClient;
+  });
 
   try {
     await client.connect();
@@ -38,8 +36,6 @@ export async function initNewBot(token: string, channel: string) {
   }
 
   client.addListener("message", handlerMessage);
-
-  patchClient(client);
 }
 
 export function reconnect() {

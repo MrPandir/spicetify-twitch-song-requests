@@ -1,0 +1,26 @@
+diff --git a/lib/commands.js b/lib/commands.js
+index e3152379b24b204596f6c3e72c0b51880fa9988c..e62882a18f003e7226745cf4d0e7fa040e7d5c14 100755
+--- a/lib/commands.js
++++ b/lib/commands.js
+@@ -160,7 +160,7 @@ module.exports = {
+ 			});
+ 		});
+ 	},
+-	
++
+ 	// Delete a specific message on a channel
+ 	deletemessage(channel, messageUUID) {
+ 		channel = _.channel(channel);
+@@ -361,6 +361,12 @@ module.exports = {
+ 		});
+ 	},
+ 
++	reply(parentMessageId, message) {
++  	channel = _.channel(this.channels[0]);
++  	const command = `@reply-parent-msg-id=${parentMessageId} PRIVMSG ${channel} :${message}`;
++		return this._sendCommand(this._getPromiseDelay(), null, command);
++	},
++
+ 	// Enable slow mode on a channel..
+ 	slow,
+ 
