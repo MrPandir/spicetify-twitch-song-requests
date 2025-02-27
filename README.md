@@ -11,7 +11,8 @@ A Spicetify extension that allows Twitch chat users to request songs through cha
 6. Find Twitch Spotifi section
 7. Enter the nickname of the channel where the commands will be
 8. Reconnect bot
-9. Users can request songs using the command:
+9. Give the bot a moderator or VIP (if the account is not a broadcaster)
+10. Users can request songs using the command:
    ```
    !sr <song name>
    !sr <spotify or youtube url> [spotify or youtube url...]
