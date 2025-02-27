@@ -15,6 +15,7 @@ A Spicetify extension that allows Twitch chat users to request songs through cha
    ```
    !sr <song name>
    !sr <spotify or youtube url> [spotify or youtube url...]
+   !song
    ```
 
 # Installation
