@@ -1,7 +1,7 @@
 import type { URLHandler, URI } from "../types";
-import { getYouTubeVideoMetadata } from "../../../api/youtube";
-import { searchTrack } from "../../../api/spotify";
-import { getSongLink } from "../../../api/songlink";
+import { getYouTubeVideoMetadata } from "@api/youtube";
+import { searchTrack } from "@api/spotify";
+import { getSongLink } from "@api/songlink";
 
 export class YouTubeURLHandler implements URLHandler {
   async process(url: string): Promise<URI | null> {

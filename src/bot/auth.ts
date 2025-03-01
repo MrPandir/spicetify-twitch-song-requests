@@ -1,10 +1,6 @@
-import { setStorageItem, getStorageItem, removeStorageItem } from "../utils";
-import { CLIENT_ID, SCOPES } from "../config";
-import type {
-  DeviceCodeResponse,
-  TokenResponse,
-  TokenError,
-} from "./types/auth";
+import { setStorageItem, getStorageItem, removeStorageItem } from "@utils";
+import { CLIENT_ID, SCOPES } from "@config";
+import type { DeviceCodeResponse, TokenResponse, TokenError } from "./types";
 
 const TWITCH_AUTH_URL = "https://id.twitch.tv/oauth2/device";
 const TWITCH_TOKEN_URL = "https://id.twitch.tv/oauth2/token";

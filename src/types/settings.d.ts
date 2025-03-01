@@ -1,4 +1,4 @@
-declare module "../settings.json" {
+declare module "settings.json" {
   export interface Settings {
     nameId: string;
   }

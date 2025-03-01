@@ -1,4 +1,4 @@
-import type { PatchedClient } from "./client";
+import type { Client } from "tmi.js";
 
 export interface User {
   id: string;
@@ -7,7 +7,7 @@ export interface User {
 }
 
 export interface CommandContext {
-  client: PatchedClient;
+  client: Client;
   author: User;
   args: string[];
   tags: Record<string, any>;

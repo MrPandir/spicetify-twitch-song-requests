@@ -1,5 +1,5 @@
 import type { URLHandler, URI } from "../types";
-import { addHttpsPrefix } from "../../../utils";
+import { addHttpsPrefix } from "@utils";
 
 export class SpotifyURLHandler implements URLHandler {
   async process(url: string): Promise<URI | null> {

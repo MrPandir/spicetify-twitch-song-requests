@@ -1,7 +1,7 @@
 import { Client } from "tmi.js";
 import { handlerMessage } from "./message-processor";
-import { getChannel } from "../config";
-import { formatChannel } from "../utils";
+import { getChannel } from "@config";
+import { formatChannel } from "@utils";
 
 export let client: Client;
 

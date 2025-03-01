@@ -1,6 +1,6 @@
 import type { ChatUserstate } from "tmi.js";
 import type { CommandExecute, CommandContext, User } from "./types";
-import { PREFIX } from "../config";
+import { PREFIX } from "@config";
 import { client } from "./client";
 import { commands } from "./commands";
 

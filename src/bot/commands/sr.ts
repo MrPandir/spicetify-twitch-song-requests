@@ -1,6 +1,6 @@
 import { Command } from "../types";
-import { getUrisFromMessage, urlProcessor } from "../../services/url-handlers";
-import { searchTrack, getTrack } from "../../api/spotify";
+import { getUrisFromMessage, urlProcessor } from "@services/url-handlers";
+import { searchTrack, getTrack } from "@api/spotify";
 
 // TODO: Add a check if the track is already in the queue (optional)
 

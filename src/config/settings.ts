@@ -1,5 +1,5 @@
 import { SettingsSection } from "spcr-settings";
-import { reconnect } from "../bot";
+import { reconnect } from "@bot";
 
 export const settings = new SettingsSection("Twitch Spotifi", "twitch-spotifi");
 

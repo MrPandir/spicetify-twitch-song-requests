@@ -1,5 +1,5 @@
-import { getDeviceCode, pollForAccessToken } from "../bot";
-import { DeviceCodeResponse } from "../bot/types";
+import { getDeviceCode, pollForAccessToken } from "@bot";
+import type { DeviceCodeResponse } from "@bot/types";
 
 let button: Spicetify.Topbar.Button;
 let deviceCode: DeviceCodeResponse | undefined;

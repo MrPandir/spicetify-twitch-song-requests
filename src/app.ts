@@ -1,6 +1,6 @@
-import { initNewBot, getAccessToken } from "./bot";
-import { addSettings, getChannel } from "./config";
-import { addAuthButton, authPromise } from "./ui";
+import { initNewBot, getAccessToken } from "@bot";
+import { addSettings, getChannel } from "@config";
+import { addAuthButton, authPromise } from "@ui";
 
 async function main() {
   await addSettings();
