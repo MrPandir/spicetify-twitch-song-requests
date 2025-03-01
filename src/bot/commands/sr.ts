@@ -1,5 +1,5 @@
 import { Command } from "../types";
-import { urlProcessor } from "../../services/url-handlers";
+import { getUrisFromMessage, urlProcessor } from "../../services/url-handlers";
 import { searchTrack, getTrack } from "../../api/spotify";
 
 // TODO: Add a check if the track is already in the queue (optional)
@@ -14,23 +14,15 @@ export const sr: Command = {
 
     // Link processing and adding
 
-    // TODO: Move the uris retrieval code to url-handlers service
+    const uris = await getUrisFromMessage(args);
 
-    const firstUri = await urlProcessor.processURL(args[0]);
+    if (uris.length) {
+      console.log("Parsed URIs:", uris);
 
-    if (firstUri) {
-      const uris: Spicetify.ContextTrack[] = [{ uri: firstUri }];
-      for (let i = 1; i < args.length; i++) {
-        const uri = await urlProcessor.processURL(args[i]);
-        if (uri !== null) uris.push({ uri: uri });
-      }
-
-      console.log(`Parsed URIs: ${uris.map((uri) => uri.uri).join(", ")}`);
-
-      Spicetify.addToQueue(uris);
+      Spicetify.addToQueue(uris.map((uri) => ({ uri: uri })));
 
       if (uris.length === 1) {
-        const trackId = Spicetify.URI.from(uris[0].uri)!.id!;
+        const trackId = Spicetify.URI.from(uris[0])!.id!;
         const track = await getTrack(trackId);
 
         if (!track) {
