@@ -3,8 +3,14 @@ import { Command } from "../types";
 export const song: Command = {
   permission: "USER",
   async execute({ client, author, args, tags }) {
-    const songName = Spicetify.Player.data.item.name;
-    const songArtist = Spicetify.Player.data.item.artists
+    const data = Spicetify.Player.data;
+    if (!data) {
+      client.reply(tags["id"], "No song is currently playing");
+      return;
+    }
+
+    const songName = data.item.name;
+    const songArtist = data.item.artists
       ?.map((artist) => artist.name)
       .join(", ");
 
