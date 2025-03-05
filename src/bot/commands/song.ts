@@ -16,6 +16,7 @@ export const song: Command = {
 
     if (!songName) {
       console.error("Failed to get current track", Spicetify.Player.data);
+      client.reply(tags["id"], "Failed to get current track");
       return;
     }
 
