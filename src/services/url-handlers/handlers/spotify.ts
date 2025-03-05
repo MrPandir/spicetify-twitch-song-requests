@@ -1,14 +1,13 @@
-import type { URLHandler, URI } from "../types";
+import type { URLHandler, HandlerResult } from "../types";
 import { addHttpsPrefix } from "@utils";
+import { validateSpotifyUri } from "../uri-validator";
 
 export class SpotifyURLHandler implements URLHandler {
-  async process(url: string): Promise<URI | null> {
+  async process(url: string): Promise<HandlerResult> {
     url = addHttpsPrefix(url);
 
     const uri = Spicetify.URI.from(url);
-    if (!uri) {
-      return null;
-    }
-    return uri.toURI();
+
+    return validateSpotifyUri(uri);
   }
 }

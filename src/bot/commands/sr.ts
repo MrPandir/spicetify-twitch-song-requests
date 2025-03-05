@@ -1,8 +1,9 @@
 import { Command } from "../types";
-import { getUrisFromMessage, urlProcessor } from "@services/url-handlers";
+import { getUrisFromMessage } from "@services/url-handlers";
 import { searchTrack, getTrack } from "@api/spotify";
 
-// TODO: Add a check if the track is already in the queue (optional)
+// TODO: Add a check if the track is already in the queue.
+// BUG: Unavailable track says it's being added, but it's not happening.
 
 export const sr: Command = {
   permission: "USER",
@@ -14,15 +15,16 @@ export const sr: Command = {
 
     // Link processing and adding
 
-    const uris = await getUrisFromMessage(args);
+    const result = await getUrisFromMessage(args);
 
-    if (uris.length) {
-      console.log("Parsed URIs:", uris);
+    if (result.detected) {
+      console.log("Parsed URIs:", result.uris);
 
-      Spicetify.addToQueue(uris.map((uri) => ({ uri: uri })));
+      // TODO: Queue feedback for notifications.
+      Spicetify.addToQueue(result.uris.map((uri) => ({ uri: uri.toString() })));
 
-      if (uris.length === 1) {
-        const trackId = Spicetify.URI.from(uris[0])!.id!;
+      if (result.length === 1) {
+        const trackId = Spicetify.URI.from(result.uris[0])!.id!;
         const track = await getTrack(trackId);
 
         if (!track) {
@@ -39,10 +41,15 @@ export const sr: Command = {
         return;
       }
 
+      if (result.length === 0) {
+        client.reply(tags["id"], `These are not tracks`);
+        return;
+      }
+
       Spicetify.showNotification(
-        `${author.displayName} added ${uris.length} tracks to the queue`,
+        `${author.displayName} added ${result.length} tracks to the queue`,
       );
-      client.reply(tags["id"], `${uris.length} tracks added to queue`);
+      client.reply(tags["id"], `${result.length} tracks added to queue`);
       return;
     }
 
@@ -51,7 +58,7 @@ export const sr: Command = {
     const searchQuery = args.join(" ");
     const track = await searchTrack(searchQuery);
 
-    if (!track) {
+    if (!track || !track.name) {
       console.log(`Track not found with query: "${searchQuery}"`);
       client.reply(tags["id"], "No track found");
       return;
@@ -62,8 +69,6 @@ export const sr: Command = {
     Spicetify.addToQueue([{ uri: track.uri }]);
 
     // TODO: Check for queue limit
-    // const queue = Spicetify.Queue;
-    // console.log(queue.nextTracks);
 
     Spicetify.showNotification(
       `${author.displayName} added "${track.name}" to the queue`,

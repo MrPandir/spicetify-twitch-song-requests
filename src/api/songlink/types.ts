@@ -6,7 +6,7 @@ export interface Response {
     [key: string]: Entity;
   };
   linksByPlatform: {
-    [P in Platform]: P extends "spotify" ? SpotifyPlatformLink : PlatformLink;
+    [P in Platform]?: P extends "spotify" ? SpotifyPlatformLink : PlatformLink;
   };
 }
 
