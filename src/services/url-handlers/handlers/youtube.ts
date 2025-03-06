@@ -17,11 +17,30 @@ export class YouTubeURLHandler implements URLHandler {
         return { uri: null, status: HandlerStatus.WRONG_CONTENT };
       }
 
-      return validateSpotifyUri(uri);
+      const uniqueId = songLink.linksByPlatform?.spotify?.entityUniqueId;
+      const entity = uniqueId
+        ? songLink.entitiesByUniqueId[uniqueId]
+        : undefined;
+
+      if (!entity) {
+        return validateSpotifyUri(uri);
+      }
+
+      const artists = entity.artistName.split(", ");
+
+      const response = validateSpotifyUri(uri);
+      if (!response || response.status !== HandlerStatus.SUCCESS) {
+        return response;
+      }
+
+      return {
+        ...response,
+        metadata: { artists: artists, title: entity.title },
+      };
     }
 
     console.log(
-      `Failed to get track URI from songlink ${songLink} for ${url}. Trying to find by name...`,
+      `Failed to get track URI from songlink for ${url}. Trying to get name from url...`,
     );
 
     // If you failed to get a link from songlink.
@@ -42,6 +61,16 @@ export class YouTubeURLHandler implements URLHandler {
       );
     }
 
-    return validateSpotifyUri(uri);
+    const artists = spotifyTrack.artists.map((artist) => artist.name);
+
+    const response = validateSpotifyUri(uri);
+    if (!response || response.status !== HandlerStatus.SUCCESS) {
+      return response;
+    }
+
+    return {
+      ...response,
+      metadata: { artists: artists, title: spotifyTrack.name },
+    };
   }
 }

@@ -1,4 +1,8 @@
-import { type URLHandler, HandlerStatus } from "./types";
+import {
+  HandlerStatus,
+  type SuccessHandlerResult,
+  type URLHandler,
+} from "./types";
 
 export class URLProcessor {
   private handlers: URLHandler[] = [];
@@ -7,13 +11,13 @@ export class URLProcessor {
     this.handlers.push(handler);
   }
 
-  async processURL(url: string): Promise<Spicetify.URI | null> {
+  async processURL(url: string): Promise<SuccessHandlerResult | null> {
     for (const handler of this.handlers) {
       const result = await handler.process(url);
 
       // Check if handler succeeded and has a valid URI
       if (result.status === HandlerStatus.SUCCESS && result.uri) {
-        return result.uri;
+        return result;
       }
 
       // URL pattern doesn't match, try next handler

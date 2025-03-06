@@ -1,9 +1,10 @@
 import { Command } from "../types";
-import { getUrisFromMessage } from "@services/url-handlers";
+import { getTracksFromLinks } from "@services/url-handlers";
 import { searchTrack, getTrack } from "@api/spotify";
 
 // TODO: Add a check if the track is already in the queue.
 // BUG: Unavailable track says it's being added, but it's not happening.
+// TODO: Check for queue limit
 
 export const sr: Command = {
   permission: "USER",
@@ -15,29 +16,22 @@ export const sr: Command = {
 
     // Link processing and adding
 
-    const result = await getUrisFromMessage(args);
+    const result = await getTracksFromLinks(args);
 
     if (result.detected) {
-      console.log("Parsed URIs:", result.uris);
+      console.log("Received Tracks: ", result.tracks);
 
       // TODO: Queue feedback for notifications.
-      Spicetify.addToQueue(result.uris.map((uri) => ({ uri: uri.toString() })));
+      Spicetify.addToQueue(
+        result.tracks.map((track) => ({ uri: track.uri.toString() })),
+      );
 
       if (result.length === 1) {
-        const trackId = Spicetify.URI.from(result.uris[0])!.id!;
-        const track = await getTrack(trackId);
-
-        if (!track) {
-          console.error(`Track with ID ${trackId} not found`, track);
-          Spicetify.showNotification(`One track added to queue`);
-          client.reply(tags["id"], `Track added to queue`);
-          return;
-        }
-
+        const track = result.tracks[0];
         Spicetify.showNotification(
-          `${author.displayName} added "${track.name}" to the queue`,
+          `${author.displayName} added "${track.title}" to the queue`,
         );
-        client.reply(tags["id"], `Added "${track.name}" to the queue`);
+        client.reply(tags["id"], `Added "${track.title}" to the queue`);
         return;
       }
 
@@ -67,8 +61,6 @@ export const sr: Command = {
     console.info(`Track found: ${track.name} by ${track.artists[0].name}`);
 
     Spicetify.addToQueue([{ uri: track.uri }]);
-
-    // TODO: Check for queue limit
 
     Spicetify.showNotification(
       `${author.displayName} added "${track.name}" to the queue`,
