@@ -1,4 +1,4 @@
-import type { Track as SpotifyTrack } from "@api/spotify";
+import type { SpotifyTrack } from "./types";
 
 export class Track {
   uri: Spicetify.URI;

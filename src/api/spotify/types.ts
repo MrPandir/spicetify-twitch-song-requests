@@ -13,13 +13,13 @@ export interface SpotifySearchResponse {
     offset: number;
     previous: string | null;
     total: number;
-    items: Track[];
+    items: SpotifyTrack[];
   };
 }
 
-export interface Track {
-  album: Album;
-  artists: Artist[];
+export interface SpotifyTrack {
+  album: SpotifyAlbum;
+  artists: SpotifyArtist[];
   available_markets: string[];
   disc_number: number;
   duration_ms: number;
@@ -42,16 +42,16 @@ export interface Track {
   uri: string;
 }
 
-export interface Album {
+export interface SpotifyAlbum {
   album_type: string;
-  artists: Artist[];
+  artists: SpotifyArtist[];
   available_markets: string[];
   external_urls: {
     spotify: string;
   };
   href: string;
   id: string;
-  images: Image[];
+  images: SpotifyImage[];
   is_playable: boolean;
   name: string;
   release_date: string;
@@ -61,7 +61,7 @@ export interface Album {
   uri: string;
 }
 
-export interface Artist {
+export interface SpotifyArtist {
   external_urls: {
     spotify: string;
   };
@@ -72,7 +72,7 @@ export interface Artist {
   uri: string;
 }
 
-export interface Image {
+export interface SpotifyImage {
   height: number;
   width: number;
   url: string;

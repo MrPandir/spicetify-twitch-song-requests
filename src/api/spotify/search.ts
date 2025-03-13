@@ -1,7 +1,7 @@
 import type {
   SpotifySearchResponse,
   SpotifyErrorResponse,
-  Track,
+  SpotifyTrack,
 } from "./types";
 
 export async function search(
@@ -13,7 +13,7 @@ export async function search(
   );
 }
 
-export async function searchTrack(query: string): Promise<Track | null> {
+export async function searchTrack(query: string): Promise<SpotifyTrack | null> {
   const result = await search(query);
 
   if (!("tracks" in result)) {
