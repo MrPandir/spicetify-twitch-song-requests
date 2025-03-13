@@ -36,4 +36,8 @@ export class Track {
   getArtists(separator: string = ", "): string {
     return this.artists_names.join(separator);
   }
+
+  toContextTrack(): Spicetify.ContextTrack {
+    return { uri: this.uri.toString() };
+  }
 }

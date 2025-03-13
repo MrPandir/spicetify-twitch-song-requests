@@ -493,6 +493,13 @@ declare namespace Spicetify {
      * Toggle Shuffle/No shuffle.
      */
     function toggleShuffle(): void;
+
+    const origin: {
+      _events: {
+        addListener(event: string, listener: (...args: any[]) => void): void;
+        removeListener(event: string, listener: (...args: any[]) => void): void;
+      };
+    };
   }
   /**
    * Adds a track or array of tracks to prioritized queue.

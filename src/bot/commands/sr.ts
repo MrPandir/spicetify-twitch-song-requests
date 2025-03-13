@@ -1,6 +1,8 @@
-import { Command } from "../types";
+import { searchTrack } from "@api/spotify";
+import { Track } from "@entities/track";
+import { queue } from "@services/queue";
 import { getTracksFromLinks } from "@services/url-handlers";
-import { searchTrack, getTrack } from "@api/spotify";
+import { Command } from "../types";
 
 // TODO: Add a check if the track is already in the queue.
 // BUG: Unavailable track says it's being added, but it's not happening.
@@ -19,15 +21,10 @@ export const sr: Command = {
     const result = await getTracksFromLinks(args);
 
     if (result.detected) {
-      console.log("Received Tracks: ", result.tracks);
+      const addedTracks = queue.addTracks(author.id, result.tracks);
 
-      // TODO: Queue feedback for notifications.
-      Spicetify.addToQueue(
-        result.tracks.map((track) => ({ uri: track.uri.toString() })),
-      );
-
-      if (result.length === 1) {
-        const track = result.tracks[0];
+      if (addedTracks.length === 1) {
+        const track = addedTracks[0];
         Spicetify.showNotification(
           `${author.displayName} added "${track.title}" to the queue`,
         );
@@ -35,15 +32,15 @@ export const sr: Command = {
         return;
       }
 
-      if (result.length === 0) {
+      if (addedTracks.length === 0) {
         client.reply(tags["id"], `These are not tracks`);
         return;
       }
 
       Spicetify.showNotification(
-        `${author.displayName} added ${result.length} tracks to the queue`,
+        `${author.displayName} added ${addedTracks.length} tracks to the queue`,
       );
-      client.reply(tags["id"], `${result.length} tracks added to queue`);
+      client.reply(tags["id"], `${addedTracks.length} tracks added to queue`);
       return;
     }
 
@@ -60,12 +57,12 @@ export const sr: Command = {
 
     console.info(`Track found: ${track.name} by ${track.artists[0].name}`);
 
-    Spicetify.addToQueue([{ uri: track.uri }]);
+    const addedTrack = queue.addTrack(author.id, Track.fromSpotifyTrack(track));
 
     Spicetify.showNotification(
-      `${author.displayName} added "${track.name}" to the queue`,
+      `${author.displayName} added "${addedTrack.title}" to the queue`,
     );
-    client.reply(tags["id"], `Added "${track.name}" to the queue`);
+    client.reply(tags["id"], `Added "${addedTrack.title}" to the queue`);
   },
 };
 
