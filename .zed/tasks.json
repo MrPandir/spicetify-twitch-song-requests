@@ -1,0 +1,22 @@
+[
+  {
+    "label": "Start pnpm watch",
+    "command": "pnpm watch",
+    "reveal": "never"
+  },
+  {
+    "label": "Start spicetify watch",
+    "command": "spicetify watch -e",
+    "reveal": "never"
+  },
+  {
+    "label": "Stop pnpm watch",
+    "command": "pkill -f 'pnpm watch'",
+    "reveal": "never"
+  },
+  {
+    "label": "Stop spicetify watch",
+    "command": "pkill -f 'spicetify watch -e'",
+    "reveal": "never"
+  }
+]
