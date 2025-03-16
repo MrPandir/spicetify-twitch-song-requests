@@ -1,8 +1,8 @@
-import type { ChatUserstate } from "tmi.js";
-import type { CommandExecute, CommandContext, User } from "./types";
 import { PREFIX } from "@config";
+import type { ChatUserstate } from "tmi.js";
 import { client } from "./client";
 import { commands } from "./commands";
+import type { CommandExecutor, User } from "./types";
 
 export function handlerMessage(
   channel: string,
@@ -15,7 +15,7 @@ export function handlerMessage(
   const [rawCommand, ...args] = message.split(" ");
   const command = rawCommand.slice(1); // remove prefix
 
-  const executor: CommandExecute | undefined = commands[command];
+  const executor: CommandExecutor | undefined = commands[command];
   if (!executor) return;
 
   if (!tags["user-id"] || !tags["username"] || !tags["display-name"]) {
@@ -29,7 +29,5 @@ export function handlerMessage(
     displayName: tags["display-name"],
   };
 
-  const data: CommandContext = { client, author: user, args, tags };
-
-  executor(data);
+  executor(client, user, args, tags);
 }

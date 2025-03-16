@@ -1,5 +1,5 @@
 diff --git a/index.d.ts b/index.d.ts
-index 549a2852da41aa369c746564622ce3bfbd2a3339..b8bed15b0e1debeb984d47602840299b51f07b32 100644
+index 549a2852da41aa369c746564622ce3bfbd2a3339..e81956fa15843f9f43c783396101abe2db35c170 100644
 --- a/index.d.ts
 +++ b/index.d.ts
 @@ -26,6 +26,12 @@ export interface Actions {
@@ -30,3 +30,12 @@ index 549a2852da41aa369c746564622ce3bfbd2a3339..b8bed15b0e1debeb984d47602840299b
      on(event: any, listener: any): Client;
      addListener(event: any, listener: any): Client;
      removeListener(event: any, listener: any): Client;
+@@ -196,7 +205,7 @@ export interface CommonUserstate {
+     color?: string | undefined;
+     "display-name"?: string | undefined;
+     emotes?: { [emoteid: string]: string[] } | undefined;
+-    id?: string | undefined;
++    id: string;
+     mod?: boolean | undefined;
+     turbo?: boolean | undefined;
+     "emotes-raw"?: string | undefined;

@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@types/tmi.js':
-    hash: lqyj4rvdkj4l34zvma34ms3ytm
+    hash: pzqknmbenn25vz5fmw2j7dhjkm
     path: patches/@types__tmi.js.patch
   spcr-settings:
     hash: p5cgugwj5yh4spputp6d432dxu
@@ -21,7 +21,7 @@ importers:
     dependencies:
       '@types/tmi.js':
         specifier: ^1.8.6
-        version: 1.8.6(patch_hash=lqyj4rvdkj4l34zvma34ms3ytm)
+        version: 1.8.6(patch_hash=pzqknmbenn25vz5fmw2j7dhjkm)
       spcr-settings:
         specifier: ^1.3.1
         version: 1.3.1(patch_hash=p5cgugwj5yh4spputp6d432dxu)
@@ -1025,7 +1025,7 @@ snapshots:
 
   '@types/scheduler@0.16.8': {}
 
-  '@types/tmi.js@1.8.6(patch_hash=lqyj4rvdkj4l34zvma34ms3ytm)': {}
+  '@types/tmi.js@1.8.6(patch_hash=pzqknmbenn25vz5fmw2j7dhjkm)': {}
 
   ansi-regex@5.0.1: {}
 

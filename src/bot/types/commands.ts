@@ -1,4 +1,4 @@
-import type { Client } from "tmi.js";
+import type { Client, ChatUserstate } from "tmi.js";
 
 export interface User {
   id: string;
@@ -6,16 +6,11 @@ export interface User {
   displayName: string;
 }
 
-export interface CommandContext {
-  client: Client;
-  author: User;
-  args: string[];
-  tags: Record<string, any>;
-}
+export type CommandExecutor = (
+  client: Client,
+  author: User,
+  args: string[],
+  tags: ChatUserstate,
+) => Promise<void>;
 
-export type CommandExecute = (ctx: CommandContext) => Promise<void>;
-
-export interface Command {
-  permission: "BROADCASTER" | "MOD" | "USER";
-  execute: CommandExecute;
-}
+export type CommandName = string;
