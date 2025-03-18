@@ -1,11 +1,13 @@
 diff --git a/index.d.ts b/index.d.ts
-index 549a2852da41aa369c746564622ce3bfbd2a3339..e81956fa15843f9f43c783396101abe2db35c170 100644
+index 549a2852da41aa369c746564622ce3bfbd2a3339..ba90b65a055cf79d1b909b92b61bd94c66abe694 100644
 --- a/index.d.ts
 +++ b/index.d.ts
-@@ -26,6 +26,12 @@ export interface Actions {
+@@ -25,7 +25,13 @@ export interface Actions {
+     r9kbeta(channel: string): Promise<[string]>;
      r9kbetaoff(channel: string): Promise<[string]>;
      raw(message: string): Promise<[string]>;
-     say(channel: string, message: string): Promise<[string]>;
+-    say(channel: string, message: string): Promise<[string]>;
++    say(message: string): Promise<[string]>;
 +    /**
 +     * Sends a reply to a message.
 +     * @param parentMessageId The ID of the message to reply to.

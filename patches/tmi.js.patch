@@ -66,7 +66,7 @@ index f5f2f73b269ef2d89da36f0d1efaae7cc5ffc97a..1e5dcd89d3a9cb74ba6de03f1794937a
  };
  // Disconnect from server..
 diff --git a/lib/commands.js b/lib/commands.js
-index e3152379b24b204596f6c3e72c0b51880fa9988c..e62882a18f003e7226745cf4d0e7fa040e7d5c14 100755
+index e3152379b24b204596f6c3e72c0b51880fa9988c..acd186f80485f69fa5ad3118ced52fba4ec3c3cf 100755
 --- a/lib/commands.js
 +++ b/lib/commands.js
 @@ -160,7 +160,7 @@ module.exports = {
@@ -78,6 +78,17 @@ index e3152379b24b204596f6c3e72c0b51880fa9988c..e62882a18f003e7226745cf4d0e7fa04
  	// Delete a specific message on a channel
  	deletemessage(channel, messageUUID) {
  		channel = _.channel(channel);
+@@ -336,8 +336,8 @@ module.exports = {
+ 	},
+ 
+ 	// Send a message on a channel..
+-	say(channel, message) {
+-		channel = _.channel(channel);
++	say(message) {
++  	channel = _.channel(this.channels[0]);
+ 
+ 		if((message.startsWith('.') && !message.startsWith('..')) || message.startsWith('/') || message.startsWith('\\')) {
+ 			// Check if the message is an action message..
 @@ -361,6 +361,12 @@ module.exports = {
  		});
  	},

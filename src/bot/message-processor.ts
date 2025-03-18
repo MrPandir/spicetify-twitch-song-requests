@@ -1,8 +1,9 @@
+import { reply } from "@bot";
 import { PREFIX } from "@config";
 import type { ChatUserstate } from "tmi.js";
 import { client } from "./client";
 import { commands } from "./commands";
-import type { CommandExecutor, User } from "./types";
+import type { BotResponse, CommandExecutor, User } from "./types";
 
 export function handlerMessage(
   channel: string,
@@ -29,5 +30,44 @@ export function handlerMessage(
     displayName: tags["display-name"],
   };
 
-  executor(client, user, args, tags);
+  executeCommand(executor, user, args, tags);
+}
+
+async function executeCommand(
+  executor: CommandExecutor,
+  user: User,
+  args: string[],
+  tags: ChatUserstate,
+): Promise<void> {
+  try {
+    const result = await executor(client, user, args, tags);
+
+    if (result) {
+      await sendResponses(Array.isArray(result) ? result : [result], tags.id);
+    }
+  } catch (error) {
+    console.error("Error executing command:", error);
+    await sendResponses([reply("internal", "error")], tags.id);
+  }
+}
+
+async function sendResponses(
+  responses: BotResponse[],
+  messageId: string,
+): Promise<void> {
+  for (const response of responses) {
+    const { type, text } = response;
+
+    switch (type) {
+      case "reply":
+        await client.reply(messageId, text);
+        break;
+      case "message":
+        await client.say(text);
+        break;
+      case "notification":
+        Spicetify.showNotification(text);
+        break;
+    }
+  }
 }

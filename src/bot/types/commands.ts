@@ -1,4 +1,5 @@
 import type { Client, ChatUserstate } from "tmi.js";
+import type { BotResponse } from ".";
 
 export interface User {
   id: string;
@@ -11,6 +12,6 @@ export type CommandExecutor = (
   author: User,
   args: string[],
   tags: ChatUserstate,
-) => Promise<void>;
+) => Promise<BotResponse | BotResponse[]>;
 
 export type CommandName = string;

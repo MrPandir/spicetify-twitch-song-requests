@@ -1,8 +1,9 @@
 import { searchTrack } from "@api/spotify";
+import { notification, reply } from "@bot/responses";
 import { Track } from "@entities/track";
 import { queue } from "@services/queue";
 import { getTracksFromLinks } from "@services/url-handlers";
-import { CommandExecutor } from "../types";
+import type { CommandExecutor } from "../types/commands";
 
 // TODO: Add a check if the track is already in the queue.
 // BUG: Unavailable track says it's being added, but it's not happening.
@@ -10,8 +11,7 @@ import { CommandExecutor } from "../types";
 
 const executor: CommandExecutor = async function (client, author, args, tags) {
   if (!args.length) {
-    client.reply(tags["id"], "Please provide a track name or URL");
-    return;
+    return reply("sr", "noArgs");
   }
 
   // Link processing and adding
@@ -23,23 +23,20 @@ const executor: CommandExecutor = async function (client, author, args, tags) {
 
     if (addedTracks.length === 1) {
       const track = addedTracks[0];
-      Spicetify.showNotification(
-        `${author.displayName} added "${track.title}" to the queue`,
-      );
-      client.reply(tags["id"], `Added "${track.title}" to the queue`);
-      return;
+      return [
+        notification("sr", "userAddedTrack", author, track),
+        reply("sr", "addedTrack", track),
+      ];
     }
 
     if (addedTracks.length === 0) {
-      client.reply(tags["id"], `These are not tracks`);
-      return;
+      return reply("sr", "notTracks");
     }
 
-    Spicetify.showNotification(
-      `${author.displayName} added ${addedTracks.length} tracks to the queue`,
-    );
-    client.reply(tags["id"], `${addedTracks.length} tracks added to queue`);
-    return;
+    return [
+      notification("sr", "userAddedTracks", author, addedTracks.length),
+      reply("sr", "addedTracks", addedTracks.length),
+    ];
   }
 
   // Search and add by track name
@@ -49,18 +46,17 @@ const executor: CommandExecutor = async function (client, author, args, tags) {
 
   if (!track || !track.name) {
     console.log(`Track not found with query: "${searchQuery}"`);
-    client.reply(tags["id"], "No track found");
-    return;
+    return reply("sr", "trackNotFound");
   }
 
   console.info(`Track found: ${track.name} by ${track.artists[0].name}`);
 
   const addedTrack = queue.addTrack(author.id, Track.fromSpotifyTrack(track));
 
-  Spicetify.showNotification(
-    `${author.displayName} added "${addedTrack.title}" to the queue`,
-  );
-  client.reply(tags["id"], `Added "${addedTrack.title}" to the queue`);
+  return [
+    notification("sr", "userAddedTrack", author, addedTrack),
+    reply("sr", "addedTrack", addedTrack),
+  ];
 };
 
 export default executor;
