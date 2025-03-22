@@ -17,6 +17,7 @@ const executor: CommandExecutor = async function (client, author, args, tags) {
   // Link processing and adding
 
   const result = await getTracksFromLinks(args);
+  console.log(result);
 
   if (result.detected) {
     const addedTracks = queue.addTracks(author.id, result.tracks);
@@ -30,7 +31,8 @@ const executor: CommandExecutor = async function (client, author, args, tags) {
     }
 
     if (addedTracks.length === 0) {
-      return reply("sr", "notTracks");
+      if (result.length === 1) return reply("sr", "trackNotFound");
+      return reply("sr", "tracksNotFound");
     }
 
     return [

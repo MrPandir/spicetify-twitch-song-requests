@@ -5,7 +5,7 @@ const locale = {
   sr: {
     noArgs: "Пожалуйста, укажите название трека или URL",
     trackNotFound: "Трек не найден",
-    notTracks: "Это не треки",
+    tracksNotFound: "Не удалось найти треки",
 
     addedTrack: (track: Track) => `Добавлено "${track.title}" в очередь`,
     addedTracks: (count: number) => `${count} треков добавлено в очередь`,
@@ -20,8 +20,7 @@ const locale = {
     noSongPlaying: "Сейчас ничего не играет",
     failedToGet: "Не удалось получить информацию о текущем треке",
 
-    nowPlaying: (name: string, artists: string) =>
-      `"${name}" исполнителя ${artists}`,
+    nowPlaying: (name: string, artists: string) => `"${name}" от ${artists}`,
   },
 
   rm: {

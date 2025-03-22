@@ -1,16 +1,18 @@
-export interface Response {
+export interface SongLinkResponse {
   entityUniqueId: string;
   userCountry: string;
   pageUrl: string;
   entitiesByUniqueId: {
-    [key: string]: Entity;
+    [key: string]: SongLinkEntity;
   };
   linksByPlatform: {
-    [P in Platform]?: P extends "spotify" ? SpotifyPlatformLink : PlatformLink;
+    [P in SongLinkPlatform]?: P extends "spotify"
+      ? SongLinkSpotifyPlatformLink
+      : SongLinkPlatformLink;
   };
 }
 
-export interface Entity {
+export interface SongLinkEntity {
   id: string;
   type: string;
   title: string;
@@ -18,21 +20,21 @@ export interface Entity {
   thumbnailUrl: string;
   thumbnailWidth: number;
   thumbnailHeight: number;
-  apiProvider: ApiProvider;
-  platforms: Platform[];
+  apiProvider: SongLinkApiProvider;
+  platforms: SongLinkPlatform[];
 }
 
-export interface PlatformLink {
+export interface SongLinkPlatformLink {
   country: string;
   url: string;
   entityUniqueId: string;
 }
 
-export interface SpotifyPlatformLink extends PlatformLink {
+export interface SongLinkSpotifyPlatformLink extends SongLinkPlatformLink {
   nativeAppUriDesktop: string;
 }
 
-export type Platform =
+export type SongLinkPlatform =
   | "amazonMusic"
   | "amazonStore"
   | "audius"
@@ -44,7 +46,7 @@ export type Platform =
   | "youtube"
   | "youtubeMusic";
 
-export type ApiProvider =
+export type SongLinkApiProvider =
   | "amazon"
   | "audius"
   | "boomplay"

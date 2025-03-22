@@ -5,7 +5,7 @@ const locale = {
   sr: {
     noArgs: "Please provide a track name or URL",
     trackNotFound: "No track found",
-    notTracks: "These are not tracks",
+    tracksNotFound: "Could not find tracks",
 
     addedTrack: (track: Track) => `Added "${track.title}" to the queue`,
     addedTracks: (count: number) => `${count} tracks added to queue`,

@@ -1,3 +1,5 @@
+import { Track } from "@entities/track";
+
 export interface URLHandler {
   process(url: string): Promise<HandlerResult>;
 }
@@ -5,25 +7,16 @@ export interface URLHandler {
 export enum HandlerStatus {
   NOT_MATCHING = "NOT_MATCHING",
   WRONG_CONTENT = "WRONG_CONTENT",
-  FAILED = "FAILED",
   SUCCESS = "SUCCESS",
 }
 
 export interface SuccessHandlerResult {
   status: HandlerStatus.SUCCESS;
-  uri: Spicetify.URI;
-  metadata?: {
-    title: string;
-    artists: string[];
-  };
+  track: Track;
 }
 
 export interface FailedHandlerResult {
-  status:
-    | HandlerStatus.FAILED
-    | HandlerStatus.NOT_MATCHING
-    | HandlerStatus.WRONG_CONTENT;
-  uri: Spicetify.URI | null;
+  status: HandlerStatus.NOT_MATCHING | HandlerStatus.WRONG_CONTENT;
 }
 
 export type HandlerResult = SuccessHandlerResult | FailedHandlerResult;
