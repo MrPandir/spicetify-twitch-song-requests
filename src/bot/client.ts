@@ -1,7 +1,8 @@
 import { Client } from "tmi.js";
-import { handlerMessage } from "./message-processor";
+import { disconnectHandler, handlerMessage } from "./message-processor";
 import { getChannel } from "@config";
-import { formatChannel } from "@utils";
+import { formatChannel, removeStorageItem } from "@utils";
+import main from "@app";
 
 export let client: Client;
 
@@ -29,7 +30,18 @@ export async function initNewBot(token: string, channel: string) {
     await client.connect();
   } catch (error: unknown) {
     console.error("Error connecting bot:", error);
-    if (typeof error === "string") {
+    if (typeof error !== "string") return;
+
+    if (error.includes("Login authentication failed")) {
+      Spicetify.showNotification(
+        "Login authentication failed. Please re-authorize.",
+        true,
+        30_000, // 30 seconds
+      );
+      // KLUDGE: Call to main for re-authentication. Rewrite to use error throwing or emit event.
+      removeStorageItem("access_token");
+      main();
+    } else {
       Spicetify.showNotification(`Error connecting bot: ${error}`, true);
     }
   }
@@ -40,6 +52,7 @@ export async function initNewBot(token: string, channel: string) {
   }
 
   client.addListener("message", handlerMessage);
+  client.addListener("disconnected", disconnectHandler);
 }
 
 export async function reconnect() {

@@ -3,28 +3,33 @@ import type { DeviceCodeResponse } from "@bot/types";
 
 let button: Spicetify.Topbar.Button;
 let deviceCode: DeviceCodeResponse | undefined;
-let authPromiseResolve: ((value: void) => void) | null = null;
 
-export const authPromise = new Promise<void>((resolve) => {
-  authPromiseResolve = resolve;
-});
+let authResolvers: ((value: void) => void)[] = [];
 
-export function addAuthButton() {
-  if (button) return;
+function addAuthButton() {
+  if (button && button.element.hidden) return (button.element.hidden = false);
 
   button = new Spicetify.Topbar.Button(
     "Twitch Bot Authorization",
     "external-link",
-    auth,
+    handleAuthClick,
     false,
     true,
   );
 }
 
-async function auth(button: Spicetify.Topbar.Button) {
-  if (deviceCode) return;
+export function createAuthPromise(): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    authResolvers.push(resolve);
+    addAuthButton();
+  });
+}
 
-  deviceCode = await getDeviceCode();
+async function handleAuthClick(button: Spicetify.Topbar.Button) {
+  console.debug("Authentication button clicked", button);
+
+  if (!deviceCode) deviceCode = await getDeviceCode();
+  // NOTE: deviceCode may become invalid after time
 
   console.log(
     `Please go to ${deviceCode.verification_uri} and enter the code: ${deviceCode.user_code}`,
@@ -44,14 +49,16 @@ async function auth(button: Spicetify.Topbar.Button) {
       error.message === "Polling timeout exceeded"
     ) {
       console.log("Polling timeout occurred");
-      deviceCode = undefined;
       return;
     } else {
-      console.error(`Authentication Error: ${error}`);
+      console.error("Authentication Error:", error);
       return;
     }
   }
 
-  button.element.remove();
-  authPromiseResolve?.();
+  console.log("Authentication successful");
+  deviceCode = undefined;
+  button.element.hidden = true;
+  authResolvers.forEach((resolve) => resolve());
+  authResolvers = [];
 }

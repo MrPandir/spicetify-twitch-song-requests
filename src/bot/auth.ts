@@ -46,7 +46,7 @@ function handleTokenError(error: TokenError): void {
   switch (error.message) {
     case "authorization_pending":
       break;
-    case "invalid_device_code":
+    case "invalid device code":
       throw new Error("Device code has expired or is invalid");
     default:
       console.error("Unexpected error during token request:", error);

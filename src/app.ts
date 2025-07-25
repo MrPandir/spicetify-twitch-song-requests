@@ -1,6 +1,6 @@
 import { initNewBot, getAccessToken } from "@bot";
 import { addSettings, getChannel } from "@config";
-import { addAuthButton, authPromise } from "@ui";
+import { createAuthPromise } from "@ui";
 
 async function main() {
   await addSettings();
@@ -8,8 +8,8 @@ async function main() {
   let accessToken = await getAccessToken();
 
   if (!accessToken) {
-    addAuthButton();
-    await authPromise;
+    console.log("No token. Adding auth button");
+    await createAuthPromise();
     accessToken = await getAccessToken();
   }
 

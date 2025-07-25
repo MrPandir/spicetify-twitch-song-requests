@@ -4,6 +4,8 @@ import type { ChatUserstate } from "tmi.js";
 import { client } from "./client";
 import { commands } from "./commands";
 import type { BotResponse, CommandExecutor, User } from "./types";
+import { removeStorageItem } from "@utils/storage";
+import main from "@app";
 
 export function handlerMessage(
   channel: string,
@@ -69,5 +71,21 @@ async function sendResponses(
         Spicetify.showNotification(text);
         break;
     }
+  }
+}
+
+export function disconnectHandler(reason: string) {
+  console.log("Disconnected from Twitch:", reason);
+  if (reason === "Login authentication failed") {
+    Spicetify.showNotification(
+      "Authentication failed. Please re-authorize.",
+      true,
+      30_000, // 30 seconds
+    );
+    // KLUDGE: Call to main for re-authentication. Rewrite to use error throwing or emit event.
+    removeStorageItem("access_token");
+    main();
+  } else {
+    Spicetify.showNotification("Disconnected from Twitch", true);
   }
 }
