@@ -1,5 +1,6 @@
 import { User } from "@bot/types";
 import { Track } from "@entities/track";
+import { LimitInfo } from "@services/limits";
 
 const locale = {
   sr: {
@@ -14,6 +15,10 @@ const locale = {
       `${user.displayName} added "${track.title}" to the queue`,
     userAddedTracks: (user: User, count: number) =>
       `${user.displayName} added ${count} tracks to the queue`,
+
+    userLimit: (limit: LimitInfo) =>
+      `You have reached the limit of ${limit.max} tracks`,
+    queueLimit: (limit: LimitInfo) => `Queue is full ${limit.max} tracks`,
   },
 
   song: {

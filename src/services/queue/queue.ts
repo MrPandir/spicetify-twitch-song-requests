@@ -2,10 +2,10 @@ import { Track } from "@entities";
 import type { TwitchUserId } from "@entities";
 import { DataUpdateQueue, QueueTrack } from "./types";
 
-// TODO: Implement queue limits (per user, per queue)
 // TODO: Disable repeats (optional, per user, per queue)
 // TODO: Add uid accounting so as not to delete all tracks from the queue, but only one from the user
 // TODO: Implement deletion by uri
+// TODO: Implement get current track
 
 export class Queue {
   private tracks: QueueTrack[];
@@ -33,6 +33,10 @@ export class Queue {
 
   getTracksByUser(userId: TwitchUserId): Track[] {
     return this.tracks.filter((track) => track.requestedBy === userId);
+  }
+
+  getAllTracks(): QueueTrack[] {
+    return this.tracks;
   }
 
   clearTracksByUser(userId: TwitchUserId): Track[] {

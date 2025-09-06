@@ -9,6 +9,10 @@ export async function addSettings() {
 
   settings.addDropDown("language", "Bot language", ["EN", "RU"], 0);
 
+  settings.addInput("maxTracksPerUser", "Max tracks per user", "-1");
+
+  settings.addInput("maxTracksInQueue", "Max tracks in queue", "-1");
+
   settings.addButton(
     "reconnect",
     "Twitch Bot Reconnect",
@@ -25,4 +29,20 @@ export function getChannel(): string {
 
 export function getLanguage(): Language {
   return settings.getFieldValue("language") || "EN";
+}
+
+export function getMaxTracksPerUser(): number {
+  const value = settings.getFieldValue("maxTracksPerUser") as string;
+  if (value.startsWith("-")) {
+    return 1_000_000_000;
+  }
+  return Math.max(0, parseInt(value) || 0);
+}
+
+export function getMaxTracksInQueue(): number {
+  const value = settings.getFieldValue("maxTracksInQueue") as string;
+  if (value.startsWith("-")) {
+    return 1_000_000_000;
+  }
+  return Math.max(0, parseInt(value) || 0);
 }

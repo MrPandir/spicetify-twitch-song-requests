@@ -1,6 +1,7 @@
 import { User } from "@bot/types";
 import { Track } from "@entities/track";
 import { LocaleDefinition } from "@locales";
+import { LimitInfo } from "@services/limits";
 
 const locale: LocaleDefinition = {
   sr: {
@@ -15,6 +16,9 @@ const locale: LocaleDefinition = {
       `${user.displayName} добавил "${track.title}" в очередь`,
     userAddedTracks: (user: User, count: number) =>
       `${user.displayName} добавил ${count} треков в очередь`,
+
+    userLimit: (limit: LimitInfo) => `Вы достигли лимита в ${limit.max} треков`,
+    queueLimit: (limit: LimitInfo) => `Очередь заполнена ${limit.max} треков`,
   },
 
   song: {

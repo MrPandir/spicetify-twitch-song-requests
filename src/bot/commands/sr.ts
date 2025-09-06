@@ -3,11 +3,11 @@ import { notification, reply } from "@bot/responses";
 import { Track } from "@entities";
 import { queue } from "@services/queue";
 import { getTracksFromLinks } from "@services/url-handlers";
+import { applyLimits, checkLimits } from "@services/limits";
 import type { CommandExecutor } from "../types";
 
 // TODO: Add a check if the track is already in the queue.
 // BUG: Unavailable track says it's being added, but it's not happening.
-// TODO: Check for queue limit
 
 const executor: CommandExecutor = async function (client, author, args, tags) {
   if (!args.length) {
@@ -17,17 +17,35 @@ const executor: CommandExecutor = async function (client, author, args, tags) {
   // Link processing and adding
 
   const result = await getTracksFromLinks(args);
-  console.log(result);
 
   if (result.detected) {
-    const addedTracks = queue.addTracks(author.id, result.tracks);
+    const { tracksToAdd, tracksRejected, limit } = applyLimits(
+      author.id,
+      result.tracks,
+    );
+
+    const key = limit.reached === "queue" ? "queueLimit" : "userLimit";
+    const limitReply = reply("sr", key, limit);
+
+    if (tracksToAdd.length === 0) {
+      return limitReply;
+    }
+
+    const addedTracks = queue.addTracks(author.id, tracksToAdd);
 
     if (addedTracks.length === 1) {
       const track = addedTracks[0];
-      return [
+
+      const response = [
         notification("sr", "userAddedTrack", author, track),
         reply("sr", "addedTrack", track),
       ];
+
+      if (tracksRejected.length) {
+        response.push(limitReply);
+      }
+
+      return response;
     }
 
     if (addedTracks.length === 0) {
@@ -35,13 +53,25 @@ const executor: CommandExecutor = async function (client, author, args, tags) {
       return reply("sr", "tracksNotFound");
     }
 
-    return [
+    const response = [
       notification("sr", "userAddedTracks", author, addedTracks.length),
       reply("sr", "addedTracks", addedTracks.length),
     ];
+
+    if (tracksRejected.length) {
+      response.push(limitReply);
+    }
+
+    return response;
   }
 
   // Search and add by track name
+
+  const limit = checkLimits(author.id);
+  if (!limit.canBeAdded) {
+    const key = limit.reached === "queue" ? "queueLimit" : "userLimit";
+    return reply("sr", key, limit);
+  }
 
   const searchQuery = args.join(" ");
   const track = await searchTrack(searchQuery);
