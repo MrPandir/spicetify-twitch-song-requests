@@ -1,12 +1,11 @@
-import { Track } from "@entities/track";
-
-export type UserId = string;
+import { Track } from "@entities";
+import type { TwitchUserId } from "@entities";
 
 export class QueueTrack extends Track {
-  requestedBy: UserId;
+  requestedBy: TwitchUserId;
   uid?: string;
 
-  constructor(track: Track, requestedBy: UserId, uid?: string) {
+  constructor(track: Track, requestedBy: TwitchUserId, uid?: string) {
     super(track.uri, track.title, track.artists_names);
     this.requestedBy = requestedBy;
     this.uid = uid;

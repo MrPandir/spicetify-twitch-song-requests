@@ -1,7 +1,8 @@
 import { User } from "@bot/types";
 import { Track } from "@entities/track";
+import { LocaleDefinition } from "@locales";
 
-const locale = {
+const locale: LocaleDefinition = {
   sr: {
     noArgs: "Пожалуйста, укажите название трека или URL",
     trackNotFound: "Трек не найден",

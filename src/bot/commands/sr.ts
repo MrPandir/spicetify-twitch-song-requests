@@ -1,9 +1,9 @@
 import { searchTrack } from "@api/spotify";
 import { notification, reply } from "@bot/responses";
-import { Track } from "@entities/track";
+import { Track } from "@entities";
 import { queue } from "@services/queue";
 import { getTracksFromLinks } from "@services/url-handlers";
-import type { CommandExecutor } from "../types/commands";
+import type { CommandExecutor } from "../types";
 
 // TODO: Add a check if the track is already in the queue.
 // BUG: Unavailable track says it's being added, but it's not happening.

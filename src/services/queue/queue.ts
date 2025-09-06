@@ -1,5 +1,6 @@
-import { Track } from "@entities/track";
-import { DataUpdateQueue, QueueTrack, UserId } from "./types";
+import { Track } from "@entities";
+import type { TwitchUserId } from "@entities";
+import { DataUpdateQueue, QueueTrack } from "./types";
 
 // TODO: Implement queue limits (per user, per queue)
 // TODO: Disable repeats (optional, per user, per queue)
@@ -13,7 +14,7 @@ export class Queue {
     this.tracks = tracks;
   }
 
-  addTracks(userId: UserId, tracks: Track[]): Track[] {
+  addTracks(userId: TwitchUserId, tracks: Track[]): Track[] {
     console.log("Adding tracks to queue:", tracks, "Queue:", this.tracks);
 
     // TODO: Check the availability of a track to add
@@ -26,20 +27,20 @@ export class Queue {
     return tracks;
   }
 
-  addTrack(userId: UserId, track: Track): Track {
+  addTrack(userId: TwitchUserId, track: Track): Track {
     return this.addTracks(userId, [track])[0];
   }
 
-  getTracksByUser(userId: UserId): Track[] {
+  getTracksByUser(userId: TwitchUserId): Track[] {
     return this.tracks.filter((track) => track.requestedBy === userId);
   }
 
-  clearTracksByUser(userId: UserId): Track[] {
+  clearTracksByUser(userId: TwitchUserId): Track[] {
     throw new Error("Method not implemented.");
   }
 
   private findTrackIndexFromUserEndIndex(
-    userId: UserId,
+    userId: TwitchUserId,
     endIndexForUser: number,
   ): number | null {
     if (endIndexForUser <= 0) return null;
@@ -53,7 +54,7 @@ export class Queue {
   }
 
   private removeTrackByIndexFromEnd(
-    userId: UserId,
+    userId: TwitchUserId,
     endIndex: number = 1,
   ): Track | null {
     endIndex = Math.abs(endIndex);
@@ -74,7 +75,7 @@ export class Queue {
   }
 
   private removeTrackBySearchQuery(
-    userId: UserId,
+    userId: TwitchUserId,
     searchQuery: string,
     global: boolean = false,
   ): Track | null {
@@ -99,16 +100,16 @@ export class Queue {
     return null;
   }
 
-  removeTrack(userId: UserId, endIndex: number): Track | null;
-  removeTrack(userId: UserId, searchQuery: string): Track | null;
+  removeTrack(userId: TwitchUserId, endIndex: number): Track | null;
+  removeTrack(userId: TwitchUserId, searchQuery: string): Track | null;
   removeTrack(
-    userId: UserId,
+    userId: TwitchUserId,
     searchQuery: string,
     global: boolean,
   ): Track | null;
 
   removeTrack(
-    userId: UserId,
+    userId: TwitchUserId,
     indexOrSearchQuery: number | string,
     global: boolean = false,
   ): Track | null {
