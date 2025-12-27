@@ -1,6 +1,5 @@
 import { searchTrack } from "@api/spotify";
 import { notification, reply } from "@bot/responses";
-import { Track } from "@entities";
 import { queue } from "@services/queue";
 import { getTracksFromLinks } from "@services/url-handlers";
 import { applyLimits, checkLimits } from "@services/limits";
@@ -76,14 +75,14 @@ const executor: CommandExecutor = async function (client, author, args, tags) {
   const searchQuery = args.join(" ");
   const track = await searchTrack(searchQuery);
 
-  if (!track || !track.name) {
+  if (!track) {
     console.log(`Track not found with query: "${searchQuery}"`);
     return reply("sr", "trackNotFound");
   }
 
-  console.info(`Track found: ${track.name} by ${track.artists[0].name}`);
+  console.info(`Track found: ${track.title} by ${track.getArtists()}`);
 
-  const addedTrack = queue.addTrack(author.id, Track.fromSpotifyTrack(track));
+  const addedTrack = queue.addTrack(author.id, track);
 
   return [
     notification("sr", "userAddedTrack", author, addedTrack),
