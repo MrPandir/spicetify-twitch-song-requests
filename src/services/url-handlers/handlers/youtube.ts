@@ -53,10 +53,9 @@ export class YouTubeURLHandler implements URLHandler {
   async processYouTubeVideoData(
     metadata: YouTubeVideoMetadata,
   ): Promise<HandlerResult> {
-    const spotifyTrack = await searchTrack(metadata.title);
-    if (!spotifyTrack) return { status: HandlerStatus.NOT_MATCHING };
+    const track = await searchTrack(metadata.title);
+    if (!track) return { status: HandlerStatus.NOT_MATCHING };
 
-    const track = Track.fromSpotifyTrack(spotifyTrack);
     return { status: HandlerStatus.SUCCESS, track: track };
   }
 }

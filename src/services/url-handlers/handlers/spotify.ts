@@ -17,13 +17,12 @@ export class SpotifyURLHandler implements URLHandler {
       return { status: HandlerStatus.WRONG_CONTENT };
     }
 
-    const spotifyTrack = await getTrack(uri.id!);
+    const track = await getTrack(uri);
 
-    if (!spotifyTrack) {
+    if (!track) {
       return { status: HandlerStatus.WRONG_CONTENT };
     }
 
-    const track = Track.fromSpotifyTrack(spotifyTrack);
     return { status: HandlerStatus.SUCCESS, track: track };
   }
 }
