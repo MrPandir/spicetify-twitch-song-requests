@@ -1,8 +1,9 @@
 import { SettingsSection } from "spcr-settings";
 import { reconnect } from "@bot";
 import type { Language } from "@locales";
+import { nameId } from "@settings.json";
 
-const settings = new SettingsSection("Twitch Spotifi", "twitch-spotifi");
+export const settings = new SettingsSection("Twitch Song Requests", nameId);
 
 export async function addSettings() {
   settings.addInput("channel", "Nickname channel", "");
