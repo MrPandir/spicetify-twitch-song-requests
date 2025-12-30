@@ -5,12 +5,12 @@ import { createAuthPromise } from "@ui";
 async function main() {
   await addSettings();
 
-  let accessToken = await getAccessToken();
+  let accessToken = getAccessToken();
 
   if (!accessToken) {
     console.log("No token. Adding auth button");
     await createAuthPromise();
-    accessToken = await getAccessToken();
+    accessToken = getAccessToken();
   }
 
   if (!accessToken) {

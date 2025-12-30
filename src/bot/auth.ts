@@ -1,5 +1,4 @@
-import { setStorageItem, getStorageItem, removeStorageItem } from "@utils";
-import { CLIENT_ID, SCOPES } from "@config";
+import { CLIENT_ID, SCOPES, settings } from "@config";
 import type { DeviceCodeResponse, TokenResponse, TokenError } from "./types";
 
 const TWITCH_AUTH_URL = "https://id.twitch.tv/oauth2/device";
@@ -93,48 +92,13 @@ export function saveTokens(
   refreshToken: string,
   expiresIn: number,
 ): void {
-  // const expirationDate = new Date(Date.now() + expiresIn * 1000).toISOString();
-  setStorageItem("access_token", accessToken);
-  // setStorageItem("refresh_token", refreshToken);
-  // setStorageItem("token_expiration", expirationDate);
+  settings.setFieldValue("access_token", accessToken);
 }
 
-// export async function refreshToken(): Promise<void> {
-//   const refreshToken = getStorageItem("refresh_token");
-//   if (!refreshToken) {
-//     throw new Error("No refresh token found");
-//   }
+export function getAccessToken(): string | null {
+  return settings.getFieldValue("access_token");
+}
 
-//   const params = new URLSearchParams({
-//     client_id: CLIENT_ID,
-//     client_secret: CLIENT_SECRET, // ???
-//     grant_type: "refresh_token",
-//     refresh_token: refreshToken,
-//   });
-
-//   const response = await fetch(`${TWITCH_TOKEN_URL}?${params}`, {
-//     method: "POST",
-//   });
-
-//   if (!response.ok) {
-//     throw new Error(`HTTP error! status: ${response.status}`);
-//   }
-
-//   const data: TokenResponse = await response.json();
-//   saveTokens(data.access_token, data.refresh_token, data.expires_in);
-// }
-
-export async function getAccessToken(): Promise<string | null> {
-  const token = getStorageItem("access_token");
-  // const expiration = getStorageItem("token_expiration");
-
-  // if (!token || !expiration) {
-  //   return null;
-  // }
-
-  // if (new Date(expiration) < new Date()) {
-  //   return null;
-  // }
-
-  return token;
+export function clearAccessToken() {
+  settings.setFieldValue("access_token", "null");
 }

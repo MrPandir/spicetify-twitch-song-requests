@@ -1,10 +1,9 @@
-import { reply } from "@bot";
+import { clearAccessToken, reply } from "@bot";
 import { PREFIX } from "@config";
 import type { ChatUserstate } from "tmi.js";
 import { client } from "./client";
 import { commands } from "./commands";
 import type { BotResponse, CommandExecutor, User } from "./types";
-import { removeStorageItem } from "@utils/storage";
 import main from "@app";
 
 export function handlerMessage(
@@ -83,7 +82,7 @@ export function disconnectHandler(reason: string) {
       30_000, // 30 seconds
     );
     // KLUDGE: Call to main for re-authentication. Rewrite to use error throwing or emit event.
-    removeStorageItem("access_token");
+    clearAccessToken();
     main();
   } else {
     Spicetify.showNotification("Disconnected from Twitch", true);
