@@ -58,7 +58,8 @@ export async function searchGraphQL(
 
 export async function searchTrack(query: string): Promise<Track | null> {
   // NOTE: switched to using GraphQL, as the API kept returning a 429 error
-  const result = await searchGraphQL(query);
+  // NOTE: limit to 10, improve search. As it matches Spotify search
+  const result = await searchGraphQL(query, 10);
 
   if (!result) return null;
 
