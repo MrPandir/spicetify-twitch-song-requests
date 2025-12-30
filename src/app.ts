@@ -1,6 +1,19 @@
+import { validateToken } from "@api/twitch";
 import { initNewBot, getAccessToken } from "@bot";
-import { addSettings, getChannel } from "@config";
+import { addSettings, getChannel, settings } from "@config";
 import { createAuthPromise } from "@ui";
+
+async function setupChannel(accessToken: string | null) {
+  // No token or nickname already set
+  if (!accessToken || getChannel()) return;
+
+  const response = await validateToken(accessToken);
+
+  if (!("login" in response)) return;
+
+  settings.setFieldValue("channel", response.login);
+  settings.rerender();
+}
 
 async function main() {
   await addSettings();
@@ -11,6 +24,7 @@ async function main() {
     console.log("No token. Adding auth button");
     await createAuthPromise();
     accessToken = getAccessToken();
+    await setupChannel(accessToken);
   }
 
   if (!accessToken) {
