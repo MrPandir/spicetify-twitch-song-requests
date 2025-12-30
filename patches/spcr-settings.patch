@@ -1,13 +1,60 @@
 diff --git a/settingsSection.tsx b/settingsSection.tsx
-index 8cad912be88c51dca4901f094c3939b7e354a98b..ac09864ac3bf803157a2ccc26d7ffdf246c7b150 100644
+index 8cad912be88c51dca4901f094c3939b7e354a98b..aa23e5da841836ac452bd2716ef2dd18900ceba1 100644
 --- a/settingsSection.tsx
 +++ b/settingsSection.tsx
-@@ -245,7 +245,7 @@ class SettingsSection {
+@@ -21,9 +21,18 @@ class SettingsSection {
+     public initialSettingsFields: { [key: string]: ISettingsField } = {}
+   ) {}
+ 
+-  pushSettings = async () => {
++  pushSettings = async (oldSettingsId: string) => {
+     Object.entries(this.settingsFields).forEach(([nameId, field]) => {
+       if (field.type !== "button" && this.getFieldValue(nameId) === undefined) {
++
++        // Migration from the old extension
++        const oldValue = Spicetify.LocalStorage.get(`${oldSettingsId}.${nameId}`);
++        if (oldValue) {
++          this.setFieldValue(nameId, JSON.parse(oldValue).value);
++          Spicetify.LocalStorage.remove(`${oldSettingsId}.${nameId}`);
++          return;
++        }
++
+         this.setFieldValue(nameId, field.defaultValue);
+       }
+     });
+@@ -45,7 +54,9 @@ class SettingsSection {
+     }
+   };
+ 
+-  rerender = () => {
++  rerender = (force: false = false) => {
++    if (!force && Spicetify.Platform.History.location.pathname !== "/preferences") return
++
+     if (this.setRerender) {
+       this.setRerender(Math.random());
+     }
+@@ -165,13 +176,13 @@ class SettingsSection {
+ 
+   getFieldValue = <Type,>(nameId: string): Type => {
+     return JSON.parse(
+-      Spicetify.LocalStorage.get(`${this.settingsId}.${nameId}`) || "{}"
++      Spicetify.LocalStorage.get(`spicetify:${this.settingsId}:${nameId}`) || "{}"
+     )?.value;
+   };
+ 
+   setFieldValue = (nameId: string, newValue: any) => {
+     Spicetify.LocalStorage.set(
+-      `${this.settingsId}.${nameId}`,
++      `spicetify:${this.settingsId}:${nameId}`,
+       JSON.stringify({ value: newValue })
+     );
+   };
+@@ -245,7 +256,7 @@ class SettingsSection {
              <span>
                <button
                  id={id}
 -                className="Button-sc-y0gtbx-0 Button-small-buttonSecondary-useBrowserDefaultFocusStyle x-settings-button"
-+                className="Button-sc-y0gtbx-0 Button-buttonSecondary-small-useBrowserDefaultFocusStyle encore-text-body-small-bold x-settings-button"
++                className="Button-sc-y0gtbx-0 Button-buttonSecondary-small-useBrowserDefaultFocusStyle encore-text-body-small-bold e-91000-button--small x-settings-button"
                  {...props.field.events}
                  onClick={(e) => {
                    setValue();
