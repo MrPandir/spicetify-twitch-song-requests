@@ -1,85 +1,129 @@
-# Twitch Spotifi (WIP)
-A Spicetify extension that allows Twitch chat users to request songs through chat commands. Users can add songs to the listening queue using the `!sr` command followed by the song name.
+# 🤖 Spicetify Twitch Song Requests
+Twitch chat song requests for Spicetify — let viewers queue tracks using chat commands. No Spotify Premium subscription required.
 
-# Usage
+# 📥 Installation
 
-1. Start Spotify
-2. Add expansion from the marketplace extensions
-3. Click button on the top right near the notifications to authenticate the bot
-4. Authenticate the bot account on the twitch site
-5. Open spotify settings (account icon -> settings)
-6. Find Twitch Spotifi section
-7. Enter the nickname of the channel where the commands will be
-8. Reconnect bot
-9. Give the bot a moderator or VIP (if the account is not a broadcaster)
-10. Users can request songs using the command:
-   ```
-   !sr <song name>
-   !sr <spotify or youtube url> [spotify or youtube url...]
-   !song
-   !rm [index from the end, default: last]
-   !rm <song name or song artist>
-   ```
+> [!IMPORTANT]
+> [Spotify](https://www.spotify.com/) with [Spicetify](https://spicetify.app/) is required.
 
-# Installation
+## 🛒 Via Marketplace (Recommended)
+1. Install Marketplace: [Installation manual](https://spicetify.app/docs/customization/marketplace)
+2. Open Marketplace, go to the `Extensions` tab, and search for `Twitch Song Requests`.
+> [!IMPORTANT]
+> If you don't see the extension, you probably need to click `Load more`.
+3. Install the extension.
+4. Next steps: [Authorization and Configuration](authorization-and-configuration)
 
-### Prerequisites
+## ✍️ Manual Installation
+> [!NOTE]
+> Using this installation method, you will **not** receive automatic updates.
 
-- [Spotify](https://www.spotify.com/)
-- [Spicetify](https://spicetify.app/) installed
-- Node.js
-- npm, yarn, or pnpm
-
-### Building the Extension
-
-1. Clone this repository
-
+1. Download [`dist/twitch-song-requests.js`](dist/twitch-song-requests.js) file.
+2. Place the file in the path:
+   - Windows: `C:\Users\<user_name>\AppData\spicetify\Extensions\`
+   - Linux / macOS: `~/.config/spicetify/Extensions/`
+3. Enable the extension:
 ```bash
-git clone https://github.com/MrPandir/twitch-spotifi.git && cd twitch-spotifi
+spicetify config extensions twitch-song-requests.js
 ```
-2. Build the extension using one of the following commands:
-
-```bash
-pnpm build
-```
-
-### Adding to Spicetify
-
-Add the extension to Spicetify's config:
-
-```bash
-spicetify config extensions twitch-spotifi.js
-```
-
-Apply the changes:
-
+> [!TIP]
+> If you want to disable it, add `-` to the end of the file name.
+4. Apply the change on Spotify:
 ```bash
 spicetify apply
 ```
+5. Next steps: [Authorization and Configuration](authorization-and-configuration)
 
-## Development
-
-### Watch Mode
-
-For development with auto-rebuilding on code changes:
-
-1. First, build the app at least once
-2. Start watch mode using one of these commands:
-
+## 💻 Download Repository and Build
+1. Clone the repository:
 ```bash
-pnpm watch
+git clone --depth 1 https://github.com/MrPandir/spicetify-twitch-song-requests.git && cd spicetify-twitch-song-requests
 ```
-
-3. Run Spotify in watch mode:
-
+2. Build the extension:
 ```bash
-spicetify watch -le
+pnpm build
 ```
+> [!NOTE]
+> This will automatically place the file in the Spicetify extensions directory.
+3. Follow steps 3 and 4 from [Manual Installation](#manual-installation).
+4. Next steps: [Authorization and Configuration](authorization-and-configuration)
 
-### Local Build
+# 🔑 Authorization and ⚙️ Configuration
+
+1. Click on the bot authorization button in the upper right corner.
+> [!TIP]
+> Log in with a separate Twitch account if you want the bot to send messages as **a dedicated bot** instead of **your own account**.
+> Make sure to assign VIP or Moderator status to avoid message limits.
+2. This will open a tab in your browser. Click `Activate` and then `Authorize`.
+3. Go to Spotify settings (account icon -> settings).
+4. Scroll down to the bottom to find the `Twitch Song Requests` section.
+5. Configure and enjoy.
+
+# 💬 Commands
+
+### !song 
+Sends the currently playing track and artist(s) to the chat.
+
+### !sr <song name | link> [link...]
+Adds a track to the queue by name or link.
+
+When a track is added, a Spotify notification will appear showing which user added the track and its title.
+
+When searching by name, you can optionally include the artist to improve search results.
+
+If a link is recognized but the track is not available on Spotify, the bot will attempt to find it by searching for the track name.
+
+Multiple links can be sent in a single message (see examples below).
+
+Supported link sources include:
+Spotify, Apple Music, YouTube, YouTube Music, Pandora, Deezer, SoundCloud, Amazon Music, TIDAL, Audiomack, Boomplay, Anghami, Yandex.
+
+<details>
+  <summary>Examples</summary>
+  <ul>
+    <li><kbd>!sr Billie Jean Michael Jackson</kbd>
+    <li><kbd>!sr open.spotify.com/track/5ChkMS8OtdzJeqyybCc9R5</kbd>
+    <li><kbd>!sr open.spotify.com/track/5ChkMS8OtdzJeqyybCc9R5 open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b</kbd>
+    <li><kbd>!sr on.soundcloud.com/ZONK9VyLBrYxgMZbd4 youtu.be/JGwWNGJdvx8 music.youtube.com/watch?v=zABLecsR5UE</kbd>
+  </ul>
+</details>
+
+### !rm [name or index from the end]
+Removes one of your previously requested tracks from the queue.
+
+Without arguments, removes your most recently requested track.
+
+You can provide an index (counting from the end of **your requests**) or remove a track by searching for part of its title or artist.
+
+<details>
+  <summary>Examples</summary>
+
+<ul>
+  <li><kbd>!rm</kbd> — Removes your most recently requested track.
+  <li><kbd>!rm 2</kbd> — Removes your second-to-last requested track.
+  <li><kbd>!rm Bill</kbd> — Removes your requested track containing <code>Bill</code> in the title or artist (e.g. <code>Billie Jean – Michael Jackson</code>).
+  <li><kbd>!rm Jackson</kbd> — Removes the same track as in the previous example.
+</ul>
+
+</details>
+
+
+# 🛠️ Development
+
+### 👀 Watch Mode
+1. Auto-rebuilding on code changes:
+    ```bash
+    pnpm watch
+    ```
+2. Run Spotify in watch mode:
+    ```bash
+    spicetify watch -le
+    ```
+
+### 📦 Build Distribution File
 
 To build files locally and store them in a `dist` folder:
 
 ```bash
-pnpm build-local
+pnpm build:dist
 ```
