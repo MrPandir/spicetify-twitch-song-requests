@@ -6,13 +6,13 @@ settings:
 
 patchedDependencies:
   '@types/tmi.js':
-    hash: 2dpajijbotq7v4psuk56ma5apy
+    hash: a3651f35bb168dcb89bb435e8e4fb074ea310dc8b064019fae40bf1b442bde13
     path: patches/@types__tmi.js.patch
   spcr-settings:
     hash: 6e4a559752d3662bd334e2e315f732020cd5acfce71255ba532a658c413f0a00
     path: patches/spcr-settings.patch
   tmi.js:
-    hash: zc5pxynjrbbipptllg6s3hm3i4
+    hash: c6c11bf99210603d9784519d7c41ab9ef24e56c4af2a752b15b72e381dfc0edf
     path: patches/tmi.js.patch
 
 importers:
@@ -21,20 +21,20 @@ importers:
     dependencies:
       '@types/tmi.js':
         specifier: ^1.8.6
-        version: 1.8.6(patch_hash=2dpajijbotq7v4psuk56ma5apy)
+        version: 1.8.6(patch_hash=a3651f35bb168dcb89bb435e8e4fb074ea310dc8b064019fae40bf1b442bde13)
       spcr-settings:
         specifier: ^1.3.1
         version: 1.3.1(patch_hash=6e4a559752d3662bd334e2e315f732020cd5acfce71255ba532a658c413f0a00)
       tmi.js:
         specifier: ^1.8.5
-        version: 1.8.5(patch_hash=zc5pxynjrbbipptllg6s3hm3i4)
+        version: 1.8.5(patch_hash=c6c11bf99210603d9784519d7c41ab9ef24e56c4af2a752b15b72e381dfc0edf)
     devDependencies:
       '@types/react':
         specifier: ^19.0.10
-        version: 19.0.10
+        version: 19.2.7
       '@types/react-dom':
         specifier: ^19.0.4
-        version: 19.0.4(@types/react@19.0.10)
+        version: 19.2.3(@types/react@19.2.7)
       spicetify-creator:
         specifier: ^1.0.17
         version: 1.0.17(less@4.2.2)(postcss@8.5.3)(sass@1.85.0)(stylus@0.64.0)
@@ -148,16 +148,16 @@ packages:
     peerDependencies:
       '@types/react': ^17.0.0
 
-  '@types/react-dom@19.0.4':
-    resolution: {integrity: sha512-4fSQ8vWFkg+TGhePfUzVmat3eC14TXYSsiiDSLI0dVLsrm9gZFABjPy/Qu6TKgl1tq1Bu1yDsuQgY3A3DOjCcg==}
+  '@types/react-dom@19.2.3':
+    resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
     peerDependencies:
-      '@types/react': ^19.0.0
+      '@types/react': ^19.2.0
 
   '@types/react@17.0.83':
     resolution: {integrity: sha512-l0m4ArKJvmFtR4e8UmKrj1pB4tUgOhJITf+mADyF/p69Ts1YAR/E+G9XEM0mHXKVRa1dQNHseyyDNzeuAXfXQw==}
 
-  '@types/react@19.0.10':
-    resolution: {integrity: sha512-JuRQ9KXLEjaUNjTWpzuR231Z2WpIwczOkBEIvbHNCzQefFIT0L8IqE6NV6ULLyC1SI/i234JnDoMkfg+RjQj2g==}
+  '@types/react@19.2.7':
+    resolution: {integrity: sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg==}
 
   '@types/scheduler@0.16.8':
     resolution: {integrity: sha512-WZLiwShhwLRmeV6zH+GkbOFT6Z6VklCItrDioxUnv+u4Ll+8vKeFySoFyK/0ctcRpOmwAicELfmys1sDc/Rw+A==}
@@ -249,6 +249,9 @@ packages:
 
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
+
+  csstype@3.2.3:
+    resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
   cwd@0.10.0:
     resolution: {integrity: sha512-YGZxdTTL9lmLkCUTpg4j0zQ7IhRB5ZmqNBbGCl3Tg6MP/d5/6sY7L5mmTjzbc6JKgVZYiqTQTNhPFsbXNGlRaA==}
@@ -1009,9 +1012,9 @@ snapshots:
     dependencies:
       '@types/react': 17.0.83
 
-  '@types/react-dom@19.0.4(@types/react@19.0.10)':
+  '@types/react-dom@19.2.3(@types/react@19.2.7)':
     dependencies:
-      '@types/react': 19.0.10
+      '@types/react': 19.2.7
 
   '@types/react@17.0.83':
     dependencies:
@@ -1019,13 +1022,13 @@ snapshots:
       '@types/scheduler': 0.16.8
       csstype: 3.1.3
 
-  '@types/react@19.0.10':
+  '@types/react@19.2.7':
     dependencies:
-      csstype: 3.1.3
+      csstype: 3.2.3
 
   '@types/scheduler@0.16.8': {}
 
-  '@types/tmi.js@1.8.6(patch_hash=2dpajijbotq7v4psuk56ma5apy)': {}
+  '@types/tmi.js@1.8.6(patch_hash=a3651f35bb168dcb89bb435e8e4fb074ea310dc8b064019fae40bf1b442bde13)': {}
 
   ansi-regex@5.0.1: {}
 
@@ -1108,6 +1111,8 @@ snapshots:
   cssesc@3.0.0: {}
 
   csstype@3.1.3: {}
+
+  csstype@3.2.3: {}
 
   cwd@0.10.0:
     dependencies:
@@ -1662,7 +1667,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  tmi.js@1.8.5(patch_hash=zc5pxynjrbbipptllg6s3hm3i4):
+  tmi.js@1.8.5(patch_hash=c6c11bf99210603d9784519d7c41ab9ef24e56c4af2a752b15b72e381dfc0edf):
     dependencies:
       node-fetch: 2.7.0
       ws: 8.18.0
