@@ -1,6 +1,6 @@
 {
-  "name": "twitch-spotifi",
-  "version": "0.1.0",
+  "name": "spicetify-twitch-song-requests",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "build": "spicetify-creator",
