@@ -2,7 +2,7 @@
   {
     "name": "Twitch Song Requests",
     "description": "Song Requests from Twitch chat to the track queue.",
-    "preview": "screenshot.png",
+    "preview": "images/preview.png",
     "main": "dist/twitch-song-requests.js",
     "readme": "README.md",
     "authors": [{ "name": "MrPandir", "url": "https://github.com/MrPandir" }],
