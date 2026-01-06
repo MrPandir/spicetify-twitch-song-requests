@@ -1,6 +1,6 @@
 import { SettingsSection } from "spcr-settings";
 import { reconnect } from "@bot";
-import type { Language } from "@locales";
+import { Language } from "@locales";
 import { nameId } from "@settings.json";
 
 export const settings = new SettingsSection("Twitch Song Requests", nameId);
@@ -8,7 +8,7 @@ export const settings = new SettingsSection("Twitch Song Requests", nameId);
 export async function addSettings() {
   settings.addInput("channel", "Nickname channel", "");
 
-  settings.addDropDown("language", "Bot language", ["EN", "RU"], 0);
+  settings.addDropDown("language", "Bot language", Object.values(Language), 0);
 
   settings.addInput("maxTracksPerUser", "Max tracks per user", "-1");
 
