@@ -12,7 +12,7 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 > [!IMPORTANT]
 > If you don't see the extension, you probably need to click `Load more`.
 3. Install the extension.
-4. Next steps: [Authorization and Configuration](authorization-and-configuration)
+4. Next steps: [Authorization & Configuration](#-authorization--configuration)
 
 ## ✍️ Manual Installation
 > [!NOTE]
@@ -32,7 +32,7 @@ spicetify config extensions twitch-song-requests.js
 ```bash
 spicetify apply
 ```
-5. Next steps: [Authorization and Configuration](authorization-and-configuration)
+5. Next steps: [Authorization & Configuration](#-authorization--configuration)
 
 ## 💻 Download Repository and Build
 1. Clone the repository:
@@ -45,10 +45,10 @@ pnpm build
 ```
 > [!NOTE]
 > This will automatically place the file in the Spicetify extensions directory.
-3. Follow steps 3 and 4 from [Manual Installation](#manual-installation).
-4. Next steps: [Authorization and Configuration](authorization-and-configuration)
+3. Follow steps 3 and 4 from [Manual Installation](#%EF%B8%8F-manual-installation).
+4. Next steps: [Authorization & Configuration](#-authorization--configuration)
 
-# 🔑 Authorization and ⚙️ Configuration
+# 🔑 Authorization & Configuration
 
 1. Click on the bot authorization button in the upper right corner.
 > [!TIP]
