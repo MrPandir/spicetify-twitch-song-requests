@@ -3,9 +3,9 @@ import ru from "./ru";
 import pt_br from "./pt_BR";
 
 export enum Language {
-  EN = "EN",
-  RU = "RU",
-  PT_BR = "pt BR",
+  EN = "English",
+  RU = "Русский",
+  PT_BR = "Português (Brasil)",
 }
 
 export const locales: Record<Language, LocaleDefinition> = {
