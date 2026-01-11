@@ -1,2 +1,2 @@
-export * from "./url-normalizer";
+export * from "./text-utils";
 export * from "./format-channel";
