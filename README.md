@@ -95,6 +95,8 @@ Without arguments, removes your most recently requested track.
 
 You can provide an index (counting from the end of **your requests**) or remove a track by searching for part of its title or artist.
 
+If you are the broadcaster or a moderator, you can remove **any track** by searching for part of its title or artist.
+
 <details>
   <summary>Examples</summary>
 

@@ -6,13 +6,13 @@ settings:
 
 patchedDependencies:
   '@types/tmi.js':
-    hash: a3651f35bb168dcb89bb435e8e4fb074ea310dc8b064019fae40bf1b442bde13
+    hash: ab2557eca3c3065fe1c345781a4c07107fbe0c7d39489fb2a29005204041debe
     path: patches/@types__tmi.js.patch
   spcr-settings:
     hash: 6e4a559752d3662bd334e2e315f732020cd5acfce71255ba532a658c413f0a00
     path: patches/spcr-settings.patch
   tmi.js:
-    hash: c6c11bf99210603d9784519d7c41ab9ef24e56c4af2a752b15b72e381dfc0edf
+    hash: b2a6a2c05ddd19b0a333df479679e14c46e2a57f015134e58bae8a1c040d0e5b
     path: patches/tmi.js.patch
 
 importers:
@@ -21,13 +21,13 @@ importers:
     dependencies:
       '@types/tmi.js':
         specifier: ^1.8.6
-        version: 1.8.6(patch_hash=a3651f35bb168dcb89bb435e8e4fb074ea310dc8b064019fae40bf1b442bde13)
+        version: 1.8.6(patch_hash=ab2557eca3c3065fe1c345781a4c07107fbe0c7d39489fb2a29005204041debe)
       spcr-settings:
         specifier: ^1.3.1
         version: 1.3.1(patch_hash=6e4a559752d3662bd334e2e315f732020cd5acfce71255ba532a658c413f0a00)
       tmi.js:
         specifier: ^1.8.5
-        version: 1.8.5(patch_hash=c6c11bf99210603d9784519d7c41ab9ef24e56c4af2a752b15b72e381dfc0edf)
+        version: 1.8.5(patch_hash=b2a6a2c05ddd19b0a333df479679e14c46e2a57f015134e58bae8a1c040d0e5b)
     devDependencies:
       '@types/react':
         specifier: ^19.0.10
@@ -1028,7 +1028,7 @@ snapshots:
 
   '@types/scheduler@0.16.8': {}
 
-  '@types/tmi.js@1.8.6(patch_hash=a3651f35bb168dcb89bb435e8e4fb074ea310dc8b064019fae40bf1b442bde13)': {}
+  '@types/tmi.js@1.8.6(patch_hash=ab2557eca3c3065fe1c345781a4c07107fbe0c7d39489fb2a29005204041debe)': {}
 
   ansi-regex@5.0.1: {}
 
@@ -1667,7 +1667,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  tmi.js@1.8.5(patch_hash=c6c11bf99210603d9784519d7c41ab9ef24e56c4af2a752b15b72e381dfc0edf):
+  tmi.js@1.8.5(patch_hash=b2a6a2c05ddd19b0a333df479679e14c46e2a57f015134e58bae8a1c040d0e5b):
     dependencies:
       node-fetch: 2.7.0
       ws: 8.18.0

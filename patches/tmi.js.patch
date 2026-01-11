@@ -1,5 +1,5 @@
 diff --git a/lib/client.js b/lib/client.js
-index f5f2f73b269ef2d89da36f0d1efaae7cc5ffc97a..1e5dcd89d3a9cb74ba6de03f1794937a6b4f0053 100755
+index f5f2f73b269ef2d89da36f0d1efaae7cc5ffc97a..9a20e2df6b5969973b5689277fca1687dfb4f44b 100755
 --- a/lib/client.js
 +++ b/lib/client.js
 @@ -134,7 +134,7 @@ client.prototype.handleMessage = function handleMessage(message) {
@@ -56,7 +56,26 @@ index f5f2f73b269ef2d89da36f0d1efaae7cc5ffc97a..1e5dcd89d3a9cb74ba6de03f1794937a
  			return reject('Not connected to server.');
  		}
  		else if(_.isJustinfan(this.getUsername())) {
-@@ -1487,7 +1487,7 @@ client.prototype.readyState = function readyState() {
+@@ -1476,18 +1476,24 @@ client.prototype.getChannels = function getChannels() {
+ 	return this.channels;
+ };
+ // Check if username is a moderator on a channel..
+-client.prototype.isMod = function isMod(channel, username) {
+-	const chan = _.channel(channel);
++client.prototype.isMod = function isMod(username) {
++	const chan = _.channel(this.channels[0]);
+ 	if(!this.moderators[chan]) { this.moderators[chan] = []; }
+ 	return this.moderators[chan].includes(_.username(username));
+ };
++// Check if the user is a brocaster
++client.prototype.isBroadcaster = function isBroadcaster (username) {
++	const chan = _.username(this.channels[0]);
++  const user = _.username(username);
++  return chan === user;
++};
+ // Get readyState..
+ client.prototype.readyState = function readyState() {
+ 	if(this.ws === null) { return 'CLOSED'; }
  	return [ 'CONNECTING', 'OPEN', 'CLOSING', 'CLOSED' ][this.ws.readyState];
  };
  // Determine if the client has a WebSocket and it's open..
@@ -102,3 +121,16 @@ index e3152379b24b204596f6c3e72c0b51880fa9988c..acd186f80485f69fa5ad3118ced52fba
  	// Enable slow mode on a channel..
  	slow,
  
+diff --git a/lib/utils.js b/lib/utils.js
+index c3e68b45d36456445dc2d0af1eb82390c4d9fb92..d4d34b47ff5e7ef6c0b3141ce9063f6a4d9d198b 100755
+--- a/lib/utils.js
++++ b/lib/utils.js
+@@ -96,7 +96,7 @@ const _ = module.exports = {
+ 			(m, p) => p in ircEscapedChars ? ircEscapedChars[p] : p
+ 		);
+ 	},
+-	
++
+ 	escapeIRC(msg) {
+ 		if(!msg || typeof msg !== 'string') {
+ 			return msg;
