@@ -1,0 +1,81 @@
+name: Build and Publish to Marketplace
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      force_push:
+        description: "Force overwrite marketplace branch?"
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Configure git
+        run: |
+          git config --local user.name  "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: latest
+          cache: pnpm
+
+      - name: Prepare marketplace branch
+        run: |
+          git fetch origin marketplace || true
+
+          if git show-ref --verify --quiet refs/remotes/origin/marketplace; then
+            git checkout -B marketplace origin/marketplace
+          else
+            git checkout --orphan marketplace
+            git rm -rf .
+            git commit --allow-empty -m "Initial empty commit"
+          fi
+
+      - name: Pull sources from main
+        run: |
+          git checkout origin/main -- src patches package.json pnpm-lock.yaml README.md tsconfig.json
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build:dist
+
+      - name: Prepare marketplace contents
+        run: |
+          mv dist/twitch-song-requests.js .
+          rm -rf src patches dist node_modules package.json pnpm-lock.yaml tsconfig.json
+
+      - name: Commit changes
+        run: |
+          git reset
+          git add twitch-song-requests.js README.md
+
+          if ! git diff --staged --quiet; then
+            git commit -m "release: update extension to ${GITHUB_SHA:0:8}"
+          else
+            echo "No changes to commit"
+          fi
+
+      - name: Push to marketplace
+        run: |
+          git push origin marketplace \
+            ${{ github.event.inputs.force_push == 'true' && '--force' || '' }}

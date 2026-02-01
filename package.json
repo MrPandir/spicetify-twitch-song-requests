@@ -24,5 +24,6 @@
       "tmi.js": "patches/tmi.js.patch",
       "@types/tmi.js": "patches/@types__tmi.js.patch"
     }
-  }
+  },
+  "packageManager": "pnpm@10.27.0"
 }

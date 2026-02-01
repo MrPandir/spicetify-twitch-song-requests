@@ -2,8 +2,9 @@
   {
     "name": "Twitch Song Requests",
     "description": "Song Requests from Twitch chat to the track queue.",
-    "preview": "images/preview.png",
-    "main": "dist/twitch-song-requests.js",
+    "branch": "marketplace",
+    "preview": "preview.png",
+    "main": "twitch-song-requests.js",
     "readme": "README.md",
     "authors": [{ "name": "MrPandir", "url": "https://github.com/MrPandir" }],
     "tags": ["twitch", "chat", "queue", "interactive", "integration", "request"]
