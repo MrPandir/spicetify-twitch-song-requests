@@ -1,8 +1,8 @@
 import { searchTrack } from "@api/spotify";
 import { notification, reply } from "@bot/responses";
-import { queue } from "@services/queue";
-import { getTracksFromLinks } from "@services/url-handlers";
 import { applyLimits, checkLimits } from "@services/limits";
+import { queue } from "@services/queue";
+import { urlProcessor } from "@services/url-handlers";
 import type { CommandExecutor } from "../types";
 
 // TODO: Add a check if the track is already in the queue.
@@ -15,7 +15,7 @@ const executor: CommandExecutor = async function (client, author, args, tags) {
 
   // Link processing and adding
 
-  const result = await getTracksFromLinks(args);
+  const result = await urlProcessor.getTracksFromLinks(args);
 
   if (result.detected) {
     const { tracksToAdd, tracksRejected, limit } = applyLimits(
@@ -26,7 +26,7 @@ const executor: CommandExecutor = async function (client, author, args, tags) {
     const key = limit.reached === "queue" ? "queueLimit" : "userLimit";
     const limitReply = reply("sr", key, limit);
 
-    if (tracksToAdd.length === 0) {
+    if (tracksToAdd.length === 0 && tracksRejected.length) {
       return limitReply;
     }
 

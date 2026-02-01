@@ -1,7 +1,5 @@
 export function addHttpsPrefix(url: string): string {
-  return url.startsWith("http://") || url.startsWith("https://")
-    ? url
-    : `https://${url}`;
+  return url.startsWith("http") ? url : `https://${url}`;
 }
 
 // "你好", "abc" -> true | "123" -> false

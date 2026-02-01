@@ -1,13 +1,12 @@
 import { getTrack } from "@api/spotify";
-import { Track } from "@entities/track";
 import { addHttpsPrefix } from "@utils";
-import { type HandlerResult, HandlerStatus, type URLHandler } from "../types";
+import { HandlerStatus } from "../types";
+import type { HandlerResult, URLHandler } from "../types";
 
 export class SpotifyURLHandler implements URLHandler {
   async process(url: string): Promise<HandlerResult> {
-    url = addHttpsPrefix(url);
-
-    const uri = Spicetify.URI.from(url);
+    const normalized = addHttpsPrefix(url);
+    const uri = Spicetify.URI.from(normalized) ?? Spicetify.URI.from(url);
 
     if (!uri) {
       return { status: HandlerStatus.NOT_MATCHING };

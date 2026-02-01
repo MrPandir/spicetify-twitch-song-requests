@@ -27,6 +27,21 @@ export class URLProcessor {
         return null;
       }
     }
+
     return undefined;
+  }
+
+  async getTracksFromLinks(
+    urls: string[],
+  ): Promise<{ tracks: Track[]; detected: boolean; length: number }> {
+    const tracks = await Promise.all(urls.map((url) => this.processURL(url)));
+
+    const detectedTracks = tracks.filter((track) => !!track);
+
+    return {
+      tracks: detectedTracks,
+      length: detectedTracks.length,
+      detected: detectedTracks.length > 0,
+    };
   }
 }
