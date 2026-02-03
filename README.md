@@ -1,24 +1,39 @@
-# 🤖 Spicetify Twitch Song Requests
+# Spicetify Twitch Song Requests
 Twitch chat song requests for Spicetify — let viewers queue tracks using chat commands. No Spotify Premium subscription required.
 
-# 📥 Installation
+# Features
+
+- 🪙 Works **without Spotify Premium**  
+- ➕ `!sr` — add track by name or link  
+- 🔗 Supports links from 15+ services  
+- 📦 Multi-add — multiple links in one message  
+- 🗑️ `!rm` — remove your track (last by default)  
+- 🔍 Remove by position or partial name  
+- 👮 Moderators can remove any track  
+- ⚖️ Per-user and total queue limits  
+- 🔄 Auto queue sync when track removed from Spotify  
+- 🔑 Permanent Twitch token (no re-auth needed)  
+- 🌐 Supported platforms: Spotify, Apple Music, YouTube Music, Deezer, TIDAL, Amazon Music, SoundCloud, Yandex Music, and many more  
+- 🌍 Bot replies in: RU · EN · PT-BR
+
+# Installation
 
 > [!IMPORTANT]
 > [Spotify](https://www.spotify.com/) with [Spicetify](https://spicetify.app/) is required.
 
-## 🛒 Via Marketplace (Recommended)
+## Via Marketplace (Recommended)
 1. Install Marketplace: [Installation manual](https://spicetify.app/docs/customization/marketplace)
 2. Open Marketplace, go to the `Extensions` tab, and search for `Twitch Song Requests`.
 > [!IMPORTANT]
 > If you don't see the extension, you probably need to click `Load more`.
 3. Install the extension.
-4. Next steps: [Authorization & Configuration](#-authorization--configuration)
+4. Next steps: [Authorization & Configuration](#authorization--configuration)
 
-## ✍️ Manual Installation
+## Manual Installation
 > [!NOTE]
 > Using this installation method, you will **not** receive automatic updates.
 
-1. Download [`dist/twitch-song-requests.js`](dist/twitch-song-requests.js) file.
+1. Download [`twitch-song-requests.js`](https://github.com/MrPandir/spicetify-twitch-song-requests/blob/marketplace/twitch-song-requests.js) file.
 2. Place the file in the path:
    - Windows: `C:\Users\<user_name>\AppData\spicetify\Extensions\`
    - Linux / macOS: `~/.config/spicetify/Extensions/`
@@ -32,9 +47,9 @@ spicetify config extensions twitch-song-requests.js
 ```bash
 spicetify apply
 ```
-5. Next steps: [Authorization & Configuration](#-authorization--configuration)
+5. Next steps: [Authorization & Configuration](#authorization--configuration)
 
-## 💻 Download Repository and Build
+## Download Repository and Build
 1. Clone the repository:
 ```bash
 git clone --depth 1 https://github.com/MrPandir/spicetify-twitch-song-requests.git && cd spicetify-twitch-song-requests
@@ -45,10 +60,10 @@ pnpm build
 ```
 > [!NOTE]
 > This will automatically place the file in the Spicetify extensions directory.
-3. Follow steps 3 and 4 from [Manual Installation](#%EF%B8%8F-manual-installation).
-4. Next steps: [Authorization & Configuration](#-authorization--configuration)
+3. Follow steps 3 and 4 from [Manual Installation](#manual-installation).
+4. Next steps: [Authorization & Configuration](#authorization--configuration)
 
-# 🔑 Authorization & Configuration
+# Authorization & Configuration
 
 1. Click on the bot authorization button in the upper right corner.
 > [!TIP]
@@ -59,7 +74,7 @@ pnpm build
 4. Scroll down to the bottom to find the `Twitch Song Requests` section.
 5. Configure and enjoy.
 
-# 💬 Commands
+# Commands
 
 ### !song 
 Sends the currently playing track and artist(s) to the chat.
@@ -74,9 +89,6 @@ When searching by name, you can optionally include the artist to improve search 
 If a link is recognized but the track is not available on Spotify, the bot will attempt to find it by searching for the track name.
 
 Multiple links can be sent in a single message (see examples below).
-
-Supported link sources include:
-Spotify, Apple Music, YouTube, YouTube Music, Pandora, Deezer, SoundCloud, Amazon Music, TIDAL, Audiomack, Boomplay, Anghami, Yandex.
 
 <details>
   <summary>Examples</summary>
@@ -110,9 +122,9 @@ If you are the broadcaster or a moderator, you can remove **any track** by searc
 </details>
 
 
-# 🛠️ Development
+# Development
 
-### 👀 Watch Mode
+### Watch Mode
 1. Auto-rebuilding on code changes:
     ```bash
     pnpm watch
@@ -122,10 +134,13 @@ If you are the broadcaster or a moderator, you can remove **any track** by searc
     spicetify watch -le
     ```
 
-### 📦 Build Distribution File
+### Build Distribution File
 
 To build files locally and store them in a `dist` folder:
 
 ```bash
 pnpm build:dist
 ```
+
+### AutoBuild (CI/CD)
+With each commit to the `main` branch, GitHub Action builds the extension and saves it to the `marketplace` branch.
