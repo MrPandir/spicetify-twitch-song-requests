@@ -1,6 +1,6 @@
 import type { SongLinkResponse } from "./types";
 
-const PROXY_BASE = "https://mr-cors-proxy.vercel.app/api/proxy";
+const PROXY_BASE = "https://corsproxy.mrpandir.workers.dev";
 const SONG_LINK_API_BASE = "https://api.song.link/v1-alpha.1/links";
 
 export async function getSongLink(
