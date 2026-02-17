@@ -21,6 +21,11 @@ const locale = {
     queueLimit: (limit: LimitInfo) => `Queue is full ${limit.max} tracks`,
   },
 
+  srn: {
+    noPermission:
+      "Command available only to the broadcaster, moderators and subscribers",
+  },
+
   song: {
     noSongPlaying: "No song is currently playing",
     failedToGet: "Failed to get current track",
