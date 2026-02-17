@@ -3,17 +3,18 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 
 # Features
 
-- 🪙 Works **without Spotify Premium**  
-- ➕ `!sr` — add track by name or link  
-- 🔗 Supports links from 15+ services  
-- 📦 Multi-add — multiple links in one message  
-- 🗑️ `!rm` — remove your track (last by default)  
-- 🔍 Remove by position or partial name  
-- 👮 Moderators can remove any track  
-- ⚖️ Per-user and total queue limits  
-- 🔄 Auto queue sync when track removed from Spotify  
-- 🔑 Permanent Twitch token (no re-auth needed)  
-- 🌐 Supported platforms: Spotify, Apple Music, YouTube Music, Deezer, TIDAL, Amazon Music, SoundCloud, Yandex Music, and many more  
+- 🪙 Works **without Spotify Premium**
+- ➕ `!sr` — add track by name or link
+- 🚀 `!srn` — add track to the **beginning** of the queue (priority request)
+- 🗑️ `!rm` — remove your track (last by default)
+- 🔗 Supports links from 15+ services
+- 📦 Multi-add — multiple links in one message
+- 🔍 Remove by position or partial name
+- 👮 Moderators can remove any track
+- ⚖️ Per-user and total queue limits
+- 🔄 Auto queue sync when track removed from Spotify
+- 🔑 Permanent Twitch token (no re-auth needed)
+- 🌐 Supported platforms: Spotify, Apple Music, YouTube Music, Deezer, TIDAL, Amazon Music, SoundCloud, Yandex Music, and many more
 - 🌍 Bot replies in: RU · EN · PT-BR
 
 # Installation
@@ -79,10 +80,11 @@ pnpm build
 ### !song 
 Sends the currently playing track and artist(s) to the chat.
 
+<a id="sr"></a>
 ### !sr <song name | link> [link...]
-Adds a track to the queue by name or link.
+Adds track(s) to the queue by name or link.
 
-When a track is added, a Spotify notification will appear showing which user added the track and its title.
+When track(s) is added, a Spotify notification will appear showing which user added the track and its title(s).
 
 When searching by name, you can optionally include the artist to improve search results.
 
@@ -99,6 +101,16 @@ Multiple links can be sent in a single message (see examples below).
     <li><kbd>!sr on.soundcloud.com/ZONK9VyLBrYxgMZbd4 youtu.be/JGwWNGJdvx8 music.youtube.com/watch?v=zABLecsR5UE</kbd>
   </ul>
 </details>
+
+### !srn <song name | link> [link...]
+**Priority request** — adds track(s) to the **beginning** of the queue (they will play next).
+
+Works exactly like the [!sr](#sr) command. Supports the same formats.
+
+**Available only to:**
+- Broadcaster
+- Moderators
+- Subscribers
 
 ### !rm [name or index from the end]
 Removes one of your previously requested tracks from the queue.
