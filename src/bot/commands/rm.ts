@@ -1,21 +1,9 @@
 import { queue } from "@services/queue";
 import { reply } from "@bot";
 import type { BotResponse, CommandExecutor, User } from "../types";
-import type { ChatUserstate, Client } from "tmi.js";
-import { hasText } from "@utils";
+import { hasText, isModOrBroadcaster } from "@utils";
 
 // TODO: Implement deletion by spotify link
-
-// Moderator or broadcaster can delete all tracks
-function canDeleteGlobal(
-  client: Client,
-  author: User,
-  tags: ChatUserstate,
-): boolean {
-  const isMod = !!tags.mod;
-  const isBroadcaster = client.isBroadcaster(author.userName);
-  return isMod || isBroadcaster;
-}
 
 function deleteTrackByName(
   author: User,
@@ -35,7 +23,8 @@ function deleteTrackByName(
 }
 
 const executor: CommandExecutor = async function (client, author, args, tags) {
-  const isGlobalDelete = canDeleteGlobal(client, author, tags);
+  // Moderator or broadcaster can delete all tracks
+  const isGlobalDelete = isModOrBroadcaster(client, author.userName, tags);
   const userTrackCount = queue.getTracksByUser(author.id).length;
 
   // If the user is a moderator or the broadcaster
