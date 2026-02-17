@@ -14,21 +14,52 @@ export class Queue {
     this.tracks = tracks;
   }
 
-  addTracks(userId: TwitchUserId, tracks: Track[]): Track[] {
-    console.log("Adding tracks to queue:", tracks, "Queue:", this.tracks);
+  async addTracks(
+    userId: TwitchUserId,
+    tracks: Track[],
+    atFront: boolean = false,
+  ): Promise<Track[]> {
+    // prettier-ignore
+    console.log([
+      `Adding ${tracks.length} track(s) from ${userId} → ${atFront ? "to front" : "to end"}`,
+      `Queue before: ${this.tracks.length}`,
+    ].join("\n"));
 
     // TODO: Check the availability of a track to add
 
     this.tracks.push(...tracks.map((track) => new QueueTrack(track, userId)));
 
     const tracksUris = tracks.map((track) => track.toContextTrack());
-    Spicetify.addToQueue(tracksUris);
+
+    if (atFront) {
+      await this.addTracksToFront(tracksUris);
+    } else {
+      await Spicetify.addToQueue(tracksUris);
+    }
 
     return tracks;
   }
 
-  addTrack(userId: TwitchUserId, track: Track): Track {
-    return this.addTracks(userId, [track])[0];
+  async addTrack(
+    userId: TwitchUserId,
+    track: Track,
+    atFront: boolean = false,
+  ): Promise<Track> {
+    const addedTracks = await this.addTracks(userId, [track], atFront);
+    return addedTracks[0];
+  }
+
+  private async addTracksToFront(contextTracks: Spicetify.ContextTrack[]) {
+    const queue = await Spicetify.Platform.PlayerAPI.getQueue();
+
+    if (!queue.queued.length) return await Spicetify.addToQueue(contextTracks);
+
+    await Spicetify.Platform.PlayerAPI.insertIntoQueue(contextTracks, {
+      before: {
+        uri: queue.queued[0].uri,
+        uid: queue.queued[0].uid,
+      },
+    });
   }
 
   getTracksByUser(userId: TwitchUserId): Track[] {

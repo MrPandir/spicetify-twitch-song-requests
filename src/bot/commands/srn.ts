@@ -3,12 +3,21 @@ import { notification, reply } from "@bot/responses";
 import { applyLimits, checkLimits } from "@services/limits";
 import { queue } from "@services/queue";
 import { urlProcessor } from "@services/url-handlers";
+import { isModOrBroadcaster } from "@utils";
 import type { CommandExecutor } from "../types";
 
 // TODO: Add a check if the track is already in the queue.
 // BUG: Unavailable track says it's being added, but it's not happening.
 
 const executor: CommandExecutor = async function (client, author, args, tags) {
+  const isSubscriber = !!tags.subscriber;
+  const canUseCommand =
+    isModOrBroadcaster(client, author.userName, tags) || isSubscriber;
+
+  if (!canUseCommand) {
+    return reply("srn", "noPermission");
+  }
+
   if (!args.length) {
     return reply("sr", "noArgs");
   }
@@ -30,7 +39,7 @@ const executor: CommandExecutor = async function (client, author, args, tags) {
       return limitReply;
     }
 
-    const addedTracks = await queue.addTracks(author.id, tracksToAdd);
+    const addedTracks = await queue.addTracks(author.id, tracksToAdd, true);
 
     if (addedTracks.length === 1) {
       const track = addedTracks[0];
@@ -82,7 +91,7 @@ const executor: CommandExecutor = async function (client, author, args, tags) {
 
   console.info(`Track found: ${track.title} by ${track.getArtists()}`);
 
-  const addedTrack = await queue.addTrack(author.id, track);
+  const addedTrack = await queue.addTrack(author.id, track, true);
 
   return [
     notification("sr", "userAddedTrack", author, addedTrack),
