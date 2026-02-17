@@ -21,6 +21,11 @@ const locale = {
     queueLimit: (limit: LimitInfo) => `A fila está cheia: ${limit.max} músicas`,
   },
 
+  srn: {
+    noPermission:
+      "Comando disponível apenas para o streamer, moderadores e assinantes",
+  },
+
   song: {
     noSongPlaying: "Nenhuma música está tocando no momento",
     failedToGet: "Falha ao obter a música atual",

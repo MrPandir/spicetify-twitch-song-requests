@@ -21,6 +21,11 @@ const locale: LocaleDefinition = {
     queueLimit: (limit: LimitInfo) => `Очередь заполнена ${limit.max} треков`,
   },
 
+  srn: {
+    noPermission:
+      "Команда доступна только для стримера, модераторов и подписчиков",
+  },
+
   song: {
     noSongPlaying: "Сейчас ничего не играет",
     failedToGet: "Не удалось получить информацию о текущем треке",
