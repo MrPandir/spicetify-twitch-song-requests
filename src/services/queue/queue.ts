@@ -70,6 +70,11 @@ export class Queue {
     return this.tracks;
   }
 
+  async clearAllTracks(): Promise<void> {
+    await Spicetify.Platform.PlayerAPI.clearQueue();
+    this.tracks = [];
+  }
+
   clearTracksByUser(userId: TwitchUserId): Track[] {
     throw new Error("Method not implemented.");
   }

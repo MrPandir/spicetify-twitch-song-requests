@@ -40,6 +40,11 @@ const locale: LocaleDefinition = {
     trackDeleted: (track: Track) => `Трек "${track.title}" удален`,
   },
 
+  clear: {
+    permissionDenied: "Эта команда доступна только стримеру и модераторам",
+    cleared: "Очередь Spotify была очищена",
+  },
+
   internal: {
     error: "Произошла внутренняя ошибка",
     noArtist: "Внутренняя ошибка: Исполнитель не найден",

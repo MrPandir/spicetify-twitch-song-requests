@@ -133,6 +133,11 @@ If you are the broadcaster or a moderator, you can remove **any track** by searc
 
 </details>
 
+### !clear
+Clears the Spotify queue and the song request queue.
+
+Only the broadcaster and moderators can use this command.
+
 
 # Development
 

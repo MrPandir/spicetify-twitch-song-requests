@@ -40,6 +40,11 @@ const locale = {
     trackDeleted: (track: Track) => `Música "${track.title}" removida`,
   },
 
+  clear: {
+    permissionDenied: "Apenas o broadcaster e os moderadores podem usar este comando",
+    cleared: "A fila do Spotify foi limpa",
+  },
+
   internal: {
     error: "Ocorreu um erro interno",
     noArtist: "Erro interno: Nenhum artista encontrado",

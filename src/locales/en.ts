@@ -40,6 +40,11 @@ const locale = {
     trackDeleted: (track: Track) => `Track "${track.title}" deleted`,
   },
 
+  clear: {
+    permissionDenied: "Only broadcaster and moderators can use this command",
+    cleared: "Spotify queue has been cleared",
+  },
+
   internal: {
     error: "An internal error occurred",
     noArtist: "Internal error: No artist found",
