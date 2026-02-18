@@ -7,6 +7,7 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 - ➕ `!sr` — add track by name or link
 - 🚀 `!srn` — add track to the **beginning** of the queue (priority request)
 - 🗑️ `!rm` — remove your track (last by default)
+- 🧹 `!clear` — clear Spotify queue
 - 🔗 Supports links from 15+ services
 - 📦 Multi-add — multiple links in one message
 - 🔍 Remove by position or partial name
