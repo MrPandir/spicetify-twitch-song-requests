@@ -15,7 +15,7 @@ export function handlerMessage(
   if (!message.startsWith(PREFIX)) return;
 
   const [rawCommand, ...args] = message.split(" ");
-  const command = rawCommand.slice(1); // remove prefix
+  const command = rawCommand.toLowerCase().slice(1); // remove prefix
 
   const executor: CommandExecutor | undefined = commands[command];
   if (!executor) return;
