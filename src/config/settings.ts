@@ -13,6 +13,11 @@ export async function addSettings() {
   settings.addInput("maxTracksPerUser", "Max tracks per user", "-1");
 
   settings.addInput("maxTracksInQueue", "Max tracks in queue", "-1");
+  settings.addToggle(
+    "allowDuplicateRandomTracks",
+    "Allow !rr/!rrn to add already queued tracks",
+    true,
+  );
 
   settings.addButton(
     "reconnect",
@@ -57,4 +62,8 @@ export function getMaxTracksInQueue(): number {
     return 1_000_000_000;
   }
   return Math.max(0, parseInt(value) || 0);
+}
+
+export function getAllowDuplicateRandomTracks(): boolean {
+  return !!settings.getFieldValue("allowDuplicateRandomTracks");
 }

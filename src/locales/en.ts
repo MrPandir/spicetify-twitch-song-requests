@@ -26,6 +26,28 @@ const locale = {
       "Command available only to the broadcaster, moderators and subscribers",
   },
 
+  rr: {
+    // TODO: Написать что source не коректный
+    invalidSource:
+      "Provide a Spotify artist, playlist or album link",
+
+    playlistNotFound: "Playlist not found or unavailable",
+    albumNotFound: "Album not found or unavailable",
+    artistNotFound: "Artist not found or unavailable",
+
+    noAvailableCandidates: "No available tracks to add",
+
+    addedTrack: (track: Track) =>
+      `Randomly selected "${track.title}" and added to the queue`,
+    userAddedTrack: (user: User, track: Track) =>
+      `${user.displayName} randomly selected "${track.title}" and added to the queue`,
+  },
+
+  rrn: {
+    noPermission:
+      "Command available only to the broadcaster, moderators and subscribers",
+  },
+
   song: {
     noSongPlaying: "No song is currently playing",
     failedToGet: "Failed to get current track",

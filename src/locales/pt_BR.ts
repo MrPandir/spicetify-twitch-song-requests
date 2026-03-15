@@ -26,6 +26,25 @@ const locale = {
       "Comando disponível apenas para o streamer, moderadores e assinantes",
   },
 
+  rr: {
+    invalidSource:
+      "Forneça um link do Spotify de artista, playlist ou álbum",
+    playlistNotFound: "Playlist não encontrada ou indisponível",
+    albumNotFound: "Álbum não encontrado ou indisponível",
+    artistNotFound: "Artista não encontrado ou indisponível",
+    noAvailableCandidates: "Não há faixas disponíveis para adicionar",
+
+    addedTrack: (track: Track) =>
+      `Música "${track.title}" foi escolhida aleatoriamente e adicionada à fila`,
+    userAddedTrack: (user: User, track: Track) =>
+      `${user.displayName} escolheu aleatoriamente "${track.title}" e adicionou à fila`,
+  },
+
+  rrn: {
+    noPermission:
+      "Comando disponível apenas para o streamer, moderadores e assinantes",
+  },
+
   song: {
     noSongPlaying: "Nenhuma música está tocando no momento",
     failedToGet: "Falha ao obter a música atual",

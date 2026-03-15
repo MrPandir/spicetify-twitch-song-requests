@@ -26,6 +26,25 @@ const locale: LocaleDefinition = {
       "Команда доступна только для стримера, модераторов и подписчиков",
   },
 
+  rr: {
+    invalidSource:
+      "Укажите ссылку Spotify на артиста, плейлист или альбом",
+    playlistNotFound: "Плейлист не найден или недоступен",
+    albumNotFound: "Альбом не найден или недоступен",
+    artistNotFound: "Артист не найден или недоступен",
+    noAvailableCandidates: "Нет подходящих треков для добавления",
+
+    addedTrack: (track: Track) =>
+      `Случайно выбран трек "${track.title}" и добавлен в очередь`,
+    userAddedTrack: (user: User, track: Track) =>
+      `${user.displayName} случайно выбрал "${track.title}" и добавил в очередь`,
+  },
+
+  rrn: {
+    noPermission:
+      "Команда доступна только для стримера, модераторов и подписчиков",
+  },
+
   song: {
     noSongPlaying: "Сейчас ничего не играет",
     failedToGet: "Не удалось получить информацию о текущем треке",

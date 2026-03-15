@@ -70,6 +70,15 @@ export class Queue {
     return this.tracks;
   }
 
+  hasTrack(trackUri: Spicetify.URI | string): boolean {
+    const uri = Spicetify.URI.from(trackUri);
+    if (!uri) throw new Error(`Invalid URI: ${trackUri}`);
+
+    return this.tracks.some((track) =>
+      Spicetify.URI.isSameIdentity(track.uri, uri),
+    );
+  }
+
   async clearAllTracks(): Promise<void> {
     await Spicetify.Platform.PlayerAPI.clearQueue();
     this.tracks = [];

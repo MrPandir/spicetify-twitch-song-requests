@@ -1,3 +1,13 @@
 export * from "./search";
 export * from "./tracks";
+export * from "./favorites";
+export * from "./playlists";
+export * from "./albums";
+export * from "./artists";
+export type * from "./types/artists";
+export type * from "./types/albums";
+export type * from "./types/colors";
+export type * from "./types/playlists";
+export type * from "./types/album-tracks";
+export type * from "./types/artist-discography";
 export type * from "./types";

@@ -6,6 +6,8 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 - 🪙 Works **without Spotify Premium**
 - ➕ `!sr` — add track by name or link
 - 🚀 `!srn` — add track to the **beginning** of the queue (priority request)
+- 🎲 `!rr` — add a **random** track from favorites or Spotify source link
+- ⚡ `!rrn` — add a **random** track to the **beginning** of the queue (priority request)
 - 🗑️ `!rm` — remove your track (last by default)
 - 🧹 `!clear` — clear Spotify queue
 - 🔗 Supports links from 15+ services
@@ -13,6 +15,7 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 - 🔍 Remove by position or partial name
 - 👮 Moderators can remove any track
 - ⚖️ Per-user and total queue limits
+- 🔁 Random duplicate toggle (allow/disallow already queued tracks)
 - 🔄 Auto queue sync when track removed from Spotify
 - 🔑 Permanent Twitch token (no re-auth needed)
 - 🌐 Supported platforms: Spotify, Apple Music, YouTube Music, Deezer, TIDAL, Amazon Music, SoundCloud, Yandex Music, and many more
@@ -107,6 +110,38 @@ Multiple links can be sent in a single message (see examples below).
 **Priority request** — adds track(s) to the **beginning** of the queue (they will play next).
 
 Works exactly like the [!sr](#sr) command. Supports the same formats.
+
+**Available only to:**
+- Broadcaster
+- Moderators
+- Subscribers
+
+### !rr [spotify artist | playlist | album link]
+Adds one **randomly selected** track to the queue.
+
+Without arguments, picks a random track from your **Liked Songs**.
+
+With arguments, the bot uses the **first valid Spotify link** in the message and ignores the rest.
+
+Supported link types:
+- Artist
+- Playlist
+- Album
+
+<details>
+  <summary>Examples</summary>
+  <ul>
+    <li><kbd>!rr</kbd>
+    <li><kbd>!rr https://open.spotify.com/artist/3UCbp6D1lvILlxRJT9LnFa</kbd>
+    <li><kbd>!rr https://open.spotify.com/playlist/0yqUu8JKyRbEI2pUJFYkBB</kbd>
+    <li><kbd>!rr https://open.spotify.com/album/42UJjk8i8L0De7lQtu7sqi</kbd>
+  </ul>
+</details>
+
+### !rrn [spotify artist | playlist | album link]
+**Priority random request** — adds a randomly selected track to the **beginning** of the queue.
+
+Works exactly like `!rr`, but inserts the selected track at the front.
 
 **Available only to:**
 - Broadcaster
