@@ -71,6 +71,12 @@ export class Queue {
   }
 
   hasTrack(trackUri: Spicetify.URI | string): boolean {
+    if (typeof trackUri === "string" && trackUri.startsWith("spotify:local:")) {
+      return this.tracks.some(
+        (track) => track.toContextTrack().uri === trackUri,
+      );
+    }
+
     const uri = Spicetify.URI.from(trackUri);
     if (!uri) throw new Error(`Invalid URI: ${trackUri}`);
 

@@ -25,7 +25,14 @@ export class Track {
   }
 
   static fromSpotifyTrack(spotifyTrack: SpotifyTrack): Track {
-    const uri = Spicetify.URI.from(spotifyTrack.uri)!;
+    let uri: Spicetify.URI;
+
+    if ("isLocal" in spotifyTrack && spotifyTrack.isLocal) {
+      uri = Spicetify.URI.from(spotifyTrack)!;
+    } else {
+      uri = Spicetify.URI.from(spotifyTrack.uri)!;
+    }
+
     return new Track(
       uri,
       spotifyTrack.name,
@@ -38,6 +45,10 @@ export class Track {
   }
 
   toContextTrack(): Spicetify.ContextTrack {
+    // From local files only this way to get the URI
+    if ("uri" in this.uri && typeof this.uri.uri === "string")
+      return { uri: this.uri.uri };
+
     return { uri: this.uri.toString() };
   }
 }
