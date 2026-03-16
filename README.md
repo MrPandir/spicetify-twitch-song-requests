@@ -10,7 +10,6 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 - ⚡ `!rrn` — add a **random** track to the **beginning** of the queue (priority request)
 - 🗑️ `!rm` — remove your track (last by default)
 - 🧹 `!clear` — clear Spotify queue
-- 🔗 Supports links from 15+ services
 - 📦 Multi-add — multiple links in one message
 - 🔍 Remove by position or partial name
 - 👮 Moderators can remove any track
@@ -18,7 +17,7 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 - 🔁 Random duplicate toggle (allow/disallow already queued tracks)
 - 🔄 Auto queue sync when track removed from Spotify
 - 🔑 Permanent Twitch token (no re-auth needed)
-- 🌐 Supported platforms: Spotify, Apple Music, YouTube Music, Deezer, TIDAL, Amazon Music, SoundCloud, Yandex Music, and many more
+- 🔗 Supported links from: Spotify, Apple Music, YouTube Music, Deezer, TIDAL, Amazon Music, SoundCloud, Yandex Music, and many more
 - 🌍 Bot replies in: RU · EN · PT-BR
 
 # Installation
