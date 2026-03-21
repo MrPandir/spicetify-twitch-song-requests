@@ -5,7 +5,6 @@ import {
   RandomSourceErrorCode,
 } from "@services/random-request";
 import { queue } from "@services/queue";
-import { isModOrBroadcaster } from "@utils";
 import type { CommandExecutor } from "../types";
 
 function mapSourceError(errorCode?: RandomSourceErrorCode) {
@@ -27,25 +26,14 @@ function mapSourceError(errorCode?: RandomSourceErrorCode) {
 
 interface CreateRandomRequestExecutorOptions {
   atFront: boolean;
-  requirePriorityPermission: boolean;
 }
 
 export function createRandomRequestExecutor(
   options: CreateRandomRequestExecutorOptions,
 ): CommandExecutor {
-  const { atFront, requirePriorityPermission } = options;
+  const { atFront } = options;
 
   return async function (client, author, args, tags) {
-    if (requirePriorityPermission) {
-      const isSubscriber = !!tags.subscriber;
-      const canUseCommand =
-        isModOrBroadcaster(client, author.userName, tags) || isSubscriber;
-
-      if (!canUseCommand) {
-        return reply("rrn", "noPermission");
-      }
-    }
-
     const limit = checkLimits(author.id);
     if (!limit.canBeAdded) {
       const key = limit.reached === "queue" ? "queueLimit" : "userLimit";

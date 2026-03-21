@@ -21,14 +21,8 @@ const locale: LocaleDefinition = {
     queueLimit: (limit: LimitInfo) => `Очередь заполнена ${limit.max} треков`,
   },
 
-  srn: {
-    noPermission:
-      "Команда доступна только для стримера, модераторов и подписчиков",
-  },
-
   rr: {
-    invalidSource:
-      "Укажите ссылку Spotify на артиста, плейлист или альбом",
+    invalidSource: "Укажите ссылку Spotify на артиста, плейлист или альбом",
     playlistNotFound: "Плейлист не найден или недоступен",
     albumNotFound: "Альбом не найден или недоступен",
     artistNotFound: "Артист не найден или недоступен",
@@ -38,11 +32,6 @@ const locale: LocaleDefinition = {
       `Случайно выбран трек "${track.title}" и добавлен в очередь`,
     userAddedTrack: (user: User, track: Track) =>
       `${user.displayName} случайно выбрал "${track.title}" и добавил в очередь`,
-  },
-
-  rrn: {
-    noPermission:
-      "Команда доступна только для стримера, модераторов и подписчиков",
   },
 
   song: {
@@ -60,13 +49,13 @@ const locale: LocaleDefinition = {
   },
 
   clear: {
-    permissionDenied: "Эта команда доступна только стримеру и модераторам",
     cleared: "Очередь Spotify была очищена",
   },
 
   internal: {
     error: "Произошла внутренняя ошибка",
     noArtist: "Внутренняя ошибка: Исполнитель не найден",
+    permissionDenied: "У вас нет прав для использования этой команды",
   },
 };
 

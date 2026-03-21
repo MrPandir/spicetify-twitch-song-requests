@@ -2,6 +2,7 @@ import { SettingsSection } from "spcr-settings";
 import { reconnect } from "@bot";
 import { Language } from "@locales";
 import { nameId } from "@settings.json";
+import { addPermissionScopesSettings } from "./permission-settings";
 
 export const settings = new SettingsSection("Twitch Song Requests", nameId);
 
@@ -36,6 +37,7 @@ export async function addSettings() {
   settings.addHidden("access_token", null);
 
   await settings.pushSettings();
+  await addPermissionScopesSettings();
 }
 
 export function getChannel(): string {

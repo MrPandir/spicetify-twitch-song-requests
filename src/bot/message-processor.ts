@@ -1,5 +1,6 @@
 import { clearAccessToken, reply } from "@bot";
 import { PREFIX } from "@config";
+import { canExecuteCommand } from "@services/command-permissions";
 import type { ChatUserstate } from "tmi.js";
 import { client } from "./client";
 import { commands } from "./commands";
@@ -29,7 +30,15 @@ export function handlerMessage(
     id: tags["user-id"],
     userName: tags["username"],
     displayName: tags["display-name"],
+    isModerator: !!tags.mod,
+    isSubscriber: !!tags.subscriber,
+    isVip: !!tags.vip,
   };
+
+  if (!canExecuteCommand(command, client, user)) {
+    sendResponses([reply("internal", "permissionDenied")], tags.id);
+    return;
+  }
 
   executeCommand(executor, user, args, tags);
 }

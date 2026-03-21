@@ -1,0 +1,34 @@
+import type { User } from "@bot/types";
+import {
+  getCommandPermissions,
+  type PermissionKeyword,
+} from "@config/permission-settings";
+import type { Client } from "tmi.js";
+
+function hasKeywordAccess(
+  user: User,
+  keywords: Set<PermissionKeyword>,
+): boolean {
+  if (keywords.has("everyone")) return true;
+  if (keywords.has("mods") && user.isModerator) return true;
+  if (keywords.has("subs") && user.isSubscriber) return true;
+  if (keywords.has("vips") && user.isVip) return true;
+
+  return false;
+}
+
+export function canExecuteCommand(
+  command: string,
+  client: Client,
+  user: User,
+): boolean {
+  if (client.isBroadcaster(user.userName)) return true;
+
+  const permissions = getCommandPermissions(command);
+
+  if (hasKeywordAccess(user, permissions.keywords)) return true;
+
+  if (permissions.userIds.has(user.id)) return true;
+
+  return permissions.usernames.has(user.userName);
+}

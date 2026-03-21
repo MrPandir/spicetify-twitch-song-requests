@@ -3,21 +3,12 @@ import { notification, reply } from "@bot/responses";
 import { applyLimits, checkLimits } from "@services/limits";
 import { queue } from "@services/queue";
 import { urlProcessor } from "@services/url-handlers";
-import { isModOrBroadcaster } from "@utils";
 import type { CommandExecutor } from "../types";
 
 // TODO: Add a check if the track is already in the queue.
 // BUG: Unavailable track says it's being added, but it's not happening.
 
 const executor: CommandExecutor = async function (client, author, args, tags) {
-  const isSubscriber = !!tags.subscriber;
-  const canUseCommand =
-    isModOrBroadcaster(client, author.userName, tags) || isSubscriber;
-
-  if (!canUseCommand) {
-    return reply("srn", "noPermission");
-  }
-
   if (!args.length) {
     return reply("sr", "noArgs");
   }

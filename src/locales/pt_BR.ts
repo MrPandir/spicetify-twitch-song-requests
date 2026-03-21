@@ -21,14 +21,8 @@ const locale = {
     queueLimit: (limit: LimitInfo) => `A fila está cheia: ${limit.max} músicas`,
   },
 
-  srn: {
-    noPermission:
-      "Comando disponível apenas para o streamer, moderadores e assinantes",
-  },
-
   rr: {
-    invalidSource:
-      "Forneça um link do Spotify de artista, playlist ou álbum",
+    invalidSource: "Forneça um link do Spotify de artista, playlist ou álbum",
     playlistNotFound: "Playlist não encontrada ou indisponível",
     albumNotFound: "Álbum não encontrado ou indisponível",
     artistNotFound: "Artista não encontrado ou indisponível",
@@ -38,11 +32,6 @@ const locale = {
       `Música "${track.title}" foi escolhida aleatoriamente e adicionada à fila`,
     userAddedTrack: (user: User, track: Track) =>
       `${user.displayName} escolheu aleatoriamente "${track.title}" e adicionou à fila`,
-  },
-
-  rrn: {
-    noPermission:
-      "Comando disponível apenas para o streamer, moderadores e assinantes",
   },
 
   song: {
@@ -60,13 +49,13 @@ const locale = {
   },
 
   clear: {
-    permissionDenied: "Apenas o broadcaster e os moderadores podem usar este comando",
     cleared: "A fila do Spotify foi limpa",
   },
 
   internal: {
     error: "Ocorreu um erro interno",
     noArtist: "Erro interno: Nenhum artista encontrado",
+    permissionDenied: "Voce nao tem permissao para usar este comando",
   },
 };
 

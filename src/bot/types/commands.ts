@@ -5,6 +5,9 @@ export interface User {
   id: string;
   userName: string;
   displayName: string;
+  isModerator: boolean;
+  isSubscriber: boolean;
+  isVip: boolean;
 }
 
 export type CommandExecutor = (

@@ -1,5 +1,5 @@
 diff --git a/settingsSection.tsx b/settingsSection.tsx
-index 8cad912be88c51dca4901f094c3939b7e354a98b..939747cf45c29b08a17bc446b30cbaa302cecff7 100644
+index 8cad912be88c51dca4901f094c3939b7e354a98b..40bd5c386f9fb3ec1f9db01a10d75fbda97f282d 100644
 --- a/settingsSection.tsx
 +++ b/settingsSection.tsx
 @@ -10,16 +10,17 @@ import {
@@ -86,7 +86,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..939747cf45c29b08a17bc446b30cbaa3
        if (newValue !== undefined) {
          setValueState(newValue);
          this.setFieldValue(props.nameId!, newValue);
-@@ -227,25 +223,36 @@ class SettingsSection {
+@@ -227,25 +223,53 @@ class SettingsSection {
          </div>
          <div className="x-settings-secondColumn">
            {props.field.type === "input" ? (
@@ -115,9 +115,26 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..939747cf45c29b08a17bc446b30cbaa3
 +                {...props.field.props}
 +                onChange={(e) => {
 +                  setValue(e.currentTarget.value);
-+                  const onChange = (props.field as ISettingsFieldInput).props
-+                    ?.onChange;
-+                  if (onChange) onChange(e);
++                  const onChange = (props.field as ISettingsFieldInput).props?.onChange;
++
++                  if (onChange) {
++                    const newValue = onChange(e);
++
++                    if (typeof newValue === "string") {
++                      setValue(newValue)
++                    }
++                  }
++                }}
++                onBlur={(e) => {
++                  const onBlur = (props.field as ISettingsFieldInput).props?.onBlur;
++
++                  if (onBlur) {
++                    const newValue = onBlur(e);
++
++                    if (typeof newValue === "string") {
++                      setValue(newValue)
++                    }
++                  }
 +                }}
 +              />
 +

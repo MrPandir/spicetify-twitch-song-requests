@@ -21,15 +21,8 @@ const locale = {
     queueLimit: (limit: LimitInfo) => `Queue is full ${limit.max} tracks`,
   },
 
-  srn: {
-    noPermission:
-      "Command available only to the broadcaster, moderators and subscribers",
-  },
-
   rr: {
-    // TODO: Написать что source не коректный
-    invalidSource:
-      "Provide a Spotify artist, playlist or album link",
+    invalidSource: "Provide a Spotify artist, playlist or album link",
 
     playlistNotFound: "Playlist not found or unavailable",
     albumNotFound: "Album not found or unavailable",
@@ -41,11 +34,6 @@ const locale = {
       `Randomly selected "${track.title}" and added to the queue`,
     userAddedTrack: (user: User, track: Track) =>
       `${user.displayName} randomly selected "${track.title}" and added to the queue`,
-  },
-
-  rrn: {
-    noPermission:
-      "Command available only to the broadcaster, moderators and subscribers",
   },
 
   song: {
@@ -63,13 +51,13 @@ const locale = {
   },
 
   clear: {
-    permissionDenied: "Only broadcaster and moderators can use this command",
     cleared: "Spotify queue has been cleared",
   },
 
   internal: {
     error: "An internal error occurred",
     noArtist: "Internal error: No artist found",
+    permissionDenied: "You do not have permission to use this command",
   },
 };
 

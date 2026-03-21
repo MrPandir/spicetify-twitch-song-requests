@@ -1,7 +1,8 @@
 import { queue } from "@services/queue";
 import { reply } from "@bot";
+import { getAllowGlobalDeleteForMods } from "@config/permission-settings";
 import type { BotResponse, CommandExecutor, User } from "../types";
-import { hasText, isModOrBroadcaster } from "@utils";
+import { hasText } from "@utils";
 
 // TODO: Implement deletion by spotify link
 
@@ -23,8 +24,10 @@ function deleteTrackByName(
 }
 
 const executor: CommandExecutor = async function (client, author, args, tags) {
-  // Moderator or broadcaster can delete all tracks
-  const isGlobalDelete = isModOrBroadcaster(client, author.userName, tags);
+  const isBroadcaster = client.isBroadcaster(author.userName);
+  const isGlobalDelete =
+    isBroadcaster ||
+    (author.isModerator && getAllowGlobalDeleteForMods());
   const userTrackCount = queue.getTracksByUser(author.id).length;
 
   // If the user is a moderator or the broadcaster
