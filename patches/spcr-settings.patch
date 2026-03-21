@@ -1,5 +1,5 @@
 diff --git a/settingsSection.tsx b/settingsSection.tsx
-index 8cad912be88c51dca4901f094c3939b7e354a98b..4ef390f3ef15aef0b2fd8d12f2410011b8b8addc 100644
+index 8cad912be88c51dca4901f094c3939b7e354a98b..b00cf666eb00ff56a3ada5ee757eb29dad33937f 100644
 --- a/settingsSection.tsx
 +++ b/settingsSection.tsx
 @@ -1,5 +1,5 @@
@@ -42,26 +42,34 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..4ef390f3ef15aef0b2fd8d12f2410011
    };
  
    addButton = (
-@@ -102,8 +104,9 @@ class SettingsSection {
+@@ -101,20 +103,15 @@ class SettingsSection {
+   addInput = (
      nameId: string,
      description: string,
-     defaultValue: string,
-+    suggestions?: string[],
-     onChange?: () => void,
+-    defaultValue: string,
+-    onChange?: () => void,
 -    inputType?: string,
-+    inputType?: React.HTMLInputTypeAttribute,
-     events?: ISettingsFieldInput["events"]
+-    events?: ISettingsFieldInput["events"]
++    opts: Omit<ISettingsFieldInput, "type" | "description" | "defaultValue"> & {
++      defaultValue?: string;
++    } = {}
    ) => {
      this.settingsFields[nameId] = {
-@@ -111,6 +114,7 @@ class SettingsSection {
-       description: description,
-       defaultValue: defaultValue,
-       inputType: inputType,
-+      suggestions: suggestions,
-       events: {
-         onChange: onChange,
-         ...events,
-@@ -165,13 +169,13 @@ class SettingsSection {
+       type: "input",
+-      description: description,
+-      defaultValue: defaultValue,
+-      inputType: inputType,
+-      events: {
+-        onChange: onChange,
+-        ...events,
+-      },
++      description,
++      defaultValue: "",
++      ...opts,
+     };
+   };
+ 
+@@ -165,13 +162,13 @@ class SettingsSection {
  
    getFieldValue = <Type,>(nameId: string): Type => {
      return JSON.parse(
@@ -77,7 +85,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..4ef390f3ef15aef0b2fd8d12f2410011
        JSON.stringify({ value: newValue })
      );
    };
-@@ -183,7 +187,7 @@ class SettingsSection {
+@@ -183,7 +180,7 @@ class SettingsSection {
      return (
        <div className="x-settings-section" key={rerender}>
          <h2 className="TypeElement-cello-textBase-type">
@@ -86,7 +94,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..4ef390f3ef15aef0b2fd8d12f2410011
          </h2>
          {Object.entries(this.settingsFields).map(([nameId, field]) => {
            return <this.Field nameId={nameId} field={field} />;
-@@ -208,7 +212,7 @@ class SettingsSection {
+@@ -208,7 +205,7 @@ class SettingsSection {
  
      const [value, setValueState] = useState(defaultStateValue);
  
@@ -95,7 +103,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..4ef390f3ef15aef0b2fd8d12f2410011
        if (newValue !== undefined) {
          setValueState(newValue);
          this.setFieldValue(props.nameId!, newValue);
-@@ -227,25 +231,36 @@ class SettingsSection {
+@@ -227,25 +224,36 @@ class SettingsSection {
          </div>
          <div className="x-settings-secondColumn">
            {props.field.type === "input" ? (
@@ -121,10 +129,10 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..4ef390f3ef15aef0b2fd8d12f2410011
 +                value={value as string}
 +                type={props.field.inputType || "text"}
 +                list={props.field.suggestions ? `${id}-suggestions` : undefined}
-+                {...props.field.events}
++                {...props.field.props}
 +                onChange={(e) => {
 +                  setValue(e.currentTarget.value);
-+                  const onChange = (props.field as ISettingsFieldInput).events
++                  const onChange = (props.field as ISettingsFieldInput).props
 +                    ?.onChange;
 +                  if (onChange) onChange(e);
 +                }}
@@ -148,18 +156,20 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..4ef390f3ef15aef0b2fd8d12f2410011
                  onClick={(e) => {
                    setValue();
 diff --git a/types/settings-field.ts b/types/settings-field.ts
-index 0b7d15b69de343f182b8f33e618a645d684843b2..e58ab5a5ad114bb9cf785938be3a7121bff16617 100644
+index 0b7d15b69de343f182b8f33e618a645d684843b2..aeb58fd617394bc06ce1ae5aaa7fd1e73be01292 100644
 --- a/types/settings-field.ts
 +++ b/types/settings-field.ts
-@@ -6,8 +6,9 @@ export interface ISettingsFieldHidden {
+@@ -6,9 +6,10 @@ export interface ISettingsFieldHidden {
  export interface ISettingsFieldInput {
      type: "input",
      description?: string,
 -    defaultValue: any,
 -    inputType?: string,
-+    defaultValue: string | undefined,
+-    events?: Partial<React.InputHTMLAttributes<HTMLInputElement>>,
++    defaultValue: string,
 +    suggestions?: string[],
 +    inputType?: React.HTMLInputTypeAttribute,
-     events?: Partial<React.InputHTMLAttributes<HTMLInputElement>>,
++    props?: Partial<React.InputHTMLAttributes<HTMLInputElement>>,
  }
  
+ export interface ISettingsFieldDropdown {

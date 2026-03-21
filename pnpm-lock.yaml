@@ -9,7 +9,7 @@ patchedDependencies:
     hash: ab2557eca3c3065fe1c345781a4c07107fbe0c7d39489fb2a29005204041debe
     path: patches/@types__tmi.js.patch
   spcr-settings:
-    hash: 4b68af9f4ee62cb5d21d79d22dd88bb68aff1fe8d0a27c574442c74afddf1a44
+    hash: 5610abb04c2269270d4f3bbca4fca67349fe265be927a60a45150a0c3824f77b
     path: patches/spcr-settings.patch
   tmi.js:
     hash: b2a6a2c05ddd19b0a333df479679e14c46e2a57f015134e58bae8a1c040d0e5b
@@ -24,7 +24,7 @@ importers:
         version: 1.8.6(patch_hash=ab2557eca3c3065fe1c345781a4c07107fbe0c7d39489fb2a29005204041debe)
       spcr-settings:
         specifier: ^1.3.1
-        version: 1.3.1(patch_hash=4b68af9f4ee62cb5d21d79d22dd88bb68aff1fe8d0a27c574442c74afddf1a44)
+        version: 1.3.1(patch_hash=5610abb04c2269270d4f3bbca4fca67349fe265be927a60a45150a0c3824f77b)
       tmi.js:
         specifier: ^1.8.5
         version: 1.8.5(patch_hash=b2a6a2c05ddd19b0a333df479679e14c46e2a57f015134e58bae8a1c040d0e5b)
@@ -1609,7 +1609,7 @@ snapshots:
 
   source-map@0.7.4: {}
 
-  spcr-settings@1.3.1(patch_hash=4b68af9f4ee62cb5d21d79d22dd88bb68aff1fe8d0a27c574442c74afddf1a44):
+  spcr-settings@1.3.1(patch_hash=5610abb04c2269270d4f3bbca4fca67349fe265be927a60a45150a0c3824f77b):
     dependencies:
       '@types/react': 17.0.83
       '@types/react-dom': 17.0.26(@types/react@17.0.83)

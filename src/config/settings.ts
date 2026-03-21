@@ -6,13 +6,20 @@ import { nameId } from "@settings.json";
 export const settings = new SettingsSection("Twitch Song Requests", nameId);
 
 export async function addSettings() {
-  settings.addInput("channel", "Nickname channel", "");
+  settings.addInput("channel", "Nickname channel");
 
   settings.addDropDown("language", "Bot language", Object.values(Language), 0);
 
-  settings.addInput("maxTracksPerUser", "Max tracks per user", "-1");
+  settings.addInput("maxTracksPerUser", "Max tracks per user", {
+    defaultValue: "-1",
+    inputType: "number",
+  });
 
-  settings.addInput("maxTracksInQueue", "Max tracks in queue", "-1");
+  settings.addInput("maxTracksInQueue", "Max tracks in queue", {
+    defaultValue: "-1",
+    inputType: "number",
+  });
+
   settings.addToggle(
     "allowDuplicateRandomTracks",
     "Allow !rr/!rrn to add already queued tracks",
