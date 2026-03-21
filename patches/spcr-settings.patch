@@ -1,39 +1,67 @@
 diff --git a/settingsSection.tsx b/settingsSection.tsx
-index 8cad912be88c51dca4901f094c3939b7e354a98b..aa23e5da841836ac452bd2716ef2dd18900ceba1 100644
+index 8cad912be88c51dca4901f094c3939b7e354a98b..4ef390f3ef15aef0b2fd8d12f2410011b8b8addc 100644
 --- a/settingsSection.tsx
 +++ b/settingsSection.tsx
-@@ -21,9 +21,18 @@ class SettingsSection {
-     public initialSettingsFields: { [key: string]: ISettingsField } = {}
-   ) {}
+@@ -1,5 +1,5 @@
+ import React, { useState } from "react";
+-import ReactDOM from "react-dom";
++import { createRoot } from "react-dom/client";
+ import {
+   ISettingsField,
+   ISettingsFieldButton,
+@@ -10,16 +10,17 @@ import {
+ } from "./types/settings-field";
  
--  pushSettings = async () => {
-+  pushSettings = async (oldSettingsId: string) => {
+ class SettingsSection {
+-  settingsFields: { [nameId: string]: ISettingsField } =
+-    this.initialSettingsFields;
++  settingsFields: { [nameId: string]: ISettingsField } = {};
+   private stopHistoryListener: any;
+   private setRerender: Function | null = null;
+ 
+   constructor(
+-    public name: string,
++    public title: string,
+     public settingsId: string,
+-    public initialSettingsFields: { [key: string]: ISettingsField } = {}
+-  ) {}
++    initialSettingsFields: { [nameId: string]: ISettingsField } = {}
++  ) {
++    this.settingsFields = initialSettingsFields;
++  }
+ 
+   pushSettings = async () => {
      Object.entries(this.settingsFields).forEach(([nameId, field]) => {
-       if (field.type !== "button" && this.getFieldValue(nameId) === undefined) {
-+
-+        // Migration from the old extension
-+        const oldValue = Spicetify.LocalStorage.get(`${oldSettingsId}.${nameId}`);
-+        if (oldValue) {
-+          this.setFieldValue(nameId, JSON.parse(oldValue).value);
-+          Spicetify.LocalStorage.remove(`${oldSettingsId}.${nameId}`);
-+          return;
-+        }
-+
-         this.setFieldValue(nameId, field.defaultValue);
-       }
-     });
-@@ -45,7 +54,9 @@ class SettingsSection {
+@@ -77,7 +78,8 @@ class SettingsSection {
+       console.log(pluginSettingsContainer);
      }
+ 
+-    ReactDOM.render(<this.FieldsContainer />, pluginSettingsContainer);
++    const root = createRoot(pluginSettingsContainer);
++    root.render(<this.FieldsContainer />);
    };
  
--  rerender = () => {
-+  rerender = (force: false = false) => {
-+    if (!force && Spicetify.Platform.History.location.pathname !== "/preferences") return
-+
-     if (this.setRerender) {
-       this.setRerender(Math.random());
-     }
-@@ -165,13 +176,13 @@ class SettingsSection {
+   addButton = (
+@@ -102,8 +104,9 @@ class SettingsSection {
+     nameId: string,
+     description: string,
+     defaultValue: string,
++    suggestions?: string[],
+     onChange?: () => void,
+-    inputType?: string,
++    inputType?: React.HTMLInputTypeAttribute,
+     events?: ISettingsFieldInput["events"]
+   ) => {
+     this.settingsFields[nameId] = {
+@@ -111,6 +114,7 @@ class SettingsSection {
+       description: description,
+       defaultValue: defaultValue,
+       inputType: inputType,
++      suggestions: suggestions,
+       events: {
+         onChange: onChange,
+         ...events,
+@@ -165,13 +169,13 @@ class SettingsSection {
  
    getFieldValue = <Type,>(nameId: string): Type => {
      return JSON.parse(
@@ -49,7 +77,68 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..aa23e5da841836ac452bd2716ef2dd18
        JSON.stringify({ value: newValue })
      );
    };
-@@ -245,7 +256,7 @@ class SettingsSection {
+@@ -183,7 +187,7 @@ class SettingsSection {
+     return (
+       <div className="x-settings-section" key={rerender}>
+         <h2 className="TypeElement-cello-textBase-type">
+-          {this.name}
++          {this.title}
+         </h2>
+         {Object.entries(this.settingsFields).map(([nameId, field]) => {
+           return <this.Field nameId={nameId} field={field} />;
+@@ -208,7 +212,7 @@ class SettingsSection {
+ 
+     const [value, setValueState] = useState(defaultStateValue);
+ 
+-    const setValue = (newValue?: any) => {
++    const setValue = (newValue?: NewValueTypes) => {
+       if (newValue !== undefined) {
+         setValueState(newValue);
+         this.setFieldValue(props.nameId!, newValue);
+@@ -227,25 +231,36 @@ class SettingsSection {
+         </div>
+         <div className="x-settings-secondColumn">
+           {props.field.type === "input" ? (
+-            <input
+-              className="x-settings-input"
+-              id={id}
+-              dir="ltr"
+-              value={value as string}
+-              type={props.field.inputType || "text"}
+-              {...props.field.events}
+-              onChange={(e) => {
+-                setValue(e.currentTarget.value);
+-                const onChange = (props.field as ISettingsFieldInput).events
+-                  ?.onChange;
+-                if (onChange) onChange(e);
+-              }}
+-            />
++            <>
++              <input
++                className="x-settings-input"
++                id={id}
++                dir="ltr"
++                value={value as string}
++                type={props.field.inputType || "text"}
++                list={props.field.suggestions ? `${id}-suggestions` : undefined}
++                {...props.field.events}
++                onChange={(e) => {
++                  setValue(e.currentTarget.value);
++                  const onChange = (props.field as ISettingsFieldInput).events
++                    ?.onChange;
++                  if (onChange) onChange(e);
++                }}
++              />
++
++              {props.field.suggestions && Array.isArray(props.field.suggestions) && (
++                <datalist id={`${id}-suggestions`}>
++                  {props.field.suggestions.map((suggestion, index) => (
++                    <option key={index} value={suggestion} />
++                  ))}
++                </datalist>
++              )}
++            </>
+           ) : props.field.type === "button" ? (
              <span>
                <button
                  id={id}
@@ -58,3 +147,19 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..aa23e5da841836ac452bd2716ef2dd18
                  {...props.field.events}
                  onClick={(e) => {
                    setValue();
+diff --git a/types/settings-field.ts b/types/settings-field.ts
+index 0b7d15b69de343f182b8f33e618a645d684843b2..e58ab5a5ad114bb9cf785938be3a7121bff16617 100644
+--- a/types/settings-field.ts
++++ b/types/settings-field.ts
+@@ -6,8 +6,9 @@ export interface ISettingsFieldHidden {
+ export interface ISettingsFieldInput {
+     type: "input",
+     description?: string,
+-    defaultValue: any,
+-    inputType?: string,
++    defaultValue: string | undefined,
++    suggestions?: string[],
++    inputType?: React.HTMLInputTypeAttribute,
+     events?: Partial<React.InputHTMLAttributes<HTMLInputElement>>,
+ }
+ 

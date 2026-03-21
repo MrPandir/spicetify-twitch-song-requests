@@ -9,7 +9,7 @@ patchedDependencies:
     hash: ab2557eca3c3065fe1c345781a4c07107fbe0c7d39489fb2a29005204041debe
     path: patches/@types__tmi.js.patch
   spcr-settings:
-    hash: 6e4a559752d3662bd334e2e315f732020cd5acfce71255ba532a658c413f0a00
+    hash: 4b68af9f4ee62cb5d21d79d22dd88bb68aff1fe8d0a27c574442c74afddf1a44
     path: patches/spcr-settings.patch
   tmi.js:
     hash: b2a6a2c05ddd19b0a333df479679e14c46e2a57f015134e58bae8a1c040d0e5b
@@ -24,7 +24,7 @@ importers:
         version: 1.8.6(patch_hash=ab2557eca3c3065fe1c345781a4c07107fbe0c7d39489fb2a29005204041debe)
       spcr-settings:
         specifier: ^1.3.1
-        version: 1.3.1(patch_hash=6e4a559752d3662bd334e2e315f732020cd5acfce71255ba532a658c413f0a00)
+        version: 1.3.1(patch_hash=4b68af9f4ee62cb5d21d79d22dd88bb68aff1fe8d0a27c574442c74afddf1a44)
       tmi.js:
         specifier: ^1.8.5
         version: 1.8.5(patch_hash=b2a6a2c05ddd19b0a333df479679e14c46e2a57f015134e58bae8a1c040d0e5b)
@@ -477,6 +477,7 @@ packages:
 
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@7.2.3:
@@ -1608,7 +1609,7 @@ snapshots:
 
   source-map@0.7.4: {}
 
-  spcr-settings@1.3.1(patch_hash=6e4a559752d3662bd334e2e315f732020cd5acfce71255ba532a658c413f0a00):
+  spcr-settings@1.3.1(patch_hash=4b68af9f4ee62cb5d21d79d22dd88bb68aff1fe8d0a27c574442c74afddf1a44):
     dependencies:
       '@types/react': 17.0.83
       '@types/react-dom': 17.0.26(@types/react@17.0.83)

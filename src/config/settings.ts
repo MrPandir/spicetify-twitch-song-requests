@@ -28,16 +28,7 @@ export async function addSettings() {
 
   settings.addHidden("access_token", null);
 
-  // Migration from the old extension
-  const oldValue = Spicetify.LocalStorage.get(
-    "spicetify:twitch-spotifi:access_token",
-  );
-  if (oldValue) {
-    settings.setFieldValue("access_token", oldValue);
-    Spicetify.LocalStorage.remove("spicetify:twitch-spotifi:access_token");
-  }
-
-  await settings.pushSettings("twitch-spotifi");
+  await settings.pushSettings();
 }
 
 export function getChannel(): string {
