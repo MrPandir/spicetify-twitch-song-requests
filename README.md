@@ -13,6 +13,7 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 - 📦 Multi-add — multiple links in one message
 - 🔍 Remove by position or partial name
 - 👮 Moderators can remove any track
+- 🔐 Configurable command access permissions
 - ⚖️ Per-user and total queue limits
 - 🔁 Random duplicate toggle (allow/disallow already queued tracks)
 - 🔄 Auto queue sync when track removed from Spotify
@@ -78,6 +79,20 @@ pnpm build
 4. Scroll down to the bottom to find the `Twitch Song Requests` section.
 5. Configure and enjoy.
 
+# Command Permissions
+
+Supported permission values:
+- `everyone`
+- `mods`
+- `subs`
+- `vips`
+- Twitch username, for example `someviewer`
+- Twitch user id, for example `id=123456789`
+
+Notes:
+- The broadcaster can always use all commands.
+- You can combine multiple values with commas, for example `mods, subs, someviewer, id=123456789`.
+
 # Commands
 
 ### !song 
@@ -110,11 +125,6 @@ Multiple links can be sent in a single message (see examples below).
 
 Works exactly like the [!sr](#sr) command. Supports the same formats.
 
-**Available only to:**
-- Broadcaster
-- Moderators
-- Subscribers
-
 ### !rr [spotify artist | playlist | album link]
 Adds one **randomly selected** track to the queue.
 
@@ -142,11 +152,6 @@ Supported link types:
 
 Works exactly like `!rr`, but inserts the selected track at the front.
 
-**Available only to:**
-- Broadcaster
-- Moderators
-- Subscribers
-
 ### !rm [name or index from the end]
 Removes one of your previously requested tracks from the queue.
 
@@ -155,6 +160,8 @@ Without arguments, removes your most recently requested track.
 You can provide an index (counting from the end of **your requests**) or remove a track by searching for part of its title or artist.
 
 If you are the broadcaster or a moderator, you can remove **any track** by searching for part of its title or artist.
+
+If `allowGlobalDeleteForMods` is disabled, only the broadcaster can remove any track from the full queue.
 
 <details>
   <summary>Examples</summary>
@@ -171,7 +178,7 @@ If you are the broadcaster or a moderator, you can remove **any track** by searc
 ### !clear
 Clears the Spotify queue and the song request queue.
 
-Only the broadcaster and moderators can use this command.
+Command availability is configurable in permission settings.
 
 
 # Development
