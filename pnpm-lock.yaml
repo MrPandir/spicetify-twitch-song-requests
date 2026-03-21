@@ -9,7 +9,7 @@ patchedDependencies:
     hash: ab2557eca3c3065fe1c345781a4c07107fbe0c7d39489fb2a29005204041debe
     path: patches/@types__tmi.js.patch
   spcr-settings:
-    hash: 5610abb04c2269270d4f3bbca4fca67349fe265be927a60a45150a0c3824f77b
+    hash: 1936b0f7e58214debaf721efc2c34b424210c473abbeb1897bdbbbcfda3c9eb6
     path: patches/spcr-settings.patch
   tmi.js:
     hash: b2a6a2c05ddd19b0a333df479679e14c46e2a57f015134e58bae8a1c040d0e5b
@@ -19,22 +19,22 @@ importers:
 
   .:
     dependencies:
-      '@types/tmi.js':
-        specifier: ^1.8.6
-        version: 1.8.6(patch_hash=ab2557eca3c3065fe1c345781a4c07107fbe0c7d39489fb2a29005204041debe)
       spcr-settings:
         specifier: ^1.3.1
-        version: 1.3.1(patch_hash=5610abb04c2269270d4f3bbca4fca67349fe265be927a60a45150a0c3824f77b)
+        version: 1.3.1(patch_hash=1936b0f7e58214debaf721efc2c34b424210c473abbeb1897bdbbbcfda3c9eb6)
       tmi.js:
         specifier: ^1.8.5
         version: 1.8.5(patch_hash=b2a6a2c05ddd19b0a333df479679e14c46e2a57f015134e58bae8a1c040d0e5b)
     devDependencies:
       '@types/react':
-        specifier: ^19.0.10
-        version: 19.2.7
+        specifier: ^18.3.1
+        version: 18.3.28
       '@types/react-dom':
-        specifier: ^19.0.4
-        version: 19.2.3(@types/react@19.2.7)
+        specifier: ^18.3.1
+        version: 18.3.7(@types/react@18.3.28)
+      '@types/tmi.js':
+        specifier: ^1.8.6
+        version: 1.8.6(patch_hash=ab2557eca3c3065fe1c345781a4c07107fbe0c7d39489fb2a29005204041debe)
       spicetify-creator:
         specifier: ^1.0.17
         version: 1.0.17(less@4.2.2)(postcss@8.5.3)(sass@1.85.0)(stylus@0.64.0)
@@ -148,16 +148,16 @@ packages:
     peerDependencies:
       '@types/react': ^17.0.0
 
-  '@types/react-dom@19.2.3':
-    resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
+  '@types/react-dom@18.3.7':
+    resolution: {integrity: sha512-MEe3UeoENYVFXzoXEWsvcpg6ZvlrFNlOQ7EOsvhI3CfAXwzPfO8Qwuxd40nepsYKqyyVQnTdEfv68q91yLcKrQ==}
     peerDependencies:
-      '@types/react': ^19.2.0
+      '@types/react': ^18.0.0
 
   '@types/react@17.0.83':
     resolution: {integrity: sha512-l0m4ArKJvmFtR4e8UmKrj1pB4tUgOhJITf+mADyF/p69Ts1YAR/E+G9XEM0mHXKVRa1dQNHseyyDNzeuAXfXQw==}
 
-  '@types/react@19.2.7':
-    resolution: {integrity: sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg==}
+  '@types/react@18.3.28':
+    resolution: {integrity: sha512-z9VXpC7MWrhfWipitjNdgCauoMLRdIILQsAEV+ZesIzBq/oUlxk0m3ApZuMFCXdnS4U7KrI+l3WRUEGQ8K1QKw==}
 
   '@types/scheduler@0.16.8':
     resolution: {integrity: sha512-WZLiwShhwLRmeV6zH+GkbOFT6Z6VklCItrDioxUnv+u4Ll+8vKeFySoFyK/0ctcRpOmwAicELfmys1sDc/Rw+A==}
@@ -1013,9 +1013,9 @@ snapshots:
     dependencies:
       '@types/react': 17.0.83
 
-  '@types/react-dom@19.2.3(@types/react@19.2.7)':
+  '@types/react-dom@18.3.7(@types/react@18.3.28)':
     dependencies:
-      '@types/react': 19.2.7
+      '@types/react': 18.3.28
 
   '@types/react@17.0.83':
     dependencies:
@@ -1023,8 +1023,9 @@ snapshots:
       '@types/scheduler': 0.16.8
       csstype: 3.1.3
 
-  '@types/react@19.2.7':
+  '@types/react@18.3.28':
     dependencies:
+      '@types/prop-types': 15.7.14
       csstype: 3.2.3
 
   '@types/scheduler@0.16.8': {}
@@ -1609,7 +1610,7 @@ snapshots:
 
   source-map@0.7.4: {}
 
-  spcr-settings@1.3.1(patch_hash=5610abb04c2269270d4f3bbca4fca67349fe265be927a60a45150a0c3824f77b):
+  spcr-settings@1.3.1(patch_hash=1936b0f7e58214debaf721efc2c34b424210c473abbeb1897bdbbbcfda3c9eb6):
     dependencies:
       '@types/react': 17.0.83
       '@types/react-dom': 17.0.26(@types/react@17.0.83)

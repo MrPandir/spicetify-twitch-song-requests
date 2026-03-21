@@ -1,14 +1,7 @@
 diff --git a/settingsSection.tsx b/settingsSection.tsx
-index 8cad912be88c51dca4901f094c3939b7e354a98b..b00cf666eb00ff56a3ada5ee757eb29dad33937f 100644
+index 8cad912be88c51dca4901f094c3939b7e354a98b..939747cf45c29b08a17bc446b30cbaa302cecff7 100644
 --- a/settingsSection.tsx
 +++ b/settingsSection.tsx
-@@ -1,5 +1,5 @@
- import React, { useState } from "react";
--import ReactDOM from "react-dom";
-+import { createRoot } from "react-dom/client";
- import {
-   ISettingsField,
-   ISettingsFieldButton,
 @@ -10,16 +10,17 @@ import {
  } from "./types/settings-field";
  
@@ -32,17 +25,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..b00cf666eb00ff56a3ada5ee757eb29d
  
    pushSettings = async () => {
      Object.entries(this.settingsFields).forEach(([nameId, field]) => {
-@@ -77,7 +78,8 @@ class SettingsSection {
-       console.log(pluginSettingsContainer);
-     }
- 
--    ReactDOM.render(<this.FieldsContainer />, pluginSettingsContainer);
-+    const root = createRoot(pluginSettingsContainer);
-+    root.render(<this.FieldsContainer />);
-   };
- 
-   addButton = (
-@@ -101,20 +103,15 @@ class SettingsSection {
+@@ -101,20 +102,15 @@ class SettingsSection {
    addInput = (
      nameId: string,
      description: string,
@@ -69,7 +52,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..b00cf666eb00ff56a3ada5ee757eb29d
      };
    };
  
-@@ -165,13 +162,13 @@ class SettingsSection {
+@@ -165,13 +161,13 @@ class SettingsSection {
  
    getFieldValue = <Type,>(nameId: string): Type => {
      return JSON.parse(
@@ -85,7 +68,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..b00cf666eb00ff56a3ada5ee757eb29d
        JSON.stringify({ value: newValue })
      );
    };
-@@ -183,7 +180,7 @@ class SettingsSection {
+@@ -183,7 +179,7 @@ class SettingsSection {
      return (
        <div className="x-settings-section" key={rerender}>
          <h2 className="TypeElement-cello-textBase-type">
@@ -94,7 +77,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..b00cf666eb00ff56a3ada5ee757eb29d
          </h2>
          {Object.entries(this.settingsFields).map(([nameId, field]) => {
            return <this.Field nameId={nameId} field={field} />;
-@@ -208,7 +205,7 @@ class SettingsSection {
+@@ -208,7 +204,7 @@ class SettingsSection {
  
      const [value, setValueState] = useState(defaultStateValue);
  
@@ -103,7 +86,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..b00cf666eb00ff56a3ada5ee757eb29d
        if (newValue !== undefined) {
          setValueState(newValue);
          this.setFieldValue(props.nameId!, newValue);
-@@ -227,25 +224,36 @@ class SettingsSection {
+@@ -227,25 +223,36 @@ class SettingsSection {
          </div>
          <div className="x-settings-secondColumn">
            {props.field.type === "input" ? (
