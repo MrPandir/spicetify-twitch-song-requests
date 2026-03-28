@@ -100,5 +100,5 @@ export function getAccessToken(): string | null {
 }
 
 export function clearAccessToken() {
-  settings.setFieldValue("access_token", "null");
+  settings.setFieldValue("access_token", null);
 }
