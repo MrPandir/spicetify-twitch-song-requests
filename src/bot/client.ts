@@ -57,9 +57,7 @@ export async function initNewBot(token: string, channel: string) {
 }
 
 export async function reconnect() {
-  try {
-    await client.disconnect();
-  } catch {}
+  await disconnect();
 
   client.opts.channels = [formatChannel(getChannel())];
   client.channels = [];
@@ -76,4 +74,16 @@ export async function reconnect() {
         Spicetify.showNotification(`Error reconnecting bot: ${error}`, true);
       }
     });
+}
+
+export async function disconnect() {
+  try {
+    await client.disconnect();
+
+    console.info("Bot disconnected");
+    Spicetify.showNotification("Bot disconnected");
+  } catch (error) {
+    console.error(`Error disconnecting bot: ${error}`);
+    Spicetify.showNotification(`Error disconnecting bot: ${error}`);
+  }
 }

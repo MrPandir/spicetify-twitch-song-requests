@@ -1,5 +1,5 @@
 import { SettingsSection } from "spcr-settings";
-import { reconnect } from "@bot";
+import { clearAccessToken, disconnect, reconnect } from "@bot";
 import { Language } from "@locales";
 import { nameId } from "@settings.json";
 import { addPermissionScopesSettings } from "./permission-settings";
@@ -29,9 +29,23 @@ export async function addSettings() {
 
   settings.addButton(
     "reconnect",
-    "Twitch Bot Reconnect",
+    "Reconnect Twitch Bot",
     "Reconnect",
     reconnect,
+  );
+
+  settings.addButton(
+    "disconnect",
+    "Disconnect Twitch Bot",
+    "Disconnect",
+    disconnect,
+  );
+
+  settings.addButton(
+    "clearBotToken",
+    "Remove Twitch Bot Token",
+    "Logout",
+    clearAccessToken,
   );
 
   settings.addHidden("access_token", null);
