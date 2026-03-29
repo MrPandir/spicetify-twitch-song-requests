@@ -1,6 +1,5 @@
-import type { TranslationParams } from "@/types/localization";
 import { getLanguage } from "@config";
-import { locales, type LocaleDefinition } from "@locales";
+import { locales, TranslationParams, type LocaleDefinition } from "@locales";
 
 function getTranslationFunctionOrText<
   D extends keyof LocaleDefinition,

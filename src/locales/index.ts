@@ -15,3 +15,10 @@ export const locales: Record<Language, LocaleDefinition> = {
 };
 
 export type LocaleDefinition = typeof en;
+
+export type TranslationParams<
+  D extends keyof LocaleDefinition,
+  K extends keyof LocaleDefinition[D],
+> = LocaleDefinition[D][K] extends (...args: infer P) => any ? P : never[];
+
+export * from "./get-translation";

@@ -1,7 +1,6 @@
-import { getTranslation } from "@features/localization";
-import type { LocaleDefinition } from "@locales";
+import { getTranslation } from "@locales";
+import type { LocaleDefinition, TranslationParams } from "@locales";
 import type { BotResponse, ResponseType } from "@bot/types";
-import type { TranslationParams } from "@/types/localization";
 
 function createResponse<
   D extends keyof LocaleDefinition,
