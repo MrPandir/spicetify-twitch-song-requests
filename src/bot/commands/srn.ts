@@ -1,8 +1,8 @@
 import { searchTrack } from "@api/spotify";
 import { notification, reply } from "@bot/responses";
-import { applyLimits, checkLimits } from "@services/limits";
-import { queue } from "@services/queue";
-import { urlProcessor } from "@services/url-handlers";
+import { applyLimits, checkLimits } from "@features/limits";
+import { queue } from "@features/queue";
+import { urlProcessor } from "@features/url-handlers";
 import type { CommandExecutor } from "../types";
 
 // TODO: Add a check if the track is already in the queue.

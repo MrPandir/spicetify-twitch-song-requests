@@ -1,7 +1,7 @@
 import { User } from "@bot/types";
 import { Track } from "@entities/track";
 import { LocaleDefinition } from "@locales";
-import { LimitInfo } from "@services/limits";
+import { LimitInfo } from "@features/limits";
 
 const locale: LocaleDefinition = {
   sr: {

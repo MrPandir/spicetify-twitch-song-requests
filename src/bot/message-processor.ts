@@ -1,6 +1,6 @@
 import { clearAccessToken, reply } from "@bot";
 import { PREFIX } from "@config";
-import { canExecuteCommand } from "@services/command-permissions";
+import { canExecuteCommand } from "@features/command-permissions";
 import type { ChatUserstate } from "tmi.js";
 import { client } from "./client";
 import { commands } from "./commands";

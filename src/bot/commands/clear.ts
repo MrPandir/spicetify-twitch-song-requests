@@ -1,5 +1,5 @@
 import { reply } from "@bot";
-import { queue } from "@services/queue";
+import { queue } from "@features/queue";
 import type { CommandExecutor } from "../types";
 
 const executor: CommandExecutor = async function (client, author, args, tags) {

@@ -1,4 +1,4 @@
-import { queue } from "@services/queue";
+import { queue } from "@features/queue";
 import { reply } from "@bot";
 import { getAllowGlobalDeleteForMods } from "@config/permission-settings";
 import type { BotResponse, CommandExecutor, User } from "../types";
@@ -26,8 +26,7 @@ function deleteTrackByName(
 const executor: CommandExecutor = async function (client, author, args, tags) {
   const isBroadcaster = client.isBroadcaster(author.userName);
   const isGlobalDelete =
-    isBroadcaster ||
-    (author.isModerator && getAllowGlobalDeleteForMods());
+    isBroadcaster || (author.isModerator && getAllowGlobalDeleteForMods());
   const userTrackCount = queue.getTracksByUser(author.id).length;
 
   // If the user is a moderator or the broadcaster

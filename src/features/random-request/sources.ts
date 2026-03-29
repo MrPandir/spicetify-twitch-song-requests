@@ -7,7 +7,7 @@ import {
 } from "@api/spotify";
 import { getAllowDuplicateRandomTracks } from "@config/settings";
 import { Track } from "@entities";
-import { queue } from "@services/queue";
+import { queue } from "@features/queue";
 import { addHttpsPrefix, randomIndex } from "@utils";
 
 export enum RandomSourceErrorCode {

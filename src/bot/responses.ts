@@ -1,4 +1,4 @@
-import { getTranslation } from "@services/localization";
+import { getTranslation } from "@features/localization";
 import type { LocaleDefinition } from "@locales";
 import type { BotResponse, ResponseType } from "@bot/types";
 import type { TranslationParams } from "@/types/localization";

@@ -1,10 +1,10 @@
 import { notification, reply } from "@bot/responses";
-import { checkLimits } from "@services/limits";
+import { checkLimits } from "@features/limits";
 import {
   pickRandomTrack,
   RandomSourceErrorCode,
-} from "@services/random-request";
-import { queue } from "@services/queue";
+} from "@features/random-request";
+import { queue } from "@features/queue";
 import type { CommandExecutor } from "../types";
 
 function mapSourceError(errorCode?: RandomSourceErrorCode) {
