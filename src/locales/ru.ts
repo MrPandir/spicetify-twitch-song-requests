@@ -52,6 +52,12 @@ const locale: LocaleDefinition = {
     cleared: "Очередь Spotify была очищена",
   },
 
+  volume: {
+    current: (volume: number) => `Текущая громкость: ${volume}%`,
+    updated: (previousVolume: number, volume: number) =>
+      `Громкость изменена с ${previousVolume}% на ${volume}%`,
+  },
+
   internal: {
     error: "Произошла внутренняя ошибка",
     noArtist: "Внутренняя ошибка: Исполнитель не найден",

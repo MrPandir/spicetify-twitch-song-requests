@@ -6,6 +6,7 @@ import rrn from "./rrn";
 import song from "./song";
 import sr from "./sr";
 import srn from "./srn";
+import volume from "./volume";
 
 export const commands: Record<CommandName, CommandExecutor> = {
   clear: clear,
@@ -15,4 +16,5 @@ export const commands: Record<CommandName, CommandExecutor> = {
   srn: srn,
   song: song,
   rm: rm,
+  volume: volume,
 };

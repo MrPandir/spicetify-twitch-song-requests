@@ -54,6 +54,12 @@ const locale = {
     cleared: "Spotify queue has been cleared",
   },
 
+  volume: {
+    current: (volume: number) => `Current volume: ${volume}%`,
+    updated: (previousVolume: number, volume: number) =>
+      `Volume changed from ${previousVolume}% to ${volume}%`,
+  },
+
   internal: {
     error: "An internal error occurred",
     noArtist: "Internal error: No artist found",

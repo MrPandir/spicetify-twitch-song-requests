@@ -10,6 +10,7 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 - ⚡ `!rrn` — add a **random** track to the **beginning** of the queue (priority request)
 - 🗑️ `!rm` — remove your track (last by default)
 - 🧹 `!clear` — clear Spotify queue
+- 🔊 `!volume` — view or set Spotify volume
 - 📦 Multi-add — multiple links in one message
 - 🔍 Remove by position or partial name
 - 👮 Moderators can remove any track
@@ -180,6 +181,12 @@ Clears the Spotify queue and the song request queue.
 
 Command availability is configurable in permission settings.
 
+### !volume [0-100]
+Shows the current Spotify volume.
+
+If a value from `0` to `100` is provided, sets the Spotify volume to that percentage.
+
+Available to moderators by default.
 
 # Development
 

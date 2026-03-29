@@ -52,6 +52,12 @@ const locale = {
     cleared: "A fila do Spotify foi limpa",
   },
 
+  volume: {
+    current: (volume: number) => `Volume atual: ${volume}%`,
+    updated: (previousVolume: number, volume: number) =>
+      `Volume alterado de ${previousVolume}% para ${volume}%`,
+  },
+
   internal: {
     error: "Ocorreu um erro interno",
     noArtist: "Erro interno: Nenhum artista encontrado",

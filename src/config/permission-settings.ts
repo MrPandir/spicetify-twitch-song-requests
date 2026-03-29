@@ -163,6 +163,16 @@ export async function addPermissionScopesSettings() {
     },
   });
 
+  permissionScopes.addInput("volume", "!volume", {
+    defaultValue: "mods",
+    suggestions: permissionKeywords,
+    props: {
+      onBlur: (event) => {
+        return normalizeField("volume", event.currentTarget.value);
+      },
+    },
+  });
+
   permissionScopes.addToggle(
     "allowGlobalDeleteForMods",
     "Allow moderators to remove any track from the queue",
