@@ -105,7 +105,7 @@ export async function addPermissionScopesSettings() {
     },
   });
 
-  permissionScopes.addInput("sr", "!sr", {
+  permissionScopes.addInput("sr", "!sr <song name | link> [link...]", {
     defaultValue: "everyone",
     suggestions: permissionKeywords,
     props: {
@@ -114,7 +114,7 @@ export async function addPermissionScopesSettings() {
       },
     },
   });
-  permissionScopes.addInput("srn", "!srn", {
+  permissionScopes.addInput("srn", "!srn <song name | link> [link...]", {
     defaultValue: "mods, subs",
     suggestions: permissionKeywords,
     props: {
@@ -124,24 +124,32 @@ export async function addPermissionScopesSettings() {
     },
   });
 
-  permissionScopes.addInput("rr", "!rr", {
-    defaultValue: "everyone",
-    suggestions: permissionKeywords,
-    props: {
-      onBlur: (event) => {
-        return normalizeField("rr", event.currentTarget.value);
+  permissionScopes.addInput(
+    "rr",
+    "!rr [artist link | playlist link | album link]",
+    {
+      defaultValue: "everyone",
+      suggestions: permissionKeywords,
+      props: {
+        onBlur: (event) => {
+          return normalizeField("rr", event.currentTarget.value);
+        },
       },
     },
-  });
-  permissionScopes.addInput("rrn", "!rrn", {
-    defaultValue: "mods, subs",
-    suggestions: permissionKeywords,
-    props: {
-      onBlur: (event) => {
-        return normalizeField("rrn", event.currentTarget.value);
+  );
+  permissionScopes.addInput(
+    "rrn",
+    "!rrn [artist link | playlist link | album link]",
+    {
+      defaultValue: "mods, subs",
+      suggestions: permissionKeywords,
+      props: {
+        onBlur: (event) => {
+          return normalizeField("rrn", event.currentTarget.value);
+        },
       },
     },
-  });
+  );
 
   permissionScopes.addInput("clear", "!clear", {
     defaultValue: "",
@@ -153,17 +161,7 @@ export async function addPermissionScopesSettings() {
     },
   });
 
-  permissionScopes.addInput("rm", "!rm", {
-    defaultValue: "everyone",
-    suggestions: permissionKeywords,
-    props: {
-      onBlur: (event) => {
-        return normalizeField("rm", event.currentTarget.value);
-      },
-    },
-  });
-
-  permissionScopes.addInput("volume", "!volume", {
+  permissionScopes.addInput("volume", "!volume [0-100]", {
     defaultValue: "mods",
     suggestions: permissionKeywords,
     props: {
@@ -172,6 +170,20 @@ export async function addPermissionScopesSettings() {
       },
     },
   });
+
+  permissionScopes.addInput(
+    "rm",
+    "!rm [match by title or artist | index from the end of the queue]",
+    {
+      defaultValue: "everyone",
+      suggestions: permissionKeywords,
+      props: {
+        onBlur: (event) => {
+          return normalizeField("rm", event.currentTarget.value);
+        },
+      },
+    },
+  );
 
   permissionScopes.addToggle(
     "allowGlobalDeleteForMods",

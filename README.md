@@ -126,7 +126,7 @@ Multiple links can be sent in a single message (see examples below).
 
 Works exactly like the [!sr](#sr) command. Supports the same formats.
 
-### !rr [spotify artist | playlist | album link]
+### !rr [artist link | playlist link | album link]
 Adds one **randomly selected** track to the queue.
 
 Without arguments, picks a random track from your **Liked Songs**.
@@ -148,12 +148,12 @@ Supported link types:
   </ul>
 </details>
 
-### !rrn [spotify artist | playlist | album link]
+### !rrn [artist link | playlist link | album link]
 **Priority random request** — adds a randomly selected track to the **beginning** of the queue.
 
 Works exactly like `!rr`, but inserts the selected track at the front.
 
-### !rm [name or index from the end]
+### !rm [match by title or artist | index from the end of the queue]
 Removes one of your previously requested tracks from the queue.
 
 Without arguments, removes your most recently requested track.
