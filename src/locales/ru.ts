@@ -49,7 +49,7 @@ const locale: LocaleDefinition = {
   },
 
   clear: {
-    cleared: "Очередь Spotify была очищена",
+    cleared: "Очередь Spotify очищена",
   },
 
   prev: {
