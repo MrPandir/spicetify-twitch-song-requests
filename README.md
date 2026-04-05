@@ -22,7 +22,7 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 - 🔄 Auto queue sync when track removed from Spotify
 - 🔑 Permanent Twitch token (no re-auth needed)
 - 🔗 Supported links from: Spotify, Apple Music, YouTube Music, Deezer, TIDAL, Amazon Music, SoundCloud, Yandex Music, and many more
-- 🌍 Bot replies in: RU · EN · PT-BR
+- 🌍 Bot replies in: RU · EN · PT-BR · DE · UA
 
 # Installation
 
