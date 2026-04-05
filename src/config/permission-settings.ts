@@ -161,6 +161,26 @@ export async function addPermissionScopesSettings() {
     },
   });
 
+  permissionScopes.addInput("prev", "!prev", {
+    defaultValue: "mods",
+    suggestions: permissionKeywords,
+    props: {
+      onBlur: (event) => {
+        return normalizeField("prev", event.currentTarget.value);
+      },
+    },
+  });
+
+  permissionScopes.addInput("next", "!next", {
+    defaultValue: "mods",
+    suggestions: permissionKeywords,
+    props: {
+      onBlur: (event) => {
+        return normalizeField("next", event.currentTarget.value);
+      },
+    },
+  });
+
   permissionScopes.addInput("volume", "!volume [0-100]", {
     defaultValue: "mods",
     suggestions: permissionKeywords,

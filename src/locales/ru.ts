@@ -52,6 +52,18 @@ const locale: LocaleDefinition = {
     cleared: "Очередь Spotify была очищена",
   },
 
+  prev: {
+    success: "Переключено на предыдущий трек",
+    notPlayingTrack: "Сейчас ничего не воспроизводится",
+    noPrevTrack: "Нет предыдущего трека для переключения",
+  },
+
+  next: {
+    success: "Переключено на следующий трек",
+    notPlayingTrack: "Сейчас ничего не воспроизводится",
+    noNextTrack: "Нет следующего трека для переключения",
+  },
+
   volume: {
     current: (volume: number) => `Текущая громкость: ${volume}%`,
     updated: (previousVolume: number, volume: number) =>

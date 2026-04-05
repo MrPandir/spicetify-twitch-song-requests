@@ -52,6 +52,18 @@ const locale = {
     cleared: "A fila do Spotify foi limpa",
   },
 
+  prev: {
+    success: "Mudou para a faixa anterior",
+    notPlayingTrack: "Nenhuma faixa esta tocando no momento",
+    noPrevTrack: "Nao ha faixa anterior para reproduzir",
+  },
+
+  next: {
+    success: "Mudou para a proxima faixa",
+    notPlayingTrack: "Nenhuma faixa esta tocando no momento",
+    noNextTrack: "Nao ha proxima faixa para reproduzir",
+  },
+
   volume: {
     current: (volume: number) => `Volume atual: ${volume}%`,
     updated: (previousVolume: number, volume: number) =>

@@ -290,6 +290,28 @@ declare namespace Spicetify {
     disallowTogglingShuffleReasons?: string[];
     disallowTransferringPlaybackReasons?: string[];
   };
+  type SkipTrackLoggingParams = {
+    commandId?: string;
+    commandInitiatedTime: {
+      value: bigint;
+    };
+    commandReceivedTime?: {
+      value: bigint;
+    };
+    deviceIdentifier: string;
+    interactionIds: string[];
+    pageInstanceIds: string[];
+  };
+  type SkipTrackOptions = {
+    allowSeeking?: boolean;
+    loggingParams: SkipTrackLoggingParams;
+    options?: unknown;
+    track?: unknown;
+  };
+  type SkipTrackResult = {
+    error: number;
+    reasons: string;
+  };
   type PlaybackQuality = {
     bitrateLevel: number;
     strategy: number;
@@ -495,6 +517,12 @@ declare namespace Spicetify {
     function toggleShuffle(): void;
 
     const origin: {
+      _contextPlayer: {
+        skipPrev(options: SkipTrackOptions): Promise<SkipTrackResult>;
+        skipNext(
+          options: Omit<SkipTrackOptions, "allowSeeking">,
+        ): Promise<SkipTrackResult>;
+      };
       _events: {
         addListener(event: string, listener: (...args: any[]) => void): void;
         removeListener(event: string, listener: (...args: any[]) => void): void;

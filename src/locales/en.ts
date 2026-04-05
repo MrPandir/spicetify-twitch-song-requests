@@ -54,6 +54,18 @@ const locale = {
     cleared: "Spotify queue has been cleared",
   },
 
+  prev: {
+    success: "Switched to the previous track",
+    notPlayingTrack: "No track is currently playing",
+    noPrevTrack: "There is no previous track to switch to",
+  },
+
+  next: {
+    success: "Switched to the next track",
+    notPlayingTrack: "No track is currently playing",
+    noNextTrack: "There is no next track to switch to",
+  },
+
   volume: {
     current: (volume: number) => `Current volume: ${volume}%`,
     updated: (previousVolume: number, volume: number) =>
