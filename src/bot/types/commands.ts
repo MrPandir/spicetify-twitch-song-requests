@@ -5,6 +5,7 @@ export interface User {
   id: string;
   userName: string;
   displayName: string;
+  isBroadcaster: boolean;
   isModerator: boolean;
   isSubscriber: boolean;
   isVip: boolean;

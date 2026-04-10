@@ -30,6 +30,7 @@ export function handlerMessage(
     id: tags["user-id"],
     userName: tags["username"],
     displayName: tags["display-name"],
+    isBroadcaster: client.isBroadcaster(tags["username"]),
     isModerator: !!tags.mod,
     isSubscriber: !!tags.subscriber,
     isVip: !!tags.vip,

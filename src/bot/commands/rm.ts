@@ -24,7 +24,7 @@ function deleteTrackByName(
 }
 
 const executor: CommandExecutor = async function (client, author, args, tags) {
-  const isBroadcaster = client.isBroadcaster(author.userName);
+  const isBroadcaster = author.isBroadcaster;
   const isGlobalDelete =
     isBroadcaster || (author.isModerator && getAllowGlobalDeleteForMods());
   const userTrackCount = queue.getTracksByUser(author.id).length;
