@@ -36,7 +36,7 @@ export function handlerMessage(
     isVip: !!tags.vip,
   };
 
-  if (!canExecuteCommand(command, client, user)) {
+  if (!canExecuteCommand(command, user)) {
     sendResponses([reply("internal", "permissionDenied")], tags.id);
     return;
   }

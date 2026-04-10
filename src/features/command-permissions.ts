@@ -3,7 +3,6 @@ import {
   getCommandPermissions,
   type PermissionKeyword,
 } from "@config/permission-settings";
-import type { Client } from "tmi.js";
 
 function hasKeywordAccess(
   user: User,
@@ -17,12 +16,8 @@ function hasKeywordAccess(
   return false;
 }
 
-export function canExecuteCommand(
-  command: string,
-  client: Client,
-  user: User,
-): boolean {
-  if (client.isBroadcaster(user.userName)) return true;
+export function canExecuteCommand(command: string, user: User): boolean {
+  if (user.isBroadcaster) return true;
 
   const permissions = getCommandPermissions(command);
 
