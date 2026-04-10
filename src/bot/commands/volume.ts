@@ -12,7 +12,7 @@ function clampVolume(value: number): number {
   return Math.min(MAX_VOLUME, Math.max(MIN_VOLUME, value));
 }
 
-const executor: CommandExecutor = async function (client, author, args, tags) {
+const executor: CommandExecutor = async function (author, args, tags) {
   if (args.length === 0) {
     return reply("volume", "current", getCurrentVolumePercent());
   }

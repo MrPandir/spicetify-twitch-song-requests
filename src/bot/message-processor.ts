@@ -51,7 +51,7 @@ async function executeCommand(
   tags: ChatUserstate,
 ): Promise<void> {
   try {
-    const result = await executor(client, user, args, tags);
+    const result = await executor(user, args, tags);
 
     if (result) {
       await sendResponses(Array.isArray(result) ? result : [result], tags.id);

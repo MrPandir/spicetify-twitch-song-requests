@@ -1,7 +1,7 @@
 import { reply } from "@bot";
 import { CommandExecutor } from "../types";
 
-const executor: CommandExecutor = async function (client, author, args, tags) {
+const executor: CommandExecutor = async function () {
   const data = Spicetify.Player.data;
   if (!data) {
     return reply("song", "noSongPlaying");

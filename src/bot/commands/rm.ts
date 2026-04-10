@@ -23,7 +23,7 @@ function deleteTrackByName(
   return reply("rm", "trackDeleted", deletedTrack);
 }
 
-const executor: CommandExecutor = async function (client, author, args, tags) {
+const executor: CommandExecutor = async function (author, args, tags) {
   const isBroadcaster = author.isBroadcaster;
   const isGlobalDelete =
     isBroadcaster || (author.isModerator && getAllowGlobalDeleteForMods());

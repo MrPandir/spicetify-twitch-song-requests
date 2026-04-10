@@ -33,7 +33,7 @@ export function createRandomRequestExecutor(
 ): CommandExecutor {
   const { atFront } = options;
 
-  return async function (client, author, args, tags) {
+  return async function (author, args, tags) {
     const limit = checkLimits(author.id);
     if (!limit.canBeAdded) {
       const key = limit.reached === "queue" ? "queueLimit" : "userLimit";

@@ -8,7 +8,7 @@ import type { CommandExecutor } from "../types";
 // TODO: Add a check if the track is already in the queue.
 // BUG: Unavailable track says it's being added, but it's not happening.
 
-const executor: CommandExecutor = async function (client, author, args, tags) {
+const executor: CommandExecutor = async function (author, args, tags) {
   if (!args.length) {
     return reply("sr", "noArgs");
   }
