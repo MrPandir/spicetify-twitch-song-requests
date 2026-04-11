@@ -45,9 +45,13 @@ jobs:
 
       - name: Prepare marketplace branch
         run: |
+          git fetch --depth=1 origin marketplace:marketplace || true
+
           if git ls-remote --heads origin marketplace | grep -q marketplace; then
+            echo "✅ Branch marketplace exists, checking it out..."
             git checkout marketplace
           else
+            echo "🌱 Creating new orphan marketplace branch..."
             git checkout --orphan marketplace
             git rm -rf . 2>/dev/null || true
             git commit --allow-empty -m "Initial empty commit for marketplace"
