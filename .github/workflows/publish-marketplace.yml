@@ -61,17 +61,6 @@ jobs:
           cp dist/twitch-song-requests.js ./twitch-song-requests.js
           git show main:README.md > README.md
 
-      - name: Clean unnecessary files
-        run: |
-          mv dist/twitch-song-requests.js . || true
-
-          find . -mindepth 1 \
-            ! -name 'twitch-song-requests.js' \
-            ! -name 'README.md' \
-            ! -name 'preview.png' \
-            ! -name '.git' \
-            -exec rm -rf {} + 2>/dev/null || true
-
       - name: Commit changes
         run: |
           git add twitch-song-requests.js README.md
