@@ -37,45 +37,64 @@ jobs:
           node-version: latest
           cache: pnpm
 
-      - name: Prepare marketplace branch
-        run: |
-          git fetch origin marketplace || true
-
-          if git show-ref --verify --quiet refs/remotes/origin/marketplace; then
-            git checkout -B marketplace origin/marketplace
-          else
-            git checkout --orphan marketplace
-            git rm -rf .
-            git commit --allow-empty -m "Initial empty commit"
-          fi
-
-      - name: Pull sources from main
-        run: |
-          git checkout origin/main -- src patches package.json pnpm-lock.yaml README.md tsconfig.json
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm build:dist
 
+      - name: Prepare marketplace branch
+        run: |
+          if git ls-remote --heads origin marketplace | grep -q marketplace; then
+            git checkout marketplace
+          else
+            git checkout --orphan marketplace
+            git rm -rf . 2>/dev/null || true
+            git commit --allow-empty -m "Initial empty commit for marketplace"
+          fi
+
+      - name: Pull sources from main
+        run: |
+          git checkout main -- dist/twitch-song-requests.js README.md
+
       - name: Prepare marketplace contents
         run: |
-          mv dist/twitch-song-requests.js .
-          rm -rf src patches dist node_modules package.json pnpm-lock.yaml tsconfig.json
+          mv dist/twitch-song-requests.js . || true
+
+          find . -mindepth 1 \
+            ! -name 'twitch-song-requests.js' \
+            ! -name 'README.md' \
+            ! -name 'preview.png' \
+            ! -name '.git' \
+            -exec rm -rf {} + 2>/dev/null || true
 
       - name: Commit changes
         run: |
-          git reset
           git add twitch-song-requests.js README.md
 
-          if ! git diff --staged --quiet; then
-            git commit -m "release: update extension to ${GITHUB_SHA:0:8}"
-          else
+          if git diff --staged --quiet; then
             echo "No changes to commit"
+          else
+            git commit -m "release: update extension to ${GITHUB_SHA:0:8}"
+            echo "Changes committed"
           fi
 
       - name: Push to marketplace
         run: |
           git push origin marketplace \
             ${{ github.event.inputs.force_push == 'true' && '--force' || '' }}
+
+      - name: Purge jsDelivr cache
+        if: success()
+        run: |
+          echo "Purging jsDelivr cache..."
+
+          PURGE_URL="https://purge.jsdelivr.net/gh/${{ github.repository }}@marketplace/twitch-song-requests.js"
+
+          RESPONSE=$(curl -s -w "%{http_code}" -o /dev/null "$PURGE_URL")
+
+          if [[ "$RESPONSE" =~ ^(200|202|204)$ ]]; then
+            echo "✅ Successfully purged jsDelivr cache (HTTP $RESPONSE)"
+          else
+            echo "⚠️ jsDelivr purge returned HTTP $RESPONSE (may still work with delay)"
+          fi
