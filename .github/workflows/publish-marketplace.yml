@@ -56,11 +56,12 @@ jobs:
             git commit --allow-empty -m "Initial empty commit for marketplace"
           fi
 
-      - name: Pull sources from main
+      - name: Copy built files
         run: |
-          git checkout main -- dist/twitch-song-requests.js README.md
+          cp dist/twitch-song-requests.js ./twitch-song-requests.js
+          git show main:README.md > README.md
 
-      - name: Prepare marketplace contents
+      - name: Clean unnecessary files
         run: |
           mv dist/twitch-song-requests.js . || true
 
