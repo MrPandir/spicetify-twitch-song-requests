@@ -1,5 +1,5 @@
 import { SettingsSection } from "spcr-settings";
-import { clearAccessToken, disconnect, reconnect } from "@bot";
+import { clearAccessToken, disconnect, getAccessToken, reconnect } from "@bot";
 import { Language } from "@locales";
 import { nameId } from "@settings.json";
 import { addPermissionScopesSettings } from "./permission-settings";
@@ -45,7 +45,16 @@ export async function addSettings() {
     "clearBotToken",
     "Remove Twitch Bot Token",
     "Logout",
-    clearAccessToken,
+    async () => {
+      if (getAccessToken() === null) {
+        return Spicetify.showNotification("Bot is not authorized");
+      }
+
+      clearAccessToken();
+      Spicetify.showNotification("Token removed");
+      await disconnect();
+      Spicetify.showNotification("Restart Spotify to re-authorize the bot");
+    },
   );
 
   settings.addHidden("access_token", null);

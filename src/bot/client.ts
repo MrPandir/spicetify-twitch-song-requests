@@ -57,6 +57,12 @@ export async function initNewBot(token: string, channel: string) {
 }
 
 export async function reconnect() {
+  if (!client) {
+    return Spicetify.showNotification(
+      "Bot is not authorized and not connected to the chat",
+    );
+  }
+
   await disconnect();
 
   client.opts.channels = [formatChannel(getChannel())];
@@ -78,10 +84,12 @@ export async function reconnect() {
 
 export async function disconnect() {
   try {
-    await client.disconnect();
+    if (!client || !client.isConnected()) {
+      return Spicetify.showNotification("Bot is not connected to the chat");
+    }
 
+    await client.disconnect();
     console.info("Bot disconnected");
-    Spicetify.showNotification("Bot disconnected");
   } catch (error) {
     console.error(`Error disconnecting bot: ${error}`);
     Spicetify.showNotification(`Error disconnecting bot: ${error}`);
