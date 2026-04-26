@@ -1,10 +1,25 @@
 import { SettingsSection } from "spcr-settings";
-import { clearAccessToken, disconnect, getAccessToken, reconnect } from "@bot";
+import { reconnect, disconnect } from "@bot";
 import { Language } from "@locales";
 import { nameId } from "@settings.json";
+import {
+  getAuthButtonText,
+  handleAuthButtonClick,
+  registerAuthButtonRerender,
+} from "@ui";
 import { addPermissionScopesSettings } from "./permission-settings";
 
 export const settings = new SettingsSection("Twitch Song Requests", nameId);
+const authButtonId = "toggleBotAuth";
+
+export function refreshAuthButton() {
+  const authButton = settings.settingsFields[authButtonId];
+
+  if (authButton?.type !== "button") return;
+
+  authButton.value = getAuthButtonText();
+  settings.rerender();
+}
 
 export async function addSettings() {
   settings.addInput("channel", "Nickname channel");
@@ -42,25 +57,20 @@ export async function addSettings() {
   );
 
   settings.addButton(
-    "clearBotToken",
-    "Remove Twitch Bot Token",
-    "Logout",
-    async () => {
-      if (getAccessToken() === null) {
-        return Spicetify.showNotification("Bot is not authorized");
-      }
-
-      clearAccessToken();
-      Spicetify.showNotification("Token removed");
-      await disconnect();
-      Spicetify.showNotification("Restart Spotify to re-authorize the bot");
-    },
+    authButtonId,
+    "Login/Logout Twitch Bot",
+    getAuthButtonText(),
+    () =>
+      handleAuthButtonClick(getChannel, (channel) => {
+        settings.setFieldValue("channel", channel);
+      }),
   );
 
   settings.addHidden("access_token", null);
 
   await settings.pushSettings();
   await addPermissionScopesSettings();
+  registerAuthButtonRerender(refreshAuthButton);
 }
 
 export function getChannel(): string {

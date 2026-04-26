@@ -73,14 +73,15 @@ pnpm build
 
 # Authorization & Configuration
 
-1. Click on the bot authorization button in the upper right corner.
+1. Go to Spotify settings (account icon -> settings).
 > [!TIP]
 > Log in with a separate Twitch account if you want the bot to send messages as **a dedicated bot** instead of **your own account**.
 > Make sure to assign VIP or Moderator status to avoid message limits.
-2. This will open a tab in your browser. Click `Activate` and then `Authorize`.
-3. Go to Spotify settings (account icon -> settings).
-4. Scroll down to the bottom to find the `Twitch Song Requests` section.
-5. Configure and enjoy.
+2. Scroll down to the bottom to find the `Twitch Song Requests` section.
+3. Click the `Login` button next to `Login/Logout Twitch Bot`.
+4. This will open a tab in your browser. Click `Activate` and then `Authorize`.
+5. After successful authorization, the button in settings will change to `Logout`.
+6. Configure and enjoy.
 
 # Command Permissions
 

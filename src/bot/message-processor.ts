@@ -1,11 +1,10 @@
 import { clearAccessToken, reply } from "@bot";
-import { PREFIX } from "@config";
+import { PREFIX, refreshAuthButton } from "@config";
 import { canExecuteCommand } from "@features/command-permissions";
 import type { ChatUserstate } from "tmi.js";
 import { client } from "./client";
 import { commands } from "./commands";
 import type { BotResponse, CommandExecutor, User } from "./types";
-import main from "@app";
 
 export function handlerMessage(
   channel: string,
@@ -91,9 +90,8 @@ export function disconnectHandler(reason: string) {
       true,
       30_000, // 30 seconds
     );
-    // KLUDGE: Call to main for re-authentication. Rewrite to use error throwing or emit event.
     clearAccessToken();
-    main();
+    refreshAuthButton();
   } else {
     Spicetify.showNotification("Disconnected from Twitch", true);
   }

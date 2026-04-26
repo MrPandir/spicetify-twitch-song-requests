@@ -1,38 +1,17 @@
-import { validateToken } from "@api/twitch";
 import { initNewBot, getAccessToken } from "@bot";
-import { addSettings, getChannel, settings } from "@config";
-import { createAuthPromise } from "@ui";
-
-async function setupChannel(accessToken: string | null) {
-  // No token or nickname already set
-  if (!accessToken || getChannel()) return;
-
-  const response = await validateToken(accessToken);
-
-  if (!("login" in response)) return;
-
-  settings.setFieldValue("channel", response.login);
-  settings.rerender();
-}
+import { addSettings, getChannel } from "@config";
 
 async function main() {
   await addSettings();
 
-  let accessToken = getAccessToken();
+  const accessToken = getAccessToken();
 
   if (!accessToken) {
-    console.log("No token. Adding auth button");
-    await createAuthPromise();
-    accessToken = getAccessToken();
-    await setupChannel(accessToken);
+    console.log("No token. Use Login in settings to authorize the bot.");
+    return;
   }
 
-  if (!accessToken) {
-    console.error("Failed to get access token");
-    Spicetify.showNotification("Failed to get access token", true);
-  } else {
-    await initNewBot(accessToken, getChannel());
-  }
+  await initNewBot(accessToken, getChannel());
 }
 
 export default main;

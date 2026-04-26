@@ -1,8 +1,7 @@
 import { Client } from "tmi.js";
 import { disconnectHandler, handlerMessage } from "./message-processor";
-import { getChannel } from "@config";
+import { getChannel, refreshAuthButton } from "@config";
 import { formatChannel } from "@utils";
-import main from "@app";
 import { clearAccessToken } from "./auth";
 
 export let client: Client;
@@ -39,9 +38,8 @@ export async function initNewBot(token: string, channel: string) {
         true,
         30_000, // 30 seconds
       );
-      // KLUDGE: Call to main for re-authentication. Rewrite to use error throwing or emit event.
       clearAccessToken();
-      main();
+      refreshAuthButton();
     } else {
       Spicetify.showNotification(`Error connecting bot: ${error}`, true);
     }
