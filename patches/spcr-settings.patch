@@ -1,9 +1,12 @@
 diff --git a/settingsSection.tsx b/settingsSection.tsx
-index 8cad912be88c51dca4901f094c3939b7e354a98b..40bd5c386f9fb3ec1f9db01a10d75fbda97f282d 100644
+index 8cad912be88c51dca4901f094c3939b7e354a98b..94ac6cc39a7bba8c71a412134bd6cde749bc2b14 100644
 --- a/settingsSection.tsx
 +++ b/settingsSection.tsx
-@@ -10,16 +10,17 @@ import {
+@@ -8,18 +8,20 @@ import {
+   ISettingsFieldToggle,
+   NewValueTypes,
  } from "./types/settings-field";
++const ButtonSecondary = Spicetify.ReactComponent.ButtonSecondary;
  
  class SettingsSection {
 -  settingsFields: { [nameId: string]: ISettingsField } =
@@ -25,7 +28,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..40bd5c386f9fb3ec1f9db01a10d75fbd
  
    pushSettings = async () => {
      Object.entries(this.settingsFields).forEach(([nameId, field]) => {
-@@ -101,20 +102,15 @@ class SettingsSection {
+@@ -101,20 +103,15 @@ class SettingsSection {
    addInput = (
      nameId: string,
      description: string,
@@ -52,7 +55,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..40bd5c386f9fb3ec1f9db01a10d75fbd
      };
    };
  
-@@ -165,13 +161,13 @@ class SettingsSection {
+@@ -165,13 +162,13 @@ class SettingsSection {
  
    getFieldValue = <Type,>(nameId: string): Type => {
      return JSON.parse(
@@ -68,16 +71,60 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..40bd5c386f9fb3ec1f9db01a10d75fbd
        JSON.stringify({ value: newValue })
      );
    };
-@@ -183,7 +179,7 @@ class SettingsSection {
+@@ -182,8 +179,51 @@ class SettingsSection {
+ 
      return (
        <div className="x-settings-section" key={rerender}>
++        <style>
++          {`
++            .x-settings-input {
++              letter-spacing: .24px;
++              color: var(--text-base);
++              background-color: var(--background-elevated-base);
++              border: 0;
++              border-radius: 4px;
++              width: 100%;
++              height: 32px;
++              padding-inline: 12px;
++              font-family: var(--encore-body-font-stack, var(--fallback-fonts, sans-serif)), sans-serif;
++              font-size: 14px;
++              font-weight: 400;
++              line-height: 20px;
++              box-sizing: border-box;
++              outline: none;
++            }
++
++            .x-settings-input[type="number"] {
++              appearance: textfield;
++            }
++
++            .x-settings-input[type="number"]::-webkit-outer-spin-button,
++            .x-settings-input[type="number"]::-webkit-inner-spin-button {
++              -webkit-appearance: none;
++              margin: 0;
++            }
++
++            .x-settings-input::placeholder {
++              color: var(--text-subdued);
++            }
++
++            .x-settings-input:hover {
++              background-color: var(--background-elevated-highlight);
++            }
++
++            .x-settings-input:focus {
++              outline: var(--encore-focus-outline-width, var(--encore-border-width-focus)) solid var(--text-base);
++              outline-offset: 0;
++            }
++          `}
++        </style>
          <h2 className="TypeElement-cello-textBase-type">
 -          {this.name}
 +          {this.title}
          </h2>
          {Object.entries(this.settingsFields).map(([nameId, field]) => {
            return <this.Field nameId={nameId} field={field} />;
-@@ -208,7 +204,7 @@ class SettingsSection {
+@@ -208,7 +248,7 @@ class SettingsSection {
  
      const [value, setValueState] = useState(defaultStateValue);
  
@@ -86,7 +133,7 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..40bd5c386f9fb3ec1f9db01a10d75fbd
        if (newValue !== undefined) {
          setValueState(newValue);
          this.setFieldValue(props.nameId!, newValue);
-@@ -227,25 +223,53 @@ class SettingsSection {
+@@ -227,36 +267,64 @@ class SettingsSection {
          </div>
          <div className="x-settings-secondColumn">
            {props.field.type === "input" ? (
@@ -148,13 +195,28 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..40bd5c386f9fb3ec1f9db01a10d75fbd
 +            </>
            ) : props.field.type === "button" ? (
              <span>
-               <button
+-              <button
++              <ButtonSecondary
                  id={id}
 -                className="Button-sc-y0gtbx-0 Button-small-buttonSecondary-useBrowserDefaultFocusStyle x-settings-button"
-+                className="Button-sc-y0gtbx-0 Button-buttonSecondary-small-useBrowserDefaultFocusStyle encore-text-body-small-bold e-91000-button--small x-settings-button"
++                size="small"
++                className="x-settings-button"
                  {...props.field.events}
-                 onClick={(e) => {
+-                onClick={(e) => {
++                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                    setValue();
+                   const onClick = (props.field as ISettingsFieldButton).events
+                     ?.onClick;
+                   if (onClick) onClick(e);
+                 }}
+-                type="button"
+               >
+                 {value}
+-              </button>
++              </ButtonSecondary>
+             </span>
+           ) : props.field.type === "toggle" ? (
+             <label className="x-settings-secondColumn x-toggle-wrapper">
 diff --git a/types/settings-field.ts b/types/settings-field.ts
 index 0b7d15b69de343f182b8f33e618a645d684843b2..aeb58fd617394bc06ce1ae5aaa7fd1e73be01292 100644
 --- a/types/settings-field.ts
@@ -173,3 +235,100 @@ index 0b7d15b69de343f182b8f33e618a645d684843b2..aeb58fd617394bc06ce1ae5aaa7fd1e7
  }
  
  export interface ISettingsFieldDropdown {
+diff --git a/types/spicetify.d.ts b/types/spicetify.d.ts
+index fc3ea053ce5c2ea5b30be0efb4ea601bade371b0..d9868262020291703954ae70993529e3f08bd929 100644
+--- a/types/spicetify.d.ts
++++ b/types/spicetify.d.ts
+@@ -416,12 +416,12 @@ declare namespace Spicetify {
+             deregister(): void;
+         }
+     }
+-    
++
+     /**
+      * Keyboard shortcut library
+-     * 
++     *
+      * Documentation: https://craig.is/killing/mice v1.6.5
+-     * 
++     *
+      * Spicetify.Keyboard is wrapper of this library to be compatible with legacy Spotify,
+      * so new extension should use this library instead.
+      */
+@@ -1291,23 +1291,41 @@ declare namespace Spicetify {
+              */
+             icon?: React.ReactNode;
+         };
++        type ButtonSize = 'sm' | 'md' | 'lg';
++        type ButtonProps = Partial<React.ButtonHTMLAttributes<HTMLButtonElement>> & {
++            component?: React.ElementType;
++            buttonSize?: ButtonSize;
++            size?: 'small' | 'medium' | 'large';
++            children?: React.ReactNode;
++            iconLeading?: React.ElementType | string;
++            iconTrailing?: React.ElementType | string;
++            iconOnly?: React.ElementType | string;
++        };
++        type ButtonComponent = React.ForwardRefExoticComponent<
++            ButtonProps & React.RefAttributes<HTMLButtonElement>
++        > & {
++            sm: 'sm';
++            md: 'md';
++            lg: 'lg';
++            displayName?: string;
++        };
+         /**
+          * Generic context menu provider
+-         * 
++         *
+          * Props:
+          * @see Spicetify.ReactComponent.ContextMenuProps
+          */
+         const ContextMenu: any;
+         /**
+          * Wrapper of ReactComponent.ContextMenu with props: action = 'toggle' and trigger = 'right-click'
+-         * 
++         *
+          * Props:
+          * @see Spicetify.ReactComponent.ContextMenuProps
+          */
+         const RightClickMenu: any;
+         /**
+          * Outer layer contain ReactComponent.MenuItem(s)
+-         * 
++         *
+          * Props:
+          * @see Spicetify.ReactComponent.MenuProps
+          */
+@@ -1315,19 +1333,20 @@ declare namespace Spicetify {
+         /**
+          * Component to construct menu item
+          * Used as ReactComponent.Menu children
+-         * 
++         *
+          * Props:
+          * @see Spicetify.ReactComponent.MenuItemProps
+          */
+         const MenuItem: any;
+         /**
+          * Tailored ReactComponent.Menu for specific type of object
+-         * 
++         *
+          * Props: {
+          *      uri: string;
+          *      onRemoveCallback?: (uri: string) => void;
+          * }
+          */
++        const ButtonSecondary: ButtonComponent;
+         const AlbumMenu: any;
+         const PodcastShowMenu: any;
+         const ArtistMenu: any;
+@@ -1349,7 +1368,7 @@ declare namespace Spicetify {
+     }
+ 
+     /**
+-     * SVG icons 
++     * SVG icons
+      */
+     namespace SVGIcons {
+         const check: string;
