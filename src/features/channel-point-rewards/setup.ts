@@ -5,12 +5,16 @@ const SETUP_REWARD_PREFIX = "Setup New Reward:";
 
 let isSetupActive = false;
 
-export function getRewardSetupStatus(): boolean {
+export function isRewardSetupActive(): boolean {
   return isSetupActive;
 }
 
 export function startRewardSetup(): void {
   isSetupActive = true;
+}
+
+export function stopRewardSetup(): void {
+  isSetupActive = false;
 }
 
 export function finishRewardSetup(rewardId: string, title: string): void {
@@ -48,27 +52,28 @@ export function getRewardSetupPrefix(): string {
 export function tryFinishRewardSetup(
   tags: ChatUserstate,
   message: string,
-): void {
-  if (!getRewardSetupStatus()) {
-    return;
+): boolean {
+  if (!isRewardSetupActive()) {
+    return false;
   }
 
   if (!tags.username || !client.isBroadcaster(tags.username)) {
-    return;
+    return false;
   }
 
   const rewardId: string | null = tags["custom-reward-id"];
 
   if (!rewardId) {
-    return;
+    return false;
   }
 
   const title = getRewardSetupTitle(message);
 
   if (!title) {
-    return;
+    return false;
   }
 
   finishRewardSetup(rewardId, title);
   Spicetify.showNotification(`Reward "${title}" added`, false, 10_000);
+  return true;
 }

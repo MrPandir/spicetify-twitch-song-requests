@@ -1,6 +1,7 @@
 import { clearAccessToken, reply } from "@bot";
 import { PREFIX } from "@config";
 import { refreshAuthButton } from "@ui/settings";
+import { refreshRewardSetupButton } from "@ui/settings/reward-settings";
 import { canExecuteCommand } from "@features/command-permissions";
 import { tryFinishRewardSetup } from "@features/channel-point-rewards/setup";
 import type { ChatUserstate } from "tmi.js";
@@ -14,7 +15,9 @@ export function handlerMessage(
   message: string,
   self: boolean,
 ) {
-  tryFinishRewardSetup(tags, message);
+  if (tryFinishRewardSetup(tags, message)) {
+    refreshRewardSetupButton();
+  }
 
   if (!message.startsWith(PREFIX)) return;
 

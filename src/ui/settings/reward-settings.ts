@@ -3,7 +3,9 @@ import { nameId } from "@settings.json";
 import { commandDefinitions } from "@config/command-settings";
 import {
   getRewardSetupPrefix,
+  isRewardSetupActive,
   startRewardSetup,
+  stopRewardSetup,
 } from "@features/channel-point-rewards/setup";
 
 export const channelPointRewards = new SettingsSection(
@@ -12,14 +14,35 @@ export const channelPointRewards = new SettingsSection(
 );
 
 const DISABLED_REWARD_OPTION = "Disabled";
+const rewardSetupButtonId = "setupNewReward";
+
+export function getRewardSetupButtonText(): string {
+  return isRewardSetupActive() ? "Stop Setup Reward" : "Setup New Reward";
+}
+
+export function refreshRewardSetupButton() {
+  const rewardSetupButton = channelPointRewards.settingsFields[rewardSetupButtonId];
+
+  if (rewardSetupButton?.type !== "button") return;
+
+  rewardSetupButton.value = getRewardSetupButtonText();
+  channelPointRewards.rerender();
+}
 
 export async function addChannelPointRewardsSettings() {
   channelPointRewards.addButton(
-    "setupNewReward",
+    rewardSetupButtonId,
     "Add a new reward to the list",
-    "Setup New Reward",
+    getRewardSetupButtonText(),
     () => {
+      if (isRewardSetupActive()) {
+        stopRewardSetup();
+        refreshRewardSetupButton();
+        return;
+      }
+
       startRewardSetup();
+      refreshRewardSetupButton();
       Spicetify.showNotification(
         `Redeem the channel point reward with text: ${getRewardSetupPrefix()} Name reward.`,
         false,
