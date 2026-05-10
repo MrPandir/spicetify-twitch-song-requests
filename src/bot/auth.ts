@@ -1,4 +1,5 @@
-import { CLIENT_ID, SCOPES, settings } from "@config";
+import { CLIENT_ID, SCOPES } from "@config";
+import { settings } from "@ui/settings";
 import type { DeviceCodeResponse, TokenResponse, TokenError } from "./types";
 
 const TWITCH_AUTH_URL = "https://id.twitch.tv/oauth2/device";

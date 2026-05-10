@@ -2,7 +2,7 @@ import type { User } from "@bot/types";
 import {
   getCommandPermissions,
   type PermissionKeyword,
-} from "@config/permission-settings";
+} from "@ui/settings";
 
 function hasKeywordAccess(
   user: User,

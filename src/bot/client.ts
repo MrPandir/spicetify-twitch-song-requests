@@ -1,6 +1,6 @@
 import { Client } from "tmi.js";
 import { disconnectHandler, handlerMessage } from "./message-processor";
-import { getChannel, refreshAuthButton } from "@config";
+import { getChannel, refreshAuthButton } from "@ui/settings";
 import { formatChannel } from "@utils";
 import { clearAccessToken } from "./auth";
 

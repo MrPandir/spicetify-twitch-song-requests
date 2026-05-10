@@ -1,6 +1,6 @@
 import { SettingsSection } from "spcr-settings";
 import { nameId } from "@settings.json";
-import { commandDefinitions } from "./command-settings";
+import { commandDefinitions } from "@config/command-settings";
 
 export const channelPointRewards = new SettingsSection(
   "Twitch Song Requests (Channel Point Rewards)",

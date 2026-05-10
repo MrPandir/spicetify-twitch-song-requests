@@ -1,5 +1,6 @@
 import { clearAccessToken, reply } from "@bot";
-import { PREFIX, refreshAuthButton } from "@config";
+import { PREFIX } from "@config";
+import { refreshAuthButton } from "@ui/settings";
 import { canExecuteCommand } from "@features/command-permissions";
 import type { ChatUserstate } from "tmi.js";
 import { client } from "./client";

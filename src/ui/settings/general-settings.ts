@@ -6,9 +6,7 @@ import {
   getAuthButtonText,
   handleAuthButtonClick,
   registerAuthButtonRerender,
-} from "@ui";
-import { addChannelPointRewardsSettings } from "./channel-point-rewards-settings";
-import { addPermissionScopesSettings } from "./permission-settings";
+} from "@ui/auth";
 
 export const settings = new SettingsSection("Twitch Song Requests", nameId);
 const authButtonId = "toggleBotAuth";
@@ -22,7 +20,7 @@ export function refreshAuthButton() {
   settings.rerender();
 }
 
-export async function addSettings() {
+export async function addGeneralSettings() {
   settings.addInput("channel", "Nickname channel");
 
   settings.addDropDown("language", "Bot language", Object.values(Language), 0);
@@ -70,8 +68,6 @@ export async function addSettings() {
   settings.addHidden("access_token", null);
 
   await settings.pushSettings();
-  await addPermissionScopesSettings();
-  await addChannelPointRewardsSettings();
   registerAuthButtonRerender(refreshAuthButton);
 }
 

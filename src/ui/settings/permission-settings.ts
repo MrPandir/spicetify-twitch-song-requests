@@ -1,6 +1,6 @@
 import { SettingsSection } from "spcr-settings";
 import { nameId } from "@settings.json";
-import { commandDefinitions } from "./command-settings";
+import { commandDefinitions } from "@config/command-settings";
 
 export const permissionScopes = new SettingsSection(
   "Twitch Song Requests (Permission Scopes)",
