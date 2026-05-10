@@ -7,6 +7,7 @@ import {
   handleAuthButtonClick,
   registerAuthButtonRerender,
 } from "@ui";
+import { addChannelPointRewardsSettings } from "./channel-point-rewards-settings";
 import { addPermissionScopesSettings } from "./permission-settings";
 
 export const settings = new SettingsSection("Twitch Song Requests", nameId);
@@ -70,6 +71,7 @@ export async function addSettings() {
 
   await settings.pushSettings();
   await addPermissionScopesSettings();
+  await addChannelPointRewardsSettings();
   registerAuthButtonRerender(refreshAuthButton);
 }
 
