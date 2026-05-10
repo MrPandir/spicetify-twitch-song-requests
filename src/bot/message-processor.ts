@@ -2,6 +2,7 @@ import { clearAccessToken, reply } from "@bot";
 import { PREFIX } from "@config";
 import { refreshAuthButton } from "@ui/settings";
 import { canExecuteCommand } from "@features/command-permissions";
+import { tryFinishRewardSetup } from "@features/channel-point-rewards/setup";
 import type { ChatUserstate } from "tmi.js";
 import { client } from "./client";
 import { commands } from "./commands";
@@ -13,6 +14,8 @@ export function handlerMessage(
   message: string,
   self: boolean,
 ) {
+  tryFinishRewardSetup(tags, message);
+
   if (!message.startsWith(PREFIX)) return;
 
   const [rawCommand, ...args] = message.split(" ");
