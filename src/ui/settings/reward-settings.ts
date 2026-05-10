@@ -8,6 +8,13 @@ export const channelPointRewards = new SettingsSection(
 );
 
 export async function addChannelPointRewardsSettings() {
+  channelPointRewards.addButton(
+    "setupNewReward",
+    "Add a new reward to the list",
+    "Setup New Reward",
+    () => {},
+  );
+
   for (const definition of commandDefinitions) {
     channelPointRewards.addDropDown(
       definition.command,
