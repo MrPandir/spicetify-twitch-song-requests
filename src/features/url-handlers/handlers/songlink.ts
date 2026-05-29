@@ -18,9 +18,10 @@ export class SongLinkURLHandler implements URLHandler {
     }
 
     const songLink = await getSongLink(url);
+    const result = this.processSongLinkData(songLink);
 
-    if (songLink) {
-      return this.processSongLinkData(songLink);
+    if (result && result.status == HandlerStatus.SUCCESS) {
+      return result;
     }
 
     console.warn(
@@ -35,16 +36,23 @@ export class SongLinkURLHandler implements URLHandler {
       return { status: HandlerStatus.NOT_MATCHING };
     }
 
-    return { status: HandlerStatus.WRONG_CONTENT };
+    return result;
   }
 
-  processSongLinkData(songLink: SongLinkResponse): HandlerResult {
+  processSongLinkData(songLink: SongLinkResponse | null): HandlerResult {
+    if (!songLink) {
+      return { status: HandlerStatus.WRONG_CONTENT };
+    }
+
     const uniqueId = songLink.linksByPlatform?.spotify?.entityUniqueId;
     const entity = uniqueId ? songLink.entitiesByUniqueId[uniqueId] : undefined;
 
     if (!entity) {
+      // TODO: It is possible to search by title from the first platform.
+      // The architecture is not designed for this.
       console.log(
-        `[SongLinkURLHandler] No Spotify entity found in SongLink response for URL: ${songLink}`,
+        "[SongLinkURLHandler] No Spotify entity found in SongLink response:",
+        songLink,
       );
       return { status: HandlerStatus.WRONG_CONTENT };
     }
