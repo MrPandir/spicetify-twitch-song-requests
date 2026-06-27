@@ -2,6 +2,7 @@ import { SettingsSection } from "spcr-settings";
 import { nameId } from "@settings.json";
 import { commandDefinitions } from "@config/command-settings";
 import { rewardCatalog } from "@config/reward-catalog";
+import { isBotConnected } from "@bot/client";
 import {
   getRewardSetupPrefix,
   isRewardSetupActive,
@@ -72,6 +73,14 @@ export async function addChannelPointRewardsSettings() {
       if (isRewardSetupActive()) {
         stopRewardSetup();
         refreshRewardSetupButton();
+        return;
+      }
+
+      if (!isBotConnected()) {
+        Spicetify.showNotification(
+          "No chat connection. Connect to Twitch chat first.",
+          true,
+        );
         return;
       }
 

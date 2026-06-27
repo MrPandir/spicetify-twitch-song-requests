@@ -6,6 +6,10 @@ import { clearAccessToken } from "./auth";
 
 export let client: Client;
 
+export function isBotConnected(): boolean {
+  return Boolean(client) && client.isConnected();
+}
+
 export async function initNewBot(token: string, channel: string) {
   if (client && client.isConnected()) {
     console.info("Disconnecting bot and removing listeners");
@@ -82,7 +86,7 @@ export async function reconnect() {
 
 export async function disconnect() {
   try {
-    if (!client || !client.isConnected()) {
+    if (!isBotConnected()) {
       return Spicetify.showNotification("Bot is not connected to the chat");
     }
 
