@@ -1,6 +1,6 @@
 import { nameId } from "@settings.json";
 
-interface RewardEntry {
+export interface RewardEntry {
   commandId: string | null;
   rewardName: string;
 }
@@ -41,6 +41,22 @@ class RewardCatalogManager {
     return this.data.get(rewardId)?.commandId || null;
   }
 
+  getRewardNameByCommand(commandId: string): string | null {
+    for (const entry of this.data.values()) {
+      if (entry.commandId === commandId) {
+        return entry.rewardName;
+      }
+    }
+
+    return null;
+  }
+
+  getFreeRewards(): string[] {
+    return Array.from(this.data.values())
+      .filter((entry) => entry.commandId === null)
+      .map((entry) => entry.rewardName);
+  }
+
   setReward(rewardId: string, rewardName: string): void {
     // Find entry with same rewardName and move it to new rewardId
     for (const [key, entry] of this.data.entries()) {
@@ -67,19 +83,20 @@ class RewardCatalogManager {
     return this.data.values();
   }
 
-  // getRewardName(commandId: string): string | undefined {
-  //   for (const entry of this.data.values()) {
-  //     if (entry.commandId === commandId) {
-  //       return entry.rewardName;
-  //     }
-  //   }
-  //   return undefined;
-  // }
-
   setCommand(commandId: string, rewardName: string): void {
     for (const entry of this.data.values()) {
       if (entry.rewardName === rewardName) {
         entry.commandId = commandId;
+        this.save();
+        return;
+      }
+    }
+  }
+
+  clearCommand(commandId: string): void {
+    for (const entry of this.data.values()) {
+      if (entry.commandId === commandId) {
+        entry.commandId = null;
         this.save();
         return;
       }

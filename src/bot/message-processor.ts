@@ -1,7 +1,10 @@
 import { clearAccessToken, reply } from "@bot";
 import { PREFIX } from "@config";
 import { refreshAuthButton } from "@ui/settings";
-import { refreshRewardSetupButton } from "@ui/settings/reward-settings";
+import {
+  refreshChannelPointRewardsSettings,
+  refreshRewardSetupButton,
+} from "@ui/settings/reward-settings";
 import { canExecuteCommand } from "@features/command-permissions";
 import { tryFinishRewardSetup } from "@features/channel-point-rewards/setup";
 import type { ChatUserstate } from "tmi.js";
@@ -17,6 +20,7 @@ export function handlerMessage(
 ) {
   if (tryFinishRewardSetup(tags, message)) {
     refreshRewardSetupButton();
+    refreshChannelPointRewardsSettings();
   }
 
   if (!message.startsWith(PREFIX)) return;

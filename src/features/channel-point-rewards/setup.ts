@@ -1,5 +1,6 @@
 import type { ChatUserstate } from "tmi.js";
 import { client } from "@bot/client";
+import { rewardCatalog } from "@config/reward-catalog";
 
 const SETUP_REWARD_PREFIX = "Setup New Reward:";
 
@@ -22,8 +23,7 @@ export function finishRewardSetup(rewardId: string, title: string): void {
     return;
   }
 
-  console.log("Setup reward is complete:", rewardId, title);
-
+  rewardCatalog.setReward(rewardId, title);
   isSetupActive = false;
 }
 
