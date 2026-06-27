@@ -1,6 +1,13 @@
 import { clearAccessToken, reply } from "@bot";
-import { PREFIX, refreshAuthButton } from "@config";
+import { PREFIX } from "@config";
+import { refreshAuthButton } from "@ui/settings";
+import {
+  refreshChannelPointRewardsSettings,
+  refreshRewardSetupButton,
+} from "@ui/settings/reward-settings";
 import { canExecuteCommand } from "@features/command-permissions";
+import { rewardCatalog } from "@config/reward-catalog";
+import { tryFinishRewardSetup } from "@features/channel-point-rewards/setup";
 import type { ChatUserstate } from "tmi.js";
 import { client } from "./client";
 import { commands } from "./commands";
@@ -12,20 +19,58 @@ export function handlerMessage(
   message: string,
   self: boolean,
 ) {
+  if (tryFinishRewardSetup(tags, message)) {
+    refreshRewardSetupButton();
+    refreshChannelPointRewardsSettings();
+  }
+
+  const rewardId = tags["custom-reward-id"];
+  const rewardCommand = rewardId ? rewardCatalog.getCommand(rewardId) : null;
+
+  if (rewardCommand) {
+    return executeCommandByName(rewardCommand, getArgs(message), tags, false);
+  }
+
   if (!message.startsWith(PREFIX)) return;
 
-  const [rawCommand, ...args] = message.split(" ");
+  const [rawCommand, ...args] = getArgs(message);
   const command = rawCommand.toLowerCase().slice(1); // remove prefix
 
+  void executeCommandByName(command, args, tags);
+}
+
+async function executeCommandByName(
+  command: string,
+  args: string[],
+  tags: ChatUserstate,
+  checkPermissions: boolean = true,
+): Promise<void> {
   const executor: CommandExecutor | undefined = commands[command];
   if (!executor) return;
 
-  if (!tags["user-id"] || !tags["username"] || !tags["display-name"]) {
-    console.warn("Missing user information");
+  const user = getUser(tags);
+  if (!user) return;
+
+  if (checkPermissions && !canExecuteCommand(command, user)) {
+    await sendResponses([reply("internal", "permissionDenied")], tags.id);
     return;
   }
 
-  const user: User = {
+  await executeCommand(executor, user, args, tags);
+}
+
+function getArgs(message: string): string[] {
+  const trimmedMessage = message.trim();
+  return trimmedMessage.length ? trimmedMessage.split(/\s+/) : [];
+}
+
+function getUser(tags: ChatUserstate): User | null {
+  if (!tags["user-id"] || !tags["username"] || !tags["display-name"]) {
+    console.warn("Missing user information");
+    return null;
+  }
+
+  return {
     id: tags["user-id"],
     userName: tags["username"],
     displayName: tags["display-name"],
@@ -34,13 +79,6 @@ export function handlerMessage(
     isSubscriber: !!tags.subscriber,
     isVip: !!tags.vip,
   };
-
-  if (!canExecuteCommand(command, user)) {
-    sendResponses([reply("internal", "permissionDenied")], tags.id);
-    return;
-  }
-
-  executeCommand(executor, user, args, tags);
 }
 
 async function executeCommand(

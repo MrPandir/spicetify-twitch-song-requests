@@ -1,2 +1,2 @@
-export * from "./settings";
 export * from "./constants";
+export * from "./command-settings";

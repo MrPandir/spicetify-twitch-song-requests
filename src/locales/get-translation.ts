@@ -1,4 +1,4 @@
-import { getLanguage } from "@config";
+import { getLanguage } from "@ui/settings";
 import { locales, TranslationParams, type LocaleDefinition } from "@locales";
 
 function getTranslationFunctionOrText<

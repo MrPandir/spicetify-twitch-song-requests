@@ -1,6 +1,6 @@
 import { queue } from "@features/queue";
 import { reply } from "@bot";
-import { getAllowGlobalDeleteForMods } from "@config/permission-settings";
+import { getAllowGlobalDeleteForMods } from "@ui/settings";
 import type { BotResponse, CommandExecutor, User } from "../types";
 import { hasText } from "@utils";
 

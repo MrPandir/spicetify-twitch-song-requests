@@ -1,5 +1,5 @@
 import { initNewBot, getAccessToken } from "@bot";
-import { addSettings, getChannel } from "@config";
+import { addSettings, getChannel } from "@ui/settings";
 
 async function main() {
   await addSettings();

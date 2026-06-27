@@ -21,6 +21,7 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 - 🔁 Random duplicate toggle (allow/disallow already queued tracks)
 - 🔄 Auto queue sync when track removed from Spotify
 - 🔑 Permanent Twitch token (no re-auth needed)
+- 🔮 Twitch Channel Point Rewards can trigger bot commands
 - 🔗 Supported links from: Spotify, Apple Music, YouTube Music, Deezer, TIDAL, Amazon Music, SoundCloud, Yandex Music, and many more
 - 🌍 Bot replies in: RU · EN · PT-BR · DE · UA
 
@@ -82,6 +83,33 @@ pnpm build
 4. This will open a tab in your browser. Click `Activate` and then `Authorize`.
 5. After successful authorization, the button in settings will change to `Logout`.
 6. Configure and enjoy.
+
+## Twitch Channel Point Rewards
+
+You can link Twitch channel point rewards to bot commands. When a viewer redeems that reward, the bot runs the selected command as if it was typed in chat.
+
+> [!IMPORTANT]
+> Channel point rewards without a text field do NOT work because of Twitch IRC limitations.
+
+### How to set it up
+
+1. Open Spotify settings and go to `Twitch Song Requests (Channel Point Rewards)`.
+2. Make sure the channel point reward has a text field.
+3. Click `Setup New Reward`.
+4. In Twitch, redeem a channel point reward as the broadcaster with the exact title prefix, for example:
+```text
+Setup New Reward: Song request
+```
+5. After that, the reward will appear in the dropdown list next to the command.
+6. Pick the command you want to trigger from that reward.
+7. Repeat the process for more rewards.
+
+### Notes
+
+- The setup step only works for the broadcaster account.
+- The reward title must start with the prefix `Setup New Reward:`.
+- You can rename or move an existing reward by running the setup flow again with the same reward title.
+- If you want to stop the setup flow before redeeming a reward, click `Stop Setup Reward`.
 
 # Command Permissions
 

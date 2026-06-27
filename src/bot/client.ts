@@ -1,10 +1,14 @@
 import { Client } from "tmi.js";
 import { disconnectHandler, handlerMessage } from "./message-processor";
-import { getChannel, refreshAuthButton } from "@config";
+import { getChannel, refreshAuthButton } from "@ui/settings";
 import { formatChannel } from "@utils";
 import { clearAccessToken } from "./auth";
 
 export let client: Client;
+
+export function isBotConnected(): boolean {
+  return Boolean(client) && client.isConnected();
+}
 
 export async function initNewBot(token: string, channel: string) {
   if (client && client.isConnected()) {
@@ -82,7 +86,7 @@ export async function reconnect() {
 
 export async function disconnect() {
   try {
-    if (!client || !client.isConnected()) {
+    if (!isBotConnected()) {
       return Spicetify.showNotification("Bot is not connected to the chat");
     }
 

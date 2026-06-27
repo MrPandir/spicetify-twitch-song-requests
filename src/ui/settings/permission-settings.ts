@@ -1,5 +1,6 @@
 import { SettingsSection } from "spcr-settings";
 import { nameId } from "@settings.json";
+import { commandDefinitions } from "@config/command-settings";
 
 export const permissionScopes = new SettingsSection(
   "Twitch Song Requests (Permission Scopes)",
@@ -95,115 +96,17 @@ export function getAllowGlobalDeleteForMods(): boolean {
 }
 
 export async function addPermissionScopesSettings() {
-  permissionScopes.addInput("song", "!song", {
-    defaultValue: "everyone",
-    suggestions: permissionKeywords,
-    props: {
-      onBlur: (event) => {
-        return normalizeField("song", event.currentTarget.value);
-      },
-    },
-  });
-
-  permissionScopes.addInput("sr", "!sr <song name | link> [link...]", {
-    defaultValue: "everyone",
-    suggestions: permissionKeywords,
-    props: {
-      onBlur: (event) => {
-        return normalizeField("sr", event.currentTarget.value);
-      },
-    },
-  });
-  permissionScopes.addInput("srn", "!srn <song name | link> [link...]", {
-    defaultValue: "mods, subs",
-    suggestions: permissionKeywords,
-    props: {
-      onBlur: (event) => {
-        return normalizeField("srn", event.currentTarget.value);
-      },
-    },
-  });
-
-  permissionScopes.addInput(
-    "rr",
-    "!rr [artist link | playlist link | album link]",
-    {
-      defaultValue: "everyone",
+  for (const definition of commandDefinitions) {
+    permissionScopes.addInput(definition.command, definition.label, {
+      defaultValue: definition.defaultPermission,
       suggestions: permissionKeywords,
       props: {
         onBlur: (event) => {
-          return normalizeField("rr", event.currentTarget.value);
+          return normalizeField(definition.command, event.currentTarget.value);
         },
       },
-    },
-  );
-  permissionScopes.addInput(
-    "rrn",
-    "!rrn [artist link | playlist link | album link]",
-    {
-      defaultValue: "mods, subs",
-      suggestions: permissionKeywords,
-      props: {
-        onBlur: (event) => {
-          return normalizeField("rrn", event.currentTarget.value);
-        },
-      },
-    },
-  );
-
-  permissionScopes.addInput("clear", "!clear", {
-    defaultValue: "",
-    suggestions: permissionKeywords,
-    props: {
-      onBlur: (event) => {
-        return normalizeField("clear", event.currentTarget.value);
-      },
-    },
-  });
-
-  permissionScopes.addInput("prev", "!prev", {
-    defaultValue: "mods",
-    suggestions: permissionKeywords,
-    props: {
-      onBlur: (event) => {
-        return normalizeField("prev", event.currentTarget.value);
-      },
-    },
-  });
-
-  permissionScopes.addInput("next", "!next", {
-    defaultValue: "mods",
-    suggestions: permissionKeywords,
-    props: {
-      onBlur: (event) => {
-        return normalizeField("next", event.currentTarget.value);
-      },
-    },
-  });
-
-  permissionScopes.addInput("volume", "!volume [0-100]", {
-    defaultValue: "mods",
-    suggestions: permissionKeywords,
-    props: {
-      onBlur: (event) => {
-        return normalizeField("volume", event.currentTarget.value);
-      },
-    },
-  });
-
-  permissionScopes.addInput(
-    "rm",
-    "!rm [match by title or artist | index from the end of the queue]",
-    {
-      defaultValue: "everyone",
-      suggestions: permissionKeywords,
-      props: {
-        onBlur: (event) => {
-          return normalizeField("rm", event.currentTarget.value);
-        },
-      },
-    },
-  );
+    });
+  }
 
   permissionScopes.addToggle(
     "allowGlobalDeleteForMods",

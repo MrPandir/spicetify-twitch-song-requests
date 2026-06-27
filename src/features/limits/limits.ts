@@ -1,4 +1,4 @@
-import { getMaxTracksPerUser, getMaxTracksInQueue } from "@config/settings";
+import { getMaxTracksPerUser, getMaxTracksInQueue } from "@ui/settings";
 import { queue } from "@features/queue";
 import { Track, TwitchUserId } from "@entities";
 import type { LimitInfo, ApplyLimitsResult } from "./types";

@@ -5,7 +5,7 @@ import {
   getPlaylistMetadata,
   getPlaylistTracks,
 } from "@api/spotify";
-import { getAllowDuplicateRandomTracks } from "@config/settings";
+import { getAllowDuplicateRandomTracks } from "@ui/settings";
 import { Track } from "@entities";
 import { queue } from "@features/queue";
 import { addHttpsPrefix, randomIndex } from "@utils";
