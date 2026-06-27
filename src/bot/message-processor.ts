@@ -28,7 +28,7 @@ export function handlerMessage(
   const rewardCommand = rewardId ? rewardCatalog.getCommand(rewardId) : null;
 
   if (rewardCommand) {
-    return executeCommandByName(rewardCommand, getArgs(message), tags);
+    return executeCommandByName(rewardCommand, getArgs(message), tags, false);
   }
 
   if (!message.startsWith(PREFIX)) return;
