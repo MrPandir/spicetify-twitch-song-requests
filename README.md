@@ -1,8 +1,7 @@
 # Spicetify Twitch Song Requests
 Song requests in the Twitch chat for Spicetify. Let your viewers add tracks to the queue using chat commands. No Spotify Premium subscription required.
 
-<video src="./preview.mp4" controls>
-</video>
+https://github.com/user-attachments/assets/4471bf6e-f612-426b-88f4-f5fe783360de
 
 # Features
 
