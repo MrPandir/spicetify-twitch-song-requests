@@ -222,10 +222,11 @@ Switches Spotify playback to the next track.
 
 Available to moderators by default.
 
-### !volume [0-100]
+### !volume [0-100 | +10 | -23%]
 Shows the current Spotify volume.
 
 If a value from `0` to `100` is provided, sets the Spotify volume to that percentage.
+If the value starts with `+` or `-`, it adjusts the current volume by that amount.
 
 Available to moderators by default.
 

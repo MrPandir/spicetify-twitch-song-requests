@@ -56,7 +56,7 @@ export const commandDefinitions: CommandDefinition[] = [
   },
   {
     command: "volume",
-    label: "!volume [0-100]",
+    label: "!volume [0-100 | +10 | -23%]",
     shortDescription: "Volume",
     defaultPermission: "mods",
   },

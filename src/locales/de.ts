@@ -74,7 +74,7 @@ const locale: LocaleDefinition = {
   volume: {
     current: (volume: number) => `Aktuelle Lautstarke: ${volume}%`,
     updated: (previousVolume: number, volume: number) =>
-      `Lautstarke von ${previousVolume}% auf ${volume}% geandert`,
+      `Lautstarke: ${previousVolume}% -> ${volume}%`,
   },
 
   internal: {

@@ -68,7 +68,7 @@ const locale: LocaleDefinition = {
   volume: {
     current: (volume: number) => `Поточна гучність: ${volume}%`,
     updated: (previousVolume: number, volume: number) =>
-      `Гучність змінено з ${previousVolume}% на ${volume}%`,
+      `Гучність: ${previousVolume}% -> ${volume}%`,
   },
 
   internal: {

@@ -12,20 +12,37 @@ function clampVolume(value: number): number {
   return Math.min(MAX_VOLUME, Math.max(MIN_VOLUME, value));
 }
 
+function parseVolumeInput(input: string, currentVolume: number): number | null {
+  const normalizedInput = input.trim().replace(/%$/, "");
+
+  if (normalizedInput.length === 0) {
+    return null;
+  }
+
+  const firstChar = normalizedInput[0];
+  const isDelta = firstChar === "+" || firstChar === "-";
+  const value = Number(normalizedInput);
+
+  if (!Number.isFinite(value)) {
+    return null;
+  }
+
+  return clampVolume(
+    isDelta ? currentVolume + Math.round(value) : Math.round(value),
+  );
+}
+
 const executor: CommandExecutor = async function (author, args, tags) {
   if (args.length === 0) {
     return reply("volume", "current", getCurrentVolumePercent());
   }
 
   const previousVolume = getCurrentVolumePercent();
-  const normalizedInput = args[0].trim().replace(/%$/, "");
-  const input = Number(normalizedInput);
+  const volume = parseVolumeInput(args[0], previousVolume);
 
-  if (!Number.isFinite(input)) {
+  if (volume === null) {
     return reply("volume", "current", previousVolume);
   }
-
-  const volume = clampVolume(Math.round(input));
 
   Spicetify.Player.setVolume(volume / 100);
 

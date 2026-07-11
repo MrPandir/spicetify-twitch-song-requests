@@ -69,7 +69,7 @@ const locale = {
   volume: {
     current: (volume: number) => `Current volume: ${volume}%`,
     updated: (previousVolume: number, volume: number) =>
-      `Volume changed from ${previousVolume}% to ${volume}%`,
+      `Volume: ${previousVolume}% -> ${volume}%`,
   },
 
   internal: {
