@@ -1,19 +1,18 @@
 # Spicetify Twitch Song Requests
-Twitch chat song requests for Spicetify — let viewers queue tracks using chat commands. No Spotify Premium subscription required.
+Song requests in the Twitch chat for Spicetify. Let your viewers add tracks to the queue using chat commands. No Spotify Premium subscription required.
 
 # Features
 
 - 🪙 Works **without Spotify Premium**
-- ➕ `!sr` — add track by name or link
-- 🚀 `!srn` — add track to the **beginning** of the queue (priority request)
-- 🎲 `!rr` — add a **random** track from favorites or Spotify source link
-- ⚡ `!rrn` — add a **random** track to the **beginning** of the queue (priority request)
-- 🗑️ `!rm` — remove your track (last by default)
-- 🧹 `!clear` — clear Spotify queue
-- ⏮️ `!prev` — switch to the previous track
-- ⏭️ `!next` — switch to the next track
-- 🔊 `!volume` — view or set Spotify volume
-- 📦 Multi-add — multiple links in one message
+- ➕ Add track by name or link
+- 🚀 Add track to the **beginning** of the queue (priority request)
+- 🎲 Add a **random** track from favorites or Spotify source link
+- ⚡ Add a **random** track to the **beginning** of the queue (priority request)
+- 🗑️ Remove tracks from the queue
+- 🧹 Clear the full Spotify queue
+- ↔️ Go to the previous / next track
+- 🔊 Set the playback volume
+- 📦 Multiple links in one message
 - 🔍 Remove by position or partial name
 - 👮 Moderators can remove any track
 - 🔐 Configurable command access permissions
@@ -23,7 +22,7 @@ Twitch chat song requests for Spicetify — let viewers queue tracks using chat 
 - 🔑 Permanent Twitch token (no re-auth needed)
 - 🔮 Twitch Channel Point Rewards can trigger bot commands
 - 🔗 Supported links from: Spotify, Apple Music, YouTube Music, Deezer, TIDAL, Amazon Music, SoundCloud, Yandex Music, and many more
-- 🌍 Bot replies in: RU · EN · PT-BR · DE · UA
+- 🌍 Bot replies in: EN · RU · UA · DE · PT-BR (Your language can be added by request)
 
 # Installation
 
@@ -68,7 +67,7 @@ git clone --depth 1 https://github.com/MrPandir/spicetify-twitch-song-requests.g
 pnpm build
 ```
 > [!NOTE]
-> This will automatically place the file in the Spicetify extensions directory.
+> This will automatically place the built extension file in the Spicetify `Extensions` directory.
 3. Follow steps 3 and 4 from [Manual Installation](#manual-installation).
 4. Next steps: [Authorization & Configuration](#authorization--configuration)
 
@@ -231,6 +230,13 @@ If the value starts with `+` or `-`, it adjusts the current volume by that amoun
 Available to moderators by default.
 
 # Development
+
+To build and install the extension directly into the Spicetify `Extensions` directory:
+
+```bash
+pnpm build
+spicetify apply
+```
 
 ### Watch Mode
 1. Auto-rebuilding on code changes:
