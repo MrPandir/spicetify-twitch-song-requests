@@ -7,6 +7,14 @@
     "main": "twitch-song-requests.js",
     "readme": "README.md",
     "authors": [{ "name": "MrPandir", "url": "https://github.com/MrPandir" }],
-    "tags": ["twitch", "chat", "queue", "interactive", "integration", "request"]
+    "tags": [
+      "twitch",
+      "chat",
+      "queue",
+      "stream",
+      "interactive",
+      "integration",
+      "request"
+    ]
   }
 ]
