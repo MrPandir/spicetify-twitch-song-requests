@@ -1,5 +1,5 @@
 diff --git a/settingsSection.tsx b/settingsSection.tsx
-index 8cad912be88c51dca4901f094c3939b7e354a98b..94ac6cc39a7bba8c71a412134bd6cde749bc2b14 100644
+index 8cad912be88c51dca4901f094c3939b7e354a98b..62403f4dab52dd13ecb0278832153b273be888de 100644
 --- a/settingsSection.tsx
 +++ b/settingsSection.tsx
 @@ -8,18 +8,20 @@ import {
@@ -133,6 +133,15 @@ index 8cad912be88c51dca4901f094c3939b7e354a98b..94ac6cc39a7bba8c71a412134bd6cde7
        if (newValue !== undefined) {
          setValueState(newValue);
          this.setFieldValue(props.nameId!, newValue);
+@@ -216,7 +256,7 @@ class SettingsSection {
+     };
+ 
+     return (
+-      <div className="x-settings-row">
++      <div className="x-settings-row" data-settings-row="true">
+         <div className="x-settings-firstColumn">
+           <label
+             className="TypeElement-viola-textSubdued-type"
 @@ -227,36 +267,64 @@ class SettingsSection {
          </div>
          <div className="x-settings-secondColumn">
