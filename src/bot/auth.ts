@@ -42,16 +42,55 @@ async function requestAccessToken(deviceCode: string): Promise<TokenResponse> {
   return data as TokenResponse;
 }
 
-function handleTokenError(error: TokenError): void {
-  switch (error.message) {
-    case "authorization_pending":
-      break;
-    case "invalid device code":
-      throw new Error("Device code has expired or is invalid");
-    default:
-      console.error("Unexpected error during token request:", error);
-      throw error;
-  }
+type PollAction =
+  | { status: "done" }
+  | { status: "retry" }
+  | { status: "slow_down" }
+  | { status: "error"; error: Error };
+
+function poll(
+  fn: () => Promise<PollAction>,
+  options: { interval: number; timeout: number },
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    let currentInterval = options.interval;
+    let pollInterval: ReturnType<typeof setInterval>;
+    const startTime = Date.now();
+
+    function startPolling() {
+      pollInterval = setInterval(async () => {
+        if (Date.now() - startTime > options.timeout * 1000) {
+          clearInterval(pollInterval);
+          reject(new Error("Polling timeout exceeded"));
+          return;
+        }
+
+        const result = await fn();
+
+        if (result.status === "done") {
+          clearInterval(pollInterval);
+          resolve();
+          return;
+        }
+
+        if (result.status === "slow_down") {
+          currentInterval += 5;
+          console.debug(`slow_down: interval increased to ${currentInterval}s`);
+          clearInterval(pollInterval);
+          startPolling();
+          return;
+        }
+
+        if (result.status === "error") {
+          clearInterval(pollInterval);
+          reject(result.error);
+          return;
+        }
+      }, currentInterval * 1000);
+    }
+
+    startPolling();
+  });
 }
 
 export async function pollForAccessToken(
@@ -59,33 +98,22 @@ export async function pollForAccessToken(
   interval: number,
   timeout: number = 1800,
 ): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const pollInterval = setInterval(async () => {
-      try {
-        const tokenData = await requestAccessToken(deviceCode);
+  await poll(async () => {
+    try {
+      const tokenData = await requestAccessToken(deviceCode);
+      saveTokens(tokenData.access_token, tokenData.refresh_token, tokenData.expires_in || 0);
+      return { status: "done" };
+    } catch (error) {
+      const msg = (error as TokenError).message;
 
-        saveTokens(
-          tokenData.access_token,
-          tokenData.refresh_token,
-          tokenData.expires_in || 0,
-        );
-        clearInterval(pollInterval);
-        resolve();
-      } catch (error) {
-        try {
-          handleTokenError(error as TokenError);
-        } catch (handledError) {
-          clearInterval(pollInterval);
-          reject(handledError);
-        }
-      }
-    }, interval * 1000);
+      if (msg === "slow_down") return { status: "slow_down" };
+      if (msg === "authorization_pending") return { status: "retry" };
+      if (msg === "invalid device code") return { status: "error", error: new Error("Device code has expired or is invalid") };
 
-    setTimeout(() => {
-      clearInterval(pollInterval);
-      reject(new Error("Polling timeout exceeded"));
-    }, timeout * 1000);
-  });
+      console.error("Unexpected error during token request:", error);
+      return { status: "error", error: error as Error };
+    }
+  }, { interval, timeout });
 }
 
 export function saveTokens(
