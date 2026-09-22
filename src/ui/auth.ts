@@ -10,7 +10,8 @@ import {
 } from "@bot";
 import type { DeviceCodeResponse } from "@bot/types";
 
-let deviceCode: DeviceCodeResponse | undefined;
+let deviceCode: Promise<DeviceCodeResponse> | undefined;
+let isPolling = false;
 let rerenderAuthButton: (() => void) | undefined;
 
 export function getAuthButtonText() {
@@ -45,24 +46,31 @@ async function login(
 ) {
   console.debug("Authentication button clicked");
 
-  if (!deviceCode) deviceCode = await getDeviceCode();
+  if (!deviceCode) {
+    deviceCode = getDeviceCode();
+  }
+  const pendingCode = await deviceCode;
 
   console.log(
-    `Please go to ${deviceCode.verification_uri} and enter the code: ${deviceCode.user_code}`,
+    `Please go to ${pendingCode.verification_uri} and enter the code: ${pendingCode.user_code}`,
   );
-  window.open(deviceCode.verification_uri, "_blank");
+  window.open(pendingCode.verification_uri, "_blank");
   // TODO: Show notification with device code? Need to use Snackbar
+
+  if (isPolling) return;
+  isPolling = true;
 
   try {
     await pollForAccessToken(
-      deviceCode.device_code,
-      deviceCode.interval,
-      deviceCode.expires_in,
+      pendingCode.device_code,
+      pendingCode.interval,
+      pendingCode.expires_in,
     );
   } catch (error: unknown) {
     if (error instanceof Error) {
       if (error.message === "Polling timeout exceeded") {
         deviceCode = undefined;
+        isPolling = false;
         console.log("Polling timeout occurred");
         return;
       }
@@ -72,6 +80,7 @@ async function login(
       }
     }
 
+    isPolling = false;
     console.error("Authentication Error:", error);
     return;
   }
@@ -79,12 +88,14 @@ async function login(
   const accessToken = getAccessToken();
 
   if (!accessToken) {
+    isPolling = false;
     Spicetify.showNotification("Failed to get access token", true);
     return;
   }
 
   console.log("Authentication successful");
   deviceCode = undefined;
+  isPolling = false;
 
   await setupChannel(accessToken, getChannel, setChannel);
   refreshAuthButton();
