@@ -213,7 +213,7 @@ declare namespace Spicetify {
       milliseconds: number;
     };
     album: Album;
-    artists?: ArtistsEntity[];
+    artists: ArtistsEntity[];
     isLocal: boolean;
     isExplicit: boolean;
     is19PlusOnly: boolean;

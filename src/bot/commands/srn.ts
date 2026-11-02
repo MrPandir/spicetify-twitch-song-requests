@@ -4,6 +4,7 @@ import { applyLimits, checkLimits } from "@features/limits";
 import { queue } from "@features/queue";
 import { urlProcessor } from "@features/url-handlers";
 import type { CommandExecutor } from "../types";
+import { toQueueRequester } from "@utils";
 
 // TODO: Add a check if the track is already in the queue.
 // BUG: Unavailable track says it's being added, but it's not happening.
@@ -30,7 +31,11 @@ const executor: CommandExecutor = async function (author, args, tags) {
       return limitReply;
     }
 
-    const addedTracks = await queue.addTracks(author.id, tracksToAdd, true);
+    const addedTracks = await queue.addTracks(
+      toQueueRequester(author),
+      tracksToAdd,
+      true,
+    );
 
     if (addedTracks.length === 1) {
       const track = addedTracks[0];
@@ -82,7 +87,7 @@ const executor: CommandExecutor = async function (author, args, tags) {
 
   console.info(`Track found: ${track.title} by ${track.getArtists()}`);
 
-  const addedTrack = await queue.addTrack(author.id, track, true);
+  const addedTrack = await queue.addTrack(toQueueRequester(author), track, true);
 
   return [
     notification("sr", "userAddedTrack", author, addedTrack),

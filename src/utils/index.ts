@@ -3,3 +3,4 @@ export * from "./music-services";
 export * from "./random";
 export * from "./text-utils";
 export * from "./twitch-permissions";
+export * from "./user-to-requester";

@@ -2,6 +2,7 @@ import { User } from "@bot/types";
 import { Track } from "@entities/track";
 import { LocaleDefinition } from "@locales";
 import { LimitInfo } from "@features/limits";
+import { QueueRequester } from "@features/queue";
 
 const locale: LocaleDefinition = {
   sr: {
@@ -37,9 +38,9 @@ const locale: LocaleDefinition = {
 
   song: {
     noSongPlaying: "Зараз нічого не грає",
-    failedToGet: "Не вдалося отримати дані про поточну пісню",
 
-    nowPlaying: (name: string, artists: string) => `"${name}" виконує ${artists}`,
+    nowPlaying: (name: string, artists: string, requester?: QueueRequester | null) =>
+    `"${name}"` + (!!artists ? ` від ${artists}` : "") + (requester?.userName ? ` | Замовив @${requester.userName}` : ""),
   },
 
   rm: {

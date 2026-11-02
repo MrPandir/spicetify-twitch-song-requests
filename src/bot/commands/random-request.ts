@@ -6,6 +6,7 @@ import {
 } from "@features/random-request";
 import { queue } from "@features/queue";
 import type { CommandExecutor } from "../types";
+import { toQueueRequester } from "@utils";
 
 function mapSourceError(errorCode?: RandomSourceErrorCode) {
   switch (errorCode) {
@@ -46,7 +47,11 @@ export function createRandomRequestExecutor(
       return mapSourceError(result.errorCode);
     }
 
-    const addedTrack = await queue.addTrack(author.id, result.track, atFront);
+    const addedTrack = await queue.addTrack(
+      toQueueRequester(author),
+      result.track,
+      atFront,
+    );
 
     return [
       notification("rr", "userAddedTrack", author, addedTrack),

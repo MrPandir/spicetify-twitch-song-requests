@@ -1,6 +1,7 @@
 import { User } from "@bot/types";
 import { Track } from "@entities/track";
 import { LimitInfo } from "@features/limits";
+import { QueueRequester } from "@features/queue";
 
 const locale = {
   sr: {
@@ -36,9 +37,9 @@ const locale = {
 
   song: {
     noSongPlaying: "Nenhuma música está tocando no momento",
-    failedToGet: "Falha ao obter a música atual",
 
-    nowPlaying: (name: string, artists: string) => `"${name}" de ${artists}`,
+    nowPlaying: (name: string, artists: string, requester?: QueueRequester | null) =>
+    `"${name}"` + (!!artists ? ` de ${artists}` : "") + (requester?.userName ? ` | Pedido por @${requester.userName}` : ""),
   },
 
   rm: {

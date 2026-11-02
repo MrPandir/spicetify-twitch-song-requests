@@ -1,33 +1,40 @@
 import { Track } from "@entities";
 import type { TwitchUserId } from "@entities";
-import { DataUpdateQueue, QueueTrack } from "./types";
+import {
+  DataUpdateQueue,
+  DataUpdateTrack,
+  QueueRequester,
+  QueueTrack,
+} from "./types";
 
 // TODO: Disable repeats (optional, per user, per queue)
 // TODO: Add uid accounting so as not to delete all tracks from the queue, but only one from the user
 // TODO: Implement deletion by uri
-// TODO: Implement get current track
 
 export class Queue {
   private tracks: QueueTrack[];
+  private currentTrack: QueueTrack | null = null;
 
   constructor(tracks: QueueTrack[] = []) {
     this.tracks = tracks;
   }
 
   async addTracks(
-    userId: TwitchUserId,
+    requester: QueueRequester,
     tracks: Track[],
     atFront: boolean = false,
   ): Promise<Track[]> {
     // prettier-ignore
     console.log([
-      `Adding ${tracks.length} track(s) from ${userId} → ${atFront ? "to front" : "to end"}`,
+      `Adding ${tracks.length} track(s) from ${requester.userName} → ${atFront ? "to front" : "to end"}`,
       `Queue before: ${this.tracks.length}`,
     ].join("\n"));
 
     // TODO: Check the availability of a track to add
 
-    this.tracks.push(...tracks.map((track) => new QueueTrack(track, userId)));
+    this.tracks.push(
+      ...tracks.map((track) => new QueueTrack(track, requester)),
+    );
 
     const tracksUris = tracks.map((track) => track.toContextTrack());
 
@@ -41,11 +48,11 @@ export class Queue {
   }
 
   async addTrack(
-    userId: TwitchUserId,
+    requester: QueueRequester,
     track: Track,
     atFront: boolean = false,
   ): Promise<Track> {
-    const addedTracks = await this.addTracks(userId, [track], atFront);
+    const addedTracks = await this.addTracks(requester, [track], atFront);
     return addedTracks[0];
   }
 
@@ -63,11 +70,26 @@ export class Queue {
   }
 
   getTracksByUser(userId: TwitchUserId): Track[] {
-    return this.tracks.filter((track) => track.requestedBy === userId);
+    return this.tracks.filter((track) => track.requester?.id === userId);
   }
 
   getAllTracks(): QueueTrack[] {
     return this.tracks;
+  }
+
+  getCurrentTrack(): QueueTrack | null {
+    if (this.currentTrack) return this.currentTrack;
+
+    const playerSong = Spicetify.Player.data?.item;
+
+    if (!playerSong) {
+      console.error("Failed to get current track", playerSong);
+      return null;
+    }
+
+    const track = Track.fromSpotifyTrack(playerSong);
+
+    return new QueueTrack(track, null);
   }
 
   hasTrack(trackUri: Spicetify.URI | string): boolean {
@@ -102,7 +124,7 @@ export class Queue {
 
     let count = 0;
     for (let i = this.tracks.length - 1; i >= 0; i--) {
-      if (this.tracks[i].requestedBy === userId) count++;
+      if (this.tracks[i].requester?.id === userId) count++;
       if (count === endIndexForUser) return i;
     }
     return null;
@@ -137,7 +159,7 @@ export class Queue {
     const query = searchQuery.toLowerCase();
 
     for (let i = this.tracks.length - 1; i >= 0; i--) {
-      if (!global && this.tracks[i].requestedBy !== userId) continue;
+      if (!global && this.tracks[i].requester?.id !== userId) continue;
 
       const track = this.tracks[i];
       const title = track.title.toLowerCase();
@@ -186,31 +208,53 @@ export class Queue {
     return track;
   }
 
+  private isCurrentTrack(track: QueueTrack, current: DataUpdateTrack): boolean {
+    return (
+      track.uri.toString() === current.uri &&
+      (!track.uid || !current.uid || track.uid === current.uid)
+    );
+  }
+
   updateHandler = ({ type, data }: DataUpdateQueue): void => {
     if (type !== "queue_update") {
       throw new Error("Invalid data update queue");
     }
 
+    const current = data.current;
+
+    const hasCurrentTrack =
+      current && this.tracks.some((track) => this.isCurrentTrack(track, current));
+
+    if (!current || !hasCurrentTrack) {
+      this.currentTrack = null;
+    }
+
     const queueUris = data.queued.map((track) => track.uri);
 
     for (let i = this.tracks.length - 1; i >= 0; i--) {
-      const uri = this.tracks[i].uri.toString();
+      const track = this.tracks[i];
+      const uri = track.uri.toString();
 
-      if (!queueUris.includes(uri)) {
-        this.tracks.splice(i, 1);
-      } else {
+      if (queueUris.includes(uri)) {
         queueUris.splice(queueUris.indexOf(uri), 1);
+        continue;
       }
+
+      if (current && this.isCurrentTrack(track, current)) {
+        this.currentTrack = track;
+      }
+
+      this.tracks.splice(i, 1);
     }
 
     if (queueUris.length === 0) return;
 
-    // Add remaining tracks to "spotify" user
+    // Add remaining tracks as externals (not requested via bot)
     const tracksToAdd = data.queued
       .filter((track) => queueUris.includes(track.uri))
       .map((raw_track) => {
         const track = Track.fromSpotifyTrack(raw_track);
-        return new QueueTrack(track, "spotify");
+        return new QueueTrack(track, null);
       });
 
     if (tracksToAdd.length === 0) return;

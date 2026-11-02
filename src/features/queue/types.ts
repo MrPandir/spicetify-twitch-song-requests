@@ -1,19 +1,26 @@
 import { Track } from "@entities";
 import type { TwitchUserId } from "@entities";
 
+export interface QueueRequester {
+  id: TwitchUserId;
+  userName: string;
+  displayName: string;
+}
+
 export class QueueTrack extends Track {
-  requestedBy: TwitchUserId;
+  requester: QueueRequester | null;
   uid?: string;
 
-  constructor(track: Track, requestedBy: TwitchUserId, uid?: string) {
+  constructor(track: Track, requester: QueueRequester | null, uid?: string) {
     super(track.uri, track.title, track.artists_names);
-    this.requestedBy = requestedBy;
+    this.requester = requester;
     this.uid = uid;
   }
 }
 
 export interface DataUpdateQueue {
   data: {
+    current: DataUpdateTrack | null;
     nextUp: DataUpdateTrack[];
     queued: DataUpdateTrack[];
   };
@@ -24,6 +31,7 @@ export interface DataUpdateQueue {
 }
 
 export interface DataUpdateTrack {
+  type: "track";
   uri: string;
   uid?: string;
   name: string;
